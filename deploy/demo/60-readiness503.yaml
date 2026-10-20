@@ -1,0 +1,81 @@
+# readiness503: nginx behind a Service and a Traefik IngressRoute (host
+# demo-503.local). The readiness probe asks for /healthz, which nginx does not
+# serve (404), so the pod never becomes Ready, the Service has no ready
+# endpoints, and Traefik answers 503. Fix: point the probe at /.
+# (nginx-unprivileged: the namespace enforces Pod Security "restricted", so
+# nginx must run as non-root on port 8080.)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-web
+  namespace: kubemap-demo
+  labels: &labels
+    app.kubernetes.io/part-of: kubemap-demo
+    app.kubernetes.io/name: shop-web
+    kubemap.io/scenario: readiness503
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: shop-web
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        seccompProfile: {type: RuntimeDefault}
+      volumes:
+        - name: tmp
+          emptyDir: {sizeLimit: 8Mi}
+      containers:
+        - name: nginx
+          image: nginxinc/nginx-unprivileged:1.27-alpine
+          ports:
+            - {name: http, containerPort: 8080}
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            periodSeconds: 5
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+          resources:
+            requests: {cpu: 5m, memory: 24Mi}
+            limits: {cpu: 100m, memory: 24Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-web
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: readiness503
+spec:
+  selector:
+    app.kubernetes.io/name: shop-web
+  ports:
+    - {name: http, port: 80, targetPort: http}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: shop-web
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: readiness503
+spec:
+  entryPoints: [web]
+  routes:
+    - kind: Rule
+      match: Host(`demo-503.local`)
+      services:
+        - name: shop-web
+          port: 80

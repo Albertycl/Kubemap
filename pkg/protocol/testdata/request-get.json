@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-2",
+  "payload": {
+    "op": "get",
+    "group": "apps",
+    "version": "v1",
+    "resource": "deployments",
+    "namespace": "kubemap-demo",
+    "name": "web"
+  }
+}

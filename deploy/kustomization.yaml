@@ -1,0 +1,8 @@
+# kubectl apply -k deploy/   (ingress.yaml defaults to kubemap.albertycliu.xyz and letsencrypt-prod;
+# deploy/install.sh --host HOST --issuer NAME replaces them for you)
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - kubemap.yaml
+  - networkpolicy.yaml
+  - ingress.yaml

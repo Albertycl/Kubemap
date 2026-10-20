@@ -1,0 +1,88 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.129"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "nodeName": "k8server",
+     "targetRef": {
+      "kind": "Pod",
+      "name": "api-6b75877cb4-s7t9x",
+      "namespace": "kubemap-demo",
+      "uid": "1bb3d4d6-080a-4b21-a359-f50cc354d20e"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "generateName": "api-",
+    "labels": {
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubemap.io/scenario": "netpol",
+     "kubernetes.io/service-name": "api"
+    },
+    "name": "api-nbshk",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Service",
+      "name": "api",
+      "uid": "09e12d4f-6d3c-4503-882f-90e4576cc8d2"
+     }
+    ],
+    "uid": "783f5504-6b5c-42c0-b1d5-1541f08b6c2b"
+   },
+   "ports": [
+    {
+     "name": "http",
+     "port": 8080,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": null,
+   "kind": "EndpointSlice",
+   "metadata": {
+    "generateName": "catalog-",
+    "labels": {
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubemap.io/scenario": "badsvc",
+     "kubernetes.io/service-name": "catalog"
+    },
+    "name": "catalog-srdhj",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Service",
+      "name": "catalog",
+      "uid": "a651498d-daf9-4dbf-8eef-143ead3f0147"
+     }
+    ],
+    "uid": "2c8dbcce-3879-432e-a923-d02ef7bd8ab4"
+   },
+   "ports": null
+  }
+ ],
+ "kind": "EndpointSliceList"
+}

@@ -1,0 +1,1105 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "action": "Binding",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:24:26.112634Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "api-6b75877cb4-s7t9x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413731",
+    "uid": "1bb3d4d6-080a-4b21-a359-f50cc354d20e"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned kubemap-demo/api-6b75877cb4-s7t9x to k8server",
+   "metadata": {
+    "name": "api-6b75877cb4-s7t9x.18d954588a6b7f05",
+    "namespace": "kubemap-demo",
+    "uid": "6aa108ba-a8f9-4732-abf9-2de12f66d012"
+   },
+   "reason": "Scheduled",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "source": {},
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:30Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{api}",
+    "kind": "Pod",
+    "name": "api-6b75877cb4-s7t9x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413738",
+    "uid": "1bb3d4d6-080a-4b21-a359-f50cc354d20e"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:30Z",
+   "message": "Container image \"traefik/whoami:v1.10\" already present on machine",
+   "metadata": {
+    "name": "api-6b75877cb4-s7t9x.18d95459aa564698",
+    "namespace": "kubemap-demo",
+    "uid": "eaec6d52-038d-4dc2-acc5-02907140e3b5"
+   },
+   "reason": "Pulled",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:31Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{api}",
+    "kind": "Pod",
+    "name": "api-6b75877cb4-s7t9x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413738",
+    "uid": "1bb3d4d6-080a-4b21-a359-f50cc354d20e"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:31Z",
+   "message": "Created container: api",
+   "metadata": {
+    "name": "api-6b75877cb4-s7t9x.18d95459b12215cf",
+    "namespace": "kubemap-demo",
+    "uid": "4ca6fe6c-0c1b-4e35-a253-db626b03c3ec"
+   },
+   "reason": "Created",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:32Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{api}",
+    "kind": "Pod",
+    "name": "api-6b75877cb4-s7t9x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413738",
+    "uid": "1bb3d4d6-080a-4b21-a359-f50cc354d20e"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:32Z",
+   "message": "Started container api",
+   "metadata": {
+    "name": "api-6b75877cb4-s7t9x.18d95459ef21e506",
+    "namespace": "kubemap-demo",
+    "uid": "e7f0e35c-6bef-48a7-ae92-31b9c77d974c"
+   },
+   "reason": "Started",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:26Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "ReplicaSet",
+    "name": "api-6b75877cb4",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413720",
+    "uid": "27767361-cc10-4f2a-9aa8-69f62667d989"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:26Z",
+   "message": "Created pod: api-6b75877cb4-s7t9x",
+   "metadata": {
+    "name": "api-6b75877cb4.18d9545884b11e86",
+    "namespace": "kubemap-demo",
+    "uid": "32ab9637-6d39-4fcf-a606-39c2ef178eff"
+   },
+   "reason": "SuccessfulCreate",
+   "reportingComponent": "replicaset-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "replicaset-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:25Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "name": "api",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413710",
+    "uid": "2e64d6e1-7c05-4fcd-9de2-0bb1853dd275"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:25Z",
+   "message": "Scaled up replica set api-6b75877cb4 from 0 to 1",
+   "metadata": {
+    "name": "api.18d954587d12b93f",
+    "namespace": "kubemap-demo",
+    "uid": "f90b2dd7-b0e9-4dfe-9231-a7181be99c5f"
+   },
+   "reason": "ScalingReplicaSet",
+   "reportingComponent": "deployment-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "deployment-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "action": "Scheduling",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:18:18.616589Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "batch-worker-87d9fb7d8-4bp7g",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16411664",
+    "uid": "a2984bfa-bcc2-46ef-9778-15ab7b12945a"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "0/1 nodes are available: 1 Insufficient cpu. no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+   "metadata": {
+    "name": "batch-worker-87d9fb7d8-4bp7g.18d95402f9f2d695",
+    "namespace": "kubemap-demo",
+    "uid": "3bd4da0b-5da0-44ab-8ec9-e1aafaacc9be"
+   },
+   "reason": "FailedScheduling",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "series": {
+    "count": 5,
+    "lastObservedTime": "2026-09-28T00:21:21.318154Z"
+   },
+   "source": {},
+   "type": "Warning"
+  },
+  {
+   "action": "Scheduling",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:24:26.865156Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "batch-worker-87d9fb7d8-69mhn",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413787",
+    "uid": "8702f2ca-33a8-4319-9866-7b8a83a4302e"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "0/1 nodes are available: 1 Insufficient cpu. no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+   "metadata": {
+    "name": "batch-worker-87d9fb7d8-69mhn.18d95458b74613e1",
+    "namespace": "kubemap-demo",
+    "uid": "0c8d249f-c395-4adf-b48b-1688acca741e"
+   },
+   "reason": "FailedScheduling",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "source": {},
+   "type": "Warning"
+  },
+  {
+   "action": "Scheduling",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:29:55.598266Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "batch-worker-87d9fb7d8-69mhn",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413789",
+    "uid": "8702f2ca-33a8-4319-9866-7b8a83a4302e"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "0/1 nodes are available: 1 Insufficient cpu. no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+   "metadata": {
+    "name": "batch-worker-87d9fb7d8-69mhn.18d954a5414b3ec7",
+    "namespace": "kubemap-demo",
+    "uid": "e2c72e73-9624-4850-b27a-68baf89a9bfc"
+   },
+   "reason": "FailedScheduling",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "series": {
+    "count": 2,
+    "lastObservedTime": "2026-09-28T00:34:55.605994Z"
+   },
+   "source": {},
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:26Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "ReplicaSet",
+    "name": "batch-worker-87d9fb7d8",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413779",
+    "uid": "4019c3d8-dd1c-4813-9649-d1539078d0ea"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:26Z",
+   "message": "Created pod: batch-worker-87d9fb7d8-69mhn",
+   "metadata": {
+    "name": "batch-worker-87d9fb7d8.18d95458b688da10",
+    "namespace": "kubemap-demo",
+    "uid": "f70af888-5efa-4d58-b243-f30d54fc2ad8"
+   },
+   "reason": "SuccessfulCreate",
+   "reportingComponent": "replicaset-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "replicaset-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:26Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "name": "batch-worker",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413778",
+    "uid": "2c9e1620-6592-4dec-a6cf-4d767175f460"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:26Z",
+   "message": "Scaled up replica set batch-worker-87d9fb7d8 from 0 to 1",
+   "metadata": {
+    "name": "batch-worker.18d95458abdb00d2",
+    "namespace": "kubemap-demo",
+    "uid": "31924014-075c-4eba-99a4-7269bde16eb9"
+   },
+   "reason": "ScalingReplicaSet",
+   "reportingComponent": "deployment-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "deployment-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "action": "Binding",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:24:26.620578Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "catalog-86767567d7-tcfvl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413767",
+    "uid": "ed789f7a-16b0-4133-9320-af186e627cd2"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned kubemap-demo/catalog-86767567d7-tcfvl to k8server",
+   "metadata": {
+    "name": "catalog-86767567d7-tcfvl.18d95458a8b21694",
+    "namespace": "kubemap-demo",
+    "uid": "c016949d-b63d-4dae-a362-b4963ea776e4"
+   },
+   "reason": "Scheduled",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "source": {},
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:32Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{catalog}",
+    "kind": "Pod",
+    "name": "catalog-86767567d7-tcfvl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413774",
+    "uid": "ed789f7a-16b0-4133-9320-af186e627cd2"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:32Z",
+   "message": "Container image \"traefik/whoami:v1.10\" already present on machine",
+   "metadata": {
+    "name": "catalog-86767567d7-tcfvl.18d9545a0afe1407",
+    "namespace": "kubemap-demo",
+    "uid": "74aa39ea-bc47-43ef-b949-0e20d70032ed"
+   },
+   "reason": "Pulled",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:32Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{catalog}",
+    "kind": "Pod",
+    "name": "catalog-86767567d7-tcfvl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413774",
+    "uid": "ed789f7a-16b0-4133-9320-af186e627cd2"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:32Z",
+   "message": "Created container: catalog",
+   "metadata": {
+    "name": "catalog-86767567d7-tcfvl.18d9545a0ec35f82",
+    "namespace": "kubemap-demo",
+    "uid": "e0e571c6-273e-4ede-b021-d24229eeafe9"
+   },
+   "reason": "Created",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:33Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{catalog}",
+    "kind": "Pod",
+    "name": "catalog-86767567d7-tcfvl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413774",
+    "uid": "ed789f7a-16b0-4133-9320-af186e627cd2"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:33Z",
+   "message": "Started container catalog",
+   "metadata": {
+    "name": "catalog-86767567d7-tcfvl.18d9545a42a011b6",
+    "namespace": "kubemap-demo",
+    "uid": "8c4af090-2efe-4796-a87a-0e335cbbf95a"
+   },
+   "reason": "Started",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:26Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "ReplicaSet",
+    "name": "catalog-86767567d7",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413760",
+    "uid": "531255e5-7fa3-4255-bf6e-890b36e414b8"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:26Z",
+   "message": "Created pod: catalog-86767567d7-tcfvl",
+   "metadata": {
+    "name": "catalog-86767567d7.18d95458a0c70198",
+    "namespace": "kubemap-demo",
+    "uid": "e406775f-9c56-4ab9-8a4d-216dab29cec2"
+   },
+   "reason": "SuccessfulCreate",
+   "reportingComponent": "replicaset-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "replicaset-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:26Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "name": "catalog",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413755",
+    "uid": "ec6fb250-86d0-499f-9a84-5daf69f7b052"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:26Z",
+   "message": "Scaled up replica set catalog-86767567d7 from 0 to 1",
+   "metadata": {
+    "name": "catalog.18d954589a56d90b",
+    "namespace": "kubemap-demo",
+    "uid": "2f8f511c-126d-4b52-a490-f31c59037d9a"
+   },
+   "reason": "ScalingReplicaSet",
+   "reportingComponent": "deployment-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "deployment-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "action": "Binding",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:24:25.912309Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "checkout-5869b76bbb-c6jjl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413717",
+    "uid": "1bdf1ed0-5a3d-4fb5-b736-1650502faf36"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned kubemap-demo/checkout-5869b76bbb-c6jjl to k8server",
+   "metadata": {
+    "name": "checkout-5869b76bbb-c6jjl.18d954587e7aca3a",
+    "namespace": "kubemap-demo",
+    "uid": "d938fa0d-d069-4f67-9874-41b8d15f0ea5"
+   },
+   "reason": "Scheduled",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "source": {},
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 8,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:30Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{checkout}",
+    "kind": "Pod",
+    "name": "checkout-5869b76bbb-c6jjl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413723",
+    "uid": "1bdf1ed0-5a3d-4fb5-b736-1650502faf36"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:35:32Z",
+   "message": "Container image \"busybox:1.36\" already present on machine",
+   "metadata": {
+    "name": "checkout-5869b76bbb-c6jjl.18d95459741eaebb",
+    "namespace": "kubemap-demo",
+    "uid": "cf5d4fd6-10f5-41b8-b9cf-ba7ecf27d992"
+   },
+   "reason": "Pulled",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 8,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:30Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{checkout}",
+    "kind": "Pod",
+    "name": "checkout-5869b76bbb-c6jjl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413723",
+    "uid": "1bdf1ed0-5a3d-4fb5-b736-1650502faf36"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:35:32Z",
+   "message": "Created container: checkout",
+   "metadata": {
+    "name": "checkout-5869b76bbb-c6jjl.18d9545975cee99d",
+    "namespace": "kubemap-demo",
+    "uid": "94713031-1373-487d-8d9a-0535772b1bdb"
+   },
+   "reason": "Created",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 8,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:31Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{checkout}",
+    "kind": "Pod",
+    "name": "checkout-5869b76bbb-c6jjl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413723",
+    "uid": "1bdf1ed0-5a3d-4fb5-b736-1650502faf36"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:35:33Z",
+   "message": "Started container checkout",
+   "metadata": {
+    "name": "checkout-5869b76bbb-c6jjl.18d95459bb005d3e",
+    "namespace": "kubemap-demo",
+    "uid": "8e6be78d-e222-49df-9acf-154dd98c4110"
+   },
+   "reason": "Started",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 71,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:34Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{checkout}",
+    "kind": "Pod",
+    "name": "checkout-5869b76bbb-c6jjl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413723",
+    "uid": "1bdf1ed0-5a3d-4fb5-b736-1650502faf36"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:39:39Z",
+   "message": "Back-off restarting failed container checkout in pod checkout-5869b76bbb-c6jjl_kubemap-demo(1bdf1ed0-5a3d-4fb5-b736-1650502faf36)",
+   "metadata": {
+    "name": "checkout-5869b76bbb-c6jjl.18d9545a72d6c9f4",
+    "namespace": "kubemap-demo",
+    "uid": "ac2c2535-8d39-4b8c-98fd-0b984674d826"
+   },
+   "reason": "BackOff",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:25Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "ReplicaSet",
+    "name": "checkout-5869b76bbb",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413707",
+    "uid": "e877dc40-8d8a-43c6-a1e9-8479239d05e4"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:25Z",
+   "message": "Created pod: checkout-5869b76bbb-c6jjl",
+   "metadata": {
+    "name": "checkout-5869b76bbb.18d954587bbd07c9",
+    "namespace": "kubemap-demo",
+    "uid": "8f0a9029-4b07-41eb-88a8-5e39f3c4f143"
+   },
+   "reason": "SuccessfulCreate",
+   "reportingComponent": "replicaset-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "replicaset-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:25Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "name": "checkout",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413706",
+    "uid": "cf991eaa-3fe7-4087-b139-000f1abaeffe"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:25Z",
+   "message": "Scaled up replica set checkout-5869b76bbb from 0 to 1",
+   "metadata": {
+    "name": "checkout.18d954587560723f",
+    "namespace": "kubemap-demo",
+    "uid": "40400349-2023-47a0-969e-f392085cd614"
+   },
+   "reason": "ScalingReplicaSet",
+   "reportingComponent": "deployment-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "deployment-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "action": "Binding",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:24:25.871921Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413713",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned kubemap-demo/oom-69b9ccc88-x5x2x to k8server",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d954587c127d23",
+    "namespace": "kubemap-demo",
+    "uid": "5231b152-f2f2-42a6-a41d-0c28ee65b8cc"
+   },
+   "reason": "Scheduled",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "source": {},
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 8,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:28Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{report-builder}",
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413719",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:35:16Z",
+   "message": "Container image \"busybox:1.36\" already present on machine",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d95459113dbcb5",
+    "namespace": "kubemap-demo",
+    "uid": "e87cb7e4-c8a2-402e-98c9-a70c430f3084"
+   },
+   "reason": "Pulled",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 8,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:28Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{report-builder}",
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413719",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:35:16Z",
+   "message": "Created container: report-builder",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d9545913865541",
+    "namespace": "kubemap-demo",
+    "uid": "9db16891-b06e-47d5-8c0d-13cda1a58036"
+   },
+   "reason": "Created",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 8,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:28Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{report-builder}",
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413719",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:35:16Z",
+   "message": "Started container report-builder",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d95459321eb208",
+    "namespace": "kubemap-demo",
+    "uid": "98748386-3219-4e79-9284-9d99d7befbe6"
+   },
+   "reason": "Started",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 71,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:32Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{report-builder}",
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413719",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:39:32Z",
+   "message": "Back-off restarting failed container report-builder in pod oom-69b9ccc88-x5x2x_kubemap-demo(fb38d763-856d-4338-9f6a-69693c041f1a)",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d95459f6d740d0",
+    "namespace": "kubemap-demo",
+    "uid": "edb6b74e-06cf-4191-94bd-c93025ad5d5d"
+   },
+   "reason": "BackOff",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:25Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "ReplicaSet",
+    "name": "oom-69b9ccc88",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413701",
+    "uid": "ddc52546-f2e6-47f2-a8ba-802bd212acd6"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:25Z",
+   "message": "Created pod: oom-69b9ccc88-x5x2x",
+   "metadata": {
+    "name": "oom-69b9ccc88.18d95458793100ff",
+    "namespace": "kubemap-demo",
+    "uid": "690e021f-1a15-49ab-8f6b-6d45f1a498ac"
+   },
+   "reason": "SuccessfulCreate",
+   "reportingComponent": "replicaset-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "replicaset-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:25Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "name": "oom",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413700",
+    "uid": "d925009b-6e28-4681-9b9f-15d1d310342f"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:25Z",
+   "message": "Scaled up replica set oom-69b9ccc88 from 0 to 1",
+   "metadata": {
+    "name": "oom.18d9545870b7f643",
+    "namespace": "kubemap-demo",
+    "uid": "e5910f8f-c455-4389-bd8f-8e16d9f50282"
+   },
+   "reason": "ScalingReplicaSet",
+   "reportingComponent": "deployment-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "deployment-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "action": "Binding",
+   "apiVersion": "v1",
+   "eventTime": "2026-09-28T00:24:26.361551Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "name": "web-59f856967c-lj7fl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413754",
+    "uid": "c414d7f8-443c-41c8-bb81-9a3887cbfb35"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned kubemap-demo/web-59f856967c-lj7fl to k8server",
+   "metadata": {
+    "name": "web-59f856967c-lj7fl.18d954589941b086",
+    "namespace": "kubemap-demo",
+    "uid": "93dcf64c-bb52-4ee3-927b-07faed4fb567"
+   },
+   "reason": "Scheduled",
+   "reportingComponent": "default-scheduler",
+   "reportingInstance": "default-scheduler-k8server",
+   "source": {},
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:31Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{web}",
+    "kind": "Pod",
+    "name": "web-59f856967c-lj7fl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413756",
+    "uid": "c414d7f8-443c-41c8-bb81-9a3887cbfb35"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:31Z",
+   "message": "Container image \"busybox:1.36\" already present on machine",
+   "metadata": {
+    "name": "web-59f856967c-lj7fl.18d95459cbe60c8b",
+    "namespace": "kubemap-demo",
+    "uid": "074a43a8-bcc4-439f-bfbb-77736eee71f4"
+   },
+   "reason": "Pulled",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:31Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{web}",
+    "kind": "Pod",
+    "name": "web-59f856967c-lj7fl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413756",
+    "uid": "c414d7f8-443c-41c8-bb81-9a3887cbfb35"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:31Z",
+   "message": "Created container: web",
+   "metadata": {
+    "name": "web-59f856967c-lj7fl.18d95459cf4d5aeb",
+    "namespace": "kubemap-demo",
+    "uid": "e9be09a1-0379-49e2-97d9-9324aa8a2b8a"
+   },
+   "reason": "Created",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:32Z",
+   "involvedObject": {
+    "apiVersion": "v1",
+    "fieldPath": "spec.containers{web}",
+    "kind": "Pod",
+    "name": "web-59f856967c-lj7fl",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413756",
+    "uid": "c414d7f8-443c-41c8-bb81-9a3887cbfb35"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:32Z",
+   "message": "Started container web",
+   "metadata": {
+    "name": "web-59f856967c-lj7fl.18d9545a0e2882d4",
+    "namespace": "kubemap-demo",
+    "uid": "62a446f0-39c3-4aca-88de-62e9517d7504"
+   },
+   "reason": "Started",
+   "reportingComponent": "kubelet",
+   "reportingInstance": "k8server",
+   "source": {
+    "component": "kubelet",
+    "host": "k8server"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:26Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "ReplicaSet",
+    "name": "web-59f856967c",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413746",
+    "uid": "5e923ba7-e6f9-426a-b9b2-21e76a2c03a4"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:26Z",
+   "message": "Created pod: web-59f856967c-lj7fl",
+   "metadata": {
+    "name": "web-59f856967c.18d9545896bfc718",
+    "namespace": "kubemap-demo",
+    "uid": "de69a2b3-ca84-4dc4-955a-ffa3d306c7fd"
+   },
+   "reason": "SuccessfulCreate",
+   "reportingComponent": "replicaset-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "replicaset-controller"
+   },
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:26Z",
+   "involvedObject": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "name": "web",
+    "namespace": "kubemap-demo",
+    "resourceVersion": "16413739",
+    "uid": "68bf414f-dd7e-4bec-a8f0-30b1e60d5e8e"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:24:26Z",
+   "message": "Scaled up replica set web-59f856967c from 0 to 1",
+   "metadata": {
+    "name": "web.18d9545890f232e6",
+    "namespace": "kubemap-demo",
+    "uid": "5acfab88-0f11-400d-b753-43b0bff18b53"
+   },
+   "reason": "ScalingReplicaSet",
+   "reportingComponent": "deployment-controller",
+   "reportingInstance": "",
+   "source": {
+    "component": "deployment-controller"
+   },
+   "type": "Normal"
+  }
+ ],
+ "kind": "EventList"
+}

@@ -1,0 +1,52 @@
+# Default values for the Kubemap chart. Install with:
+#   helm install kubemap deploy/helm/kubemap -n kubemap-system --create-namespace
+# The release namespace MUST be kubemap-system (the node agents, the
+# NetworkPolicies and the Service address use that name).
+
+image:
+  # One image holds the server (kubemap-portal) and the node agent.
+  repository: localhost/kubemap
+  # Keep equal to appVersion in Chart.yaml.
+  tag: "f258bbb"
+  pullPolicy: IfNotPresent
+
+# Names of existing image pull Secrets, for a private registry. The Secrets must
+# exist in BOTH namespaces (kubemap-system and kubemap-node); the chart never
+# creates or stores a credential. Example: [{name: regcred}]
+imagePullSecrets: []
+
+# Comma-separated CIDRs or IPs whose X-Forwarded-For header the server trusts.
+# Empty (default) keeps the server's own default (loopback and the private
+# ranges 10/8, 172.16/12, 192.168/16). Set it if your pod CIDR is elsewhere.
+trustedProxies: ""
+
+ingress:
+  # Traefik IngressRoutes, redirect Middleware and a cert-manager Certificate.
+  # Needs the Traefik and cert-manager CRDs. Set false to use kubectl port-forward.
+  enabled: true
+  # The name the browser uses. Must point at Traefik's address.
+  host: kubemap.albertycliu.xyz
+  # cert-manager ClusterIssuer (lab-ca-issuer for a private name).
+  issuer: letsencrypt-prod
+
+networkPolicy:
+  # Default deny ingress in both namespaces, then 8080 from Traefik and the node
+  # agents only. Needs a CNI that enforces NetworkPolicy.
+  enabled: true
+
+persistence:
+  # Size of the volume (PVC kubemap-data) that holds the SQLite database.
+  size: 1Gi
+  # Empty = the cluster's default StorageClass.
+  storageClass: ""
+  # true: the PVC carries helm.sh/resource-policy: keep, so `helm uninstall`
+  # leaves it (and the data) behind. false: helm uninstall deletes it.
+  keepOnUninstall: true
+
+# Read-only sources for the app page (metrics, traces). Empty = that panel is off.
+# Example: prometheusUrl http://kube-prometheus-stack-prometheus.monitoring:9090,
+# tempoUrl http://tempo.observability:3200, grafanaUrl http://192.168.32.241
+observability:
+  prometheusUrl: ""
+  tempoUrl: ""
+  grafanaUrl: ""

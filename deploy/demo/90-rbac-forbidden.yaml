@@ -1,0 +1,92 @@
+# rbacforbidden: the nightly "reporter" job counts the pods of the namespace
+# in its ConfigMap (TARGET_NAMESPACE=sre-lab-app) through the Kubernetes API
+# with its ServiceAccount token. The ServiceAccount has no permission at all,
+# so the API answers 403 Forbidden and the Job fails.
+# Fix (kubemap-demo only): a Role that lists pods and a RoleBinding for the
+# ServiceAccount in kubemap-demo, and TARGET_NAMESPACE=kubemap-demo. Never
+# grant anything outside kubemap-demo. demo.sh create also starts one run at
+# once (Job reporter-first), so the lab is broken without waiting.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: reporter
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: rbacforbidden
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reporter-config
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: rbacforbidden
+data:
+  TARGET_NAMESPACE: sre-lab-app
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: reporter
+  namespace: kubemap-demo
+  labels: &labels
+    app.kubernetes.io/part-of: kubemap-demo
+    app.kubernetes.io/name: reporter
+    kubemap.io/scenario: rbacforbidden
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    metadata:
+      labels: *labels
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 60
+      template:
+        metadata:
+          labels: *labels
+        spec:
+          serviceAccountName: reporter
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile: {type: RuntimeDefault}
+          containers:
+            - name: reporter
+              image: curlimages/curl:8.10.1
+              env:
+                - name: TARGET_NAMESPACE
+                  valueFrom:
+                    configMapKeyRef: {name: reporter-config, key: TARGET_NAMESPACE}
+              command:
+                - sh
+                - -c
+                - |
+                  SA=/var/run/secrets/kubernetes.io/serviceaccount
+                  echo "reporter: counting pods in namespace $TARGET_NAMESPACE"
+                  code=$(curl -sS -o /tmp/out.json -w '%{http_code}' --cacert $SA/ca.crt \
+                    -H "Authorization: Bearer $(cat $SA/token)" \
+                    "https://kubernetes.default.svc/api/v1/namespaces/$TARGET_NAMESPACE/pods")
+                  if [ "$code" != 200 ]; then
+                    echo "ERROR: GET pods in $TARGET_NAMESPACE: HTTP $code"
+                    cat /tmp/out.json; echo
+                    exit 1
+                  fi
+                  echo "report: $(grep -o '"phase": *"[A-Za-z]*"' /tmp/out.json | wc -l) pods in $TARGET_NAMESPACE"
+              volumeMounts:
+                - {name: tmp, mountPath: /tmp}
+              resources:
+                requests: {cpu: 5m, memory: 16Mi}
+                limits: {cpu: 100m, memory: 16Mi}
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: {drop: [ALL]}
+          volumes:
+            - name: tmp
+              emptyDir: {sizeLimit: 1Mi}

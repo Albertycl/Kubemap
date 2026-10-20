@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "type": "register.ack",
+  "id": "reg-1",
+  "payload": {
+    "clusterId": "c-example",
+    "status": "active"
+  }
+}

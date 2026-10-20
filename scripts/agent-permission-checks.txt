@@ -1,0 +1,106 @@
+# Permission checks for the Kubemap agents (KM-81).
+#
+# Read by scripts/verify-agent-permissions.sh (live: kubectl auth can-i) and
+# scripts/permcheck (static: the RBAC objects in the rendered YAML).
+#
+# Columns: expect  agent  namespace  verb  resource  subresource  name
+#   expect     deny  = must be "no";  allow = must be "yes"
+#   agent      cluster (the server: kubemap-system/kubemap), node
+#              (kubemap-node/kubemap-node-agent) or * (both)
+#   namespace  * = every namespace (checked with -A and in a few namespaces),
+#              or one namespace
+#   resource   as kubectl writes it: pods, deployments.apps, ...
+#   "-" means empty.
+
+# Workloads and core objects: no writes anywhere.
+deny  *  *  create  pods                     -  -
+deny  *  *  update  pods                     -  -
+deny  *  *  patch   pods                     -  -
+deny  *  *  delete  pods                     -  -
+deny  *  *  deletecollection pods            -  -
+deny  *  *  create  deployments.apps         -  -
+deny  *  *  update  deployments.apps         -  -
+deny  *  *  patch   deployments.apps         -  -
+deny  *  *  delete  deployments.apps         -  -
+deny  *  *  update  deployments.apps         scale  -
+deny  *  *  create  statefulsets.apps        -  -
+deny  *  *  update  statefulsets.apps        -  -
+deny  *  *  patch   statefulsets.apps        -  -
+deny  *  *  delete  statefulsets.apps        -  -
+deny  *  *  create  daemonsets.apps          -  -
+deny  *  *  update  daemonsets.apps          -  -
+deny  *  *  patch   daemonsets.apps          -  -
+deny  *  *  delete  daemonsets.apps          -  -
+deny  *  *  create  services                 -  -
+deny  *  *  update  services                 -  -
+deny  *  *  patch   services                 -  -
+deny  *  *  delete  services                 -  -
+deny  *  *  create  configmaps               -  -
+deny  *  *  update  configmaps               -  -
+deny  *  *  patch   configmaps               -  -
+deny  *  *  delete  configmaps               -  -
+deny  *  *  create  namespaces               -  -
+deny  *  *  update  namespaces               -  -
+deny  *  *  patch   namespaces               -  -
+deny  *  *  delete  namespaces               -  -
+deny  *  *  create  nodes                    -  -
+deny  *  *  update  nodes                    -  -
+deny  *  *  patch   nodes                    -  -
+deny  *  *  delete  nodes                    -  -
+
+# Secrets: no access at all.
+deny  *  *  get     secrets                  -  -
+deny  *  *  list    secrets                  -  -
+deny  *  *  watch   secrets                  -  -
+deny  *  *  update  secrets                  -  -
+deny  *  kubemap-system  get     secrets     -  some-other-secret
+deny  *  kubemap-system  update  secrets     -  some-other-secret
+deny  *  kubemap-system  get     secrets  -  kubemap
+
+# Getting into containers and nodes.
+deny  *  *  create  pods                     exec         -
+deny  *  *  get     pods                     exec         -
+deny  *  *  create  pods                     attach       -
+deny  *  *  create  pods                     portforward  -
+deny  *  *  get     nodes                    proxy        -
+# No kubelet access at all (decision 2026-09-28: the cluster agent makes no
+# kubelet calls; node data comes from the node agents).
+deny  *  *  get     nodes                    stats        -
+deny  *  *  get     nodes                    log          -
+deny  *  *  create  nodes                    proxy        -
+deny  *  *  create  serviceaccounts          token        -
+# Reaching any pod or Service port through the API server (bypasses
+# NetworkPolicies; a GET can have side effects on admin endpoints).
+deny  *  *  get     pods                     proxy        -
+deny  *  *  get     services                 proxy        -
+deny  *  *  get     pods                     attach       -
+deny  *  *  get     pods                     portforward  -
+# Other ways to remove pods, inject code or run code.
+deny  *  *  create  pods                     eviction     -
+deny  *  *  patch   pods                     ephemeralcontainers  -
+deny  *  *  update  pods                     ephemeralcontainers  -
+deny  *  *  create  jobs.batch               -            -
+deny  *  *  create  cronjobs.batch           -            -
+deny  *  *  create  secrets                  -            -
+deny  *  *  create  serviceaccounts          -            -
+
+# Taking more rights.
+deny  *  *  escalate  roles.rbac.authorization.k8s.io         -  -
+deny  *  *  bind      roles.rbac.authorization.k8s.io         -  -
+deny  *  *  escalate  clusterroles.rbac.authorization.k8s.io  -  -
+deny  *  *  bind      clusterroles.rbac.authorization.k8s.io  -  -
+deny  *  *  impersonate  users                -  -
+deny  *  *  impersonate  groups               -  -
+deny  *  *  impersonate  serviceaccounts      -  -
+deny  *  *  create  clusterrolebindings.rbac.authorization.k8s.io  -  -
+deny  *  *  create  rolebindings.rbac.authorization.k8s.io         -  -
+deny  *  *  create  clusterroles.rbac.authorization.k8s.io         -  -
+deny  *  *  create  roles.rbac.authorization.k8s.io                -  -
+
+# Changing how the cluster admits or runs things.
+deny  *  *  create  mutatingwebhookconfigurations.admissionregistration.k8s.io    -  -
+deny  *  *  create  validatingwebhookconfigurations.admissionregistration.k8s.io  -  -
+deny  *  *  create  customresourcedefinitions.apiextensions.k8s.io               -  -
+deny  *  *  delete  customresourcedefinitions.apiextensions.k8s.io               -  -
+deny  *  *  create  networkpolicies.networking.k8s.io                            -  -
+deny  *  *  delete  networkpolicies.networking.k8s.io                            -  -

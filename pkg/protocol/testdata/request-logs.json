@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-3",
+  "payload": {
+    "op": "logs",
+    "namespace": "kubemap-demo",
+    "name": "crashloop-7d9f8",
+    "logs": {
+      "container": "app",
+      "tailLines": 200,
+      "previous": true
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-7",
+  "payload": {
+    "op": "netpol.check",
+    "netpolCheck": {
+      "from": {
+        "namespace": "sre-lab-app",
+        "pod": "url-shortener-6f89bdc657-rgwsv"
+      },
+      "to": {
+        "ip": "1.1.1.1"
+      },
+      "port": 443
+    }
+  }
+}

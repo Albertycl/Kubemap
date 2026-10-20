@@ -1,0 +1,1663 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "argocd-application-controller",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "argocd-application-controller-866ffd4c6d",
+     "statefulset.kubernetes.io/pod-name": "argocd-application-controller-0"
+    },
+    "name": "argocd-application-controller-0",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "argocd-application-controller",
+      "ports": [
+       {
+        "containerPort": 8082,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.167",
+    "podIPs": [
+     {
+      "ip": "192.168.41.167"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "argocd-applicationset-controller",
+     "pod-template-hash": "6db89bc85d"
+    },
+    "name": "argocd-applicationset-controller-6db89bc85d-c8wl7",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "argocd-applicationset-controller",
+      "ports": [
+       {
+        "containerPort": 7000,
+        "name": "webhook",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8080,
+        "name": "metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.161",
+    "podIPs": [
+     {
+      "ip": "192.168.41.161"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "argocd-dex-server",
+     "pod-template-hash": "5c859d8bd9"
+    },
+    "name": "argocd-dex-server-5c859d8bd9-fvhdb",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "dex",
+      "ports": [
+       {
+        "containerPort": 5556,
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 5557,
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 5558,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.174",
+    "podIPs": [
+     {
+      "ip": "192.168.41.174"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "argocd-notifications-controller",
+     "pod-template-hash": "659d6db5fc"
+    },
+    "name": "argocd-notifications-controller-659d6db5fc-hrdz5",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "argocd-notifications-controller"
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.134",
+    "podIPs": [
+     {
+      "ip": "192.168.41.134"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "argocd-redis",
+     "pod-template-hash": "f8766bdc7"
+    },
+    "name": "argocd-redis-f8766bdc7-k6ngh",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "redis",
+      "ports": [
+       {
+        "containerPort": 6379,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.155",
+    "podIPs": [
+     {
+      "ip": "192.168.41.155"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "argocd-repo-server",
+     "pod-template-hash": "7b8c487b84"
+    },
+    "name": "argocd-repo-server-7b8c487b84-89d5s",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "argocd-repo-server",
+      "ports": [
+       {
+        "containerPort": 8081,
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8084,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.136",
+    "podIPs": [
+     {
+      "ip": "192.168.41.136"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "argocd-server",
+     "pod-template-hash": "6799b86d7"
+    },
+    "name": "argocd-server-6799b86d7-vzjzf",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "argocd-server",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8083,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.150",
+    "podIPs": [
+     {
+      "ip": "192.168.41.150"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "apiserver": "true",
+     "app.kubernetes.io/name": "calico-apiserver",
+     "k8s-app": "calico-apiserver",
+     "pod-template-hash": "864fc5d5bb"
+    },
+    "name": "calico-apiserver-864fc5d5bb-rq46n",
+    "namespace": "calico-apiserver"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "calico-apiserver"
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.175",
+    "podIPs": [
+     {
+      "ip": "192.168.41.175"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "apiserver": "true",
+     "app.kubernetes.io/name": "calico-apiserver",
+     "k8s-app": "calico-apiserver",
+     "pod-template-hash": "864fc5d5bb"
+    },
+    "name": "calico-apiserver-864fc5d5bb-vk5lx",
+    "namespace": "calico-apiserver"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "calico-apiserver"
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.162",
+    "podIPs": [
+     {
+      "ip": "192.168.41.162"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "calico-kube-controllers",
+     "k8s-app": "calico-kube-controllers",
+     "pod-template-hash": "fb95db7f7"
+    },
+    "name": "calico-kube-controllers-fb95db7f7-xqw2q",
+    "namespace": "calico-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "calico-kube-controllers"
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.142",
+    "podIPs": [
+     {
+      "ip": "192.168.41.142"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "calico-node",
+     "controller-revision-hash": "84f77fc7df",
+     "k8s-app": "calico-node",
+     "pod-template-generation": "1"
+    },
+    "name": "calico-node-fxxh6",
+    "namespace": "calico-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "calico-node"
+     }
+    ],
+    "hostNetwork": true
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.32.36",
+    "podIPs": [
+     {
+      "ip": "192.168.32.36"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "calico-typha",
+     "k8s-app": "calico-typha",
+     "pod-template-hash": "549b788cb"
+    },
+    "name": "calico-typha-549b788cb-bqd7r",
+    "namespace": "calico-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "calico-typha",
+      "ports": [
+       {
+        "containerPort": 5473,
+        "name": "calico-typha",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ],
+    "hostNetwork": true
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.32.36",
+    "podIPs": [
+     {
+      "ip": "192.168.32.36"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "csi-node-driver",
+     "controller-revision-hash": "7d986796fc",
+     "k8s-app": "csi-node-driver",
+     "name": "csi-node-driver",
+     "pod-template-generation": "1"
+    },
+    "name": "csi-node-driver-hsqrl",
+    "namespace": "calico-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "calico-csi"
+     },
+     {
+      "name": "csi-node-driver-registrar"
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.146",
+    "podIPs": [
+     {
+      "ip": "192.168.41.146"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "cert-manager",
+     "app.kubernetes.io/component": "controller",
+     "app.kubernetes.io/instance": "cert-manager",
+     "app.kubernetes.io/name": "cert-manager",
+     "app.kubernetes.io/version": "v1.15.0",
+     "pod-template-hash": "7fd99b978b"
+    },
+    "name": "cert-manager-7fd99b978b-z5p58",
+    "namespace": "cert-manager"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "cert-manager-controller",
+      "ports": [
+       {
+        "containerPort": 9402,
+        "name": "http-metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9403,
+        "name": "http-healthz",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.140",
+    "podIPs": [
+     {
+      "ip": "192.168.41.140"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "cainjector",
+     "app.kubernetes.io/component": "cainjector",
+     "app.kubernetes.io/instance": "cert-manager",
+     "app.kubernetes.io/name": "cainjector",
+     "app.kubernetes.io/version": "v1.15.0",
+     "pod-template-hash": "b6c69456d"
+    },
+    "name": "cert-manager-cainjector-b6c69456d-f9fs7",
+    "namespace": "cert-manager"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "cert-manager-cainjector"
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.135",
+    "podIPs": [
+     {
+      "ip": "192.168.41.135"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "webhook",
+     "app.kubernetes.io/component": "webhook",
+     "app.kubernetes.io/instance": "cert-manager",
+     "app.kubernetes.io/name": "webhook",
+     "app.kubernetes.io/version": "v1.15.0",
+     "pod-template-hash": "5ff9d8f4fd"
+    },
+    "name": "cert-manager-webhook-5ff9d8f4fd-7lg5z",
+    "namespace": "cert-manager"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "cert-manager-webhook",
+      "ports": [
+       {
+        "containerPort": 10250,
+        "name": "https",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 6080,
+        "name": "healthcheck",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.188",
+    "podIPs": [
+     {
+      "ip": "192.168.41.188"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "cloudnative-pg",
+     "pod-template-hash": "9746db666"
+    },
+    "name": "cnpg-controller-manager-9746db666-hzg7k",
+    "namespace": "cnpg-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "manager",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9443,
+        "name": "webhook-server",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Pending"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "k8s-app": "kube-dns",
+     "pod-template-hash": "5594bbd8f5"
+    },
+    "name": "coredns-5594bbd8f5-mbcjg",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "coredns",
+      "ports": [
+       {
+        "containerPort": 53,
+        "name": "dns",
+        "protocol": "UDP"
+       },
+       {
+        "containerPort": 53,
+        "name": "dns-tcp",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9153,
+        "name": "metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.131",
+    "podIPs": [
+     {
+      "ip": "192.168.41.131"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "local-path-provisioner",
+     "pod-template-hash": "5db9d5cbbb"
+    },
+    "name": "local-path-provisioner-5db9d5cbbb-pr4lk",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "local-path-provisioner"
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.132",
+    "podIPs": [
+     {
+      "ip": "192.168.41.132"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "k8s-app": "metrics-server",
+     "pod-template-hash": "c8774f4f4"
+    },
+    "name": "metrics-server-c8774f4f4-qp986",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "metrics-server",
+      "ports": [
+       {
+        "containerPort": 10250,
+        "name": "https",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.189",
+    "podIPs": [
+     {
+      "ip": "192.168.41.189"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "traefik-kube-system",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "traefik",
+     "helm.sh/chart": "traefik-39.0.701_up39.0.7",
+     "pod-template-hash": "5546cdbbd4"
+    },
+    "name": "traefik-5546cdbbd4-pgl5g",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "traefik",
+      "ports": [
+       {
+        "containerPort": 9100,
+        "name": "metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8080,
+        "name": "traefik",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8000,
+        "name": "web",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8443,
+        "name": "websecure",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.145",
+    "podIPs": [
+     {
+      "ip": "192.168.41.145"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "metallb",
+     "component": "controller",
+     "pod-template-hash": "6cb96f995b"
+    },
+    "name": "controller-6cb96f995b-wpm9n",
+    "namespace": "metallb-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "controller",
+      "ports": [
+       {
+        "containerPort": 7472,
+        "name": "monitoring",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9443,
+        "name": "webhook-server",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.156",
+    "podIPs": [
+     {
+      "ip": "192.168.41.156"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "metallb",
+     "component": "speaker",
+     "controller-revision-hash": "5bc6df6564",
+     "pod-template-generation": "1"
+    },
+    "name": "speaker-6lwvr",
+    "namespace": "metallb-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "speaker",
+      "ports": [
+       {
+        "containerPort": 7472,
+        "name": "monitoring",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 7946,
+        "name": "memberlist-tcp",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 7946,
+        "name": "memberlist-udp",
+        "protocol": "UDP"
+       }
+      ]
+     }
+    ],
+    "hostNetwork": true
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.32.36",
+    "podIPs": [
+     {
+      "ip": "192.168.32.36"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "alertmanager": "kube-prometheus-stack-alertmanager",
+     "app.kubernetes.io/instance": "kube-prometheus-stack-alertmanager",
+     "app.kubernetes.io/managed-by": "prometheus-operator",
+     "app.kubernetes.io/name": "alertmanager",
+     "app.kubernetes.io/version": "0.27.0",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "alertmanager-kube-prometheus-stack-alertmanager-86f667fcc5",
+     "statefulset.kubernetes.io/pod-name": "alertmanager-kube-prometheus-stack-alertmanager-0"
+    },
+    "name": "alertmanager-kube-prometheus-stack-alertmanager-0",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "alertmanager",
+      "ports": [
+       {
+        "containerPort": 9093,
+        "name": "http-web",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "mesh-tcp",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "mesh-udp",
+        "protocol": "UDP"
+       }
+      ]
+     },
+     {
+      "name": "config-reloader",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "reloader-web",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.163",
+    "podIPs": [
+     {
+      "ip": "192.168.41.163"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/name": "grafana",
+     "pod-template-hash": "548ff494b"
+    },
+    "name": "kube-prometheus-stack-grafana-548ff494b-m97q6",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "grafana-sc-dashboard"
+     },
+     {
+      "name": "grafana-sc-datasources"
+     },
+     {
+      "name": "grafana",
+      "ports": [
+       {
+        "containerPort": 3000,
+        "name": "grafana",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "gossip-tcp",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "gossip-udp",
+        "protocol": "UDP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.130",
+    "podIPs": [
+     {
+      "ip": "192.168.41.130"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "kube-state-metrics",
+     "app.kubernetes.io/part-of": "kube-state-metrics",
+     "app.kubernetes.io/version": "2.12.0",
+     "helm.sh/chart": "kube-state-metrics-5.21.0",
+     "pod-template-hash": "6bbb95858",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-kube-state-metrics-6bbb95858-4kvr6",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "kube-state-metrics",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.176",
+    "podIPs": [
+     {
+      "ip": "192.168.41.176"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "kube-prometheus-stack-operator",
+     "app.kubernetes.io/component": "prometheus-operator",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "kube-prometheus-stack-prometheus-operator",
+     "app.kubernetes.io/part-of": "kube-prometheus-stack",
+     "app.kubernetes.io/version": "61.3.2",
+     "chart": "kube-prometheus-stack-61.3.2",
+     "heritage": "Helm",
+     "pod-template-hash": "6566c5c",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-operator-6566c5c-wp6gz",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "kube-prometheus-stack",
+      "ports": [
+       {
+        "containerPort": 10250,
+        "name": "https",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.173",
+    "podIPs": [
+     {
+      "ip": "192.168.41.173"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "prometheus-node-exporter",
+     "app.kubernetes.io/part-of": "prometheus-node-exporter",
+     "app.kubernetes.io/version": "1.8.1",
+     "controller-revision-hash": "69ccfb57c4",
+     "helm.sh/chart": "prometheus-node-exporter-4.37.0",
+     "jobLabel": "node-exporter",
+     "pod-template-generation": "3",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-prometheus-node-exporter-zt5lv",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "node-exporter",
+      "ports": [
+       {
+        "containerPort": 9100,
+        "name": "http-metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ],
+    "hostNetwork": true
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.32.36",
+    "podIPs": [
+     {
+      "ip": "192.168.32.36"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack-prometheus",
+     "app.kubernetes.io/managed-by": "prometheus-operator",
+     "app.kubernetes.io/name": "prometheus",
+     "app.kubernetes.io/version": "2.53.1",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "prometheus-kube-prometheus-stack-prometheus-7c9d77d7d5",
+     "operator.prometheus.io/name": "kube-prometheus-stack-prometheus",
+     "operator.prometheus.io/shard": "0",
+     "prometheus": "kube-prometheus-stack-prometheus",
+     "statefulset.kubernetes.io/pod-name": "prometheus-kube-prometheus-stack-prometheus-0"
+    },
+    "name": "prometheus-kube-prometheus-stack-prometheus-0",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "prometheus",
+      "ports": [
+       {
+        "containerPort": 9090,
+        "name": "http-web",
+        "protocol": "TCP"
+       }
+      ]
+     },
+     {
+      "name": "config-reloader",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "reloader-web",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.154",
+    "podIPs": [
+     {
+      "ip": "192.168.41.154"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "otel-collector",
+     "app.kubernetes.io/name": "opentelemetry-collector",
+     "component": "standalone-collector",
+     "pod-template-hash": "669b69c45f"
+    },
+    "name": "otel-collector-669b69c45f-rqcg5",
+    "namespace": "observability"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "opentelemetry-collector",
+      "ports": [
+       {
+        "containerPort": 8888,
+        "name": "metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 4318,
+        "name": "otlp-http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.157",
+    "podIPs": [
+     {
+      "ip": "192.168.41.157"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "tempo",
+     "app.kubernetes.io/name": "tempo",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "tempo-6cdd6d88ff",
+     "statefulset.kubernetes.io/pod-name": "tempo-0"
+    },
+    "name": "tempo-0",
+    "namespace": "observability"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "tempo",
+      "ports": [
+       {
+        "containerPort": 3200,
+        "name": "prom-metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 6831,
+        "name": "jaeger-thrift-c",
+        "protocol": "UDP"
+       },
+       {
+        "containerPort": 6832,
+        "name": "jaeger-thrift-b",
+        "protocol": "UDP"
+       },
+       {
+        "containerPort": 14268,
+        "name": "jaeger-thrift-h",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 14250,
+        "name": "jaeger-grpc",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9411,
+        "name": "zipkin",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 55680,
+        "name": "otlp-legacy",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 4317,
+        "name": "otlp-grpc",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 55681,
+        "name": "otlp-httplegacy",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 4318,
+        "name": "otlp-http",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 55678,
+        "name": "opencensus",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.159",
+    "podIPs": [
+     {
+      "ip": "192.168.41.159"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "flask-vue",
+     "pod-template-hash": "6688dd7cbf"
+    },
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "backend",
+      "ports": [
+       {
+        "containerPort": 5000,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.138",
+    "podIPs": [
+     {
+      "ip": "192.168.41.138"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "flask-vue",
+     "pod-template-hash": "7c9cf766d4"
+    },
+    "name": "flask-vue-frontend-7c9cf766d4-fdfk5",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "frontend",
+      "ports": [
+       {
+        "containerPort": 80,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.183",
+    "podIPs": [
+     {
+      "ip": "192.168.41.183"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "master",
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "redis",
+     "app.kubernetes.io/version": "8.8.0",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "redis-master-86ff8cb85",
+     "helm.sh/chart": "redis-27.0.13",
+     "statefulset.kubernetes.io/pod-name": "redis-master-0"
+    },
+    "name": "redis-master-0",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "redis",
+      "ports": [
+       {
+        "containerPort": 6379,
+        "name": "redis",
+        "protocol": "TCP"
+       }
+      ]
+     },
+     {
+      "name": "metrics",
+      "ports": [
+       {
+        "containerPort": 9121,
+        "name": "metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.153",
+    "podIPs": [
+     {
+      "ip": "192.168.41.153"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "url-shortener",
+     "pod-template-hash": "6f89bdc657",
+     "version": "v0.1"
+    },
+    "name": "url-shortener-6f89bdc657-nzmcz",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "url-shortener",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Pending",
+    "podIP": "192.168.41.160",
+    "podIPs": [
+     {
+      "ip": "192.168.41.160"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "url-shortener",
+     "pod-template-hash": "6f89bdc657",
+     "version": "v0.1"
+    },
+    "name": "url-shortener-6f89bdc657-rgwsv",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "url-shortener",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Pending",
+    "podIP": "192.168.41.177",
+    "podIPs": [
+     {
+      "ip": "192.168.41.177"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "database",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "app.kubernetes.io/version": "16",
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/instanceName": "url-shortener-db-2",
+     "cnpg.io/podRole": "instance"
+    },
+    "name": "url-shortener-db-2",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "postgres",
+      "ports": [
+       {
+        "containerPort": 5432,
+        "name": "postgresql",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9187,
+        "name": "metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8000,
+        "name": "status",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Pending"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "pooler",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/podRole": "pooler",
+     "cnpg.io/poolerName": "url-shortener-pooler",
+     "pod-template-hash": "558976bcf8"
+    },
+    "name": "url-shortener-pooler-558976bcf8-72pl4",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "pgbouncer",
+      "ports": [
+       {
+        "containerPort": 5432,
+        "name": "pgbouncer",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9127,
+        "name": "metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Pending"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "whoami",
+     "pod-template-hash": "76bcdb9fb7"
+    },
+    "name": "whoami-76bcdb9fb7-4l48g",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "whoami",
+      "ports": [
+       {
+        "containerPort": 80,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.147",
+    "podIPs": [
+     {
+      "ip": "192.168.41.147"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "whoami",
+     "pod-template-hash": "76bcdb9fb7"
+    },
+    "name": "whoami-76bcdb9fb7-hmfz7",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "whoami",
+      "ports": [
+       {
+        "containerPort": 80,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.41.152",
+    "podIPs": [
+     {
+      "ip": "192.168.41.152"
+     }
+    ]
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "k8s-app": "tigera-operator",
+     "name": "tigera-operator",
+     "pod-template-hash": "6648cfc859"
+    },
+    "name": "tigera-operator-6648cfc859-wgz6p",
+    "namespace": "tigera-operator"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "tigera-operator"
+     }
+    ],
+    "hostNetwork": true
+   },
+   "status": {
+    "phase": "Running",
+    "podIP": "192.168.32.36",
+    "podIPs": [
+     {
+      "ip": "192.168.32.36"
+     }
+    ]
+   }
+  }
+ ],
+ "kind": "PodList"
+}

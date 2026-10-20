@@ -1,0 +1,51 @@
+{
+  "kind": "PodMetricsList",
+  "apiVersion": "metrics.k8s.io/v1beta1",
+  "items": [
+    {
+      "kind": "PodMetrics",
+      "apiVersion": "metrics.k8s.io/v1beta1",
+      "metadata": {
+        "name": "flask-vue-backend-6688dd7cbf-6tspt",
+        "namespace": "sre-lab-app"
+      },
+      "timestamp": "2026-09-28T02:12:32Z",
+      "window": "17.324s",
+      "containers": [
+        {
+          "name": "backend",
+          "usage": {
+            "cpu": "1509812n",
+            "memory": "46052Ki"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "PodMetrics",
+      "apiVersion": "metrics.k8s.io/v1beta1",
+      "metadata": {
+        "name": "redis-master-0",
+        "namespace": "sre-lab-app"
+      },
+      "timestamp": "2026-09-28T02:12:32Z",
+      "window": "12.852s",
+      "containers": [
+        {
+          "name": "metrics",
+          "usage": {
+            "cpu": "1207213n",
+            "memory": "13148Ki"
+          }
+        },
+        {
+          "name": "redis",
+          "usage": {
+            "cpu": "24350295n",
+            "memory": "5260Ki"
+          }
+        }
+      ]
+    }
+  ]
+}

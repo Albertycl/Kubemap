@@ -1,0 +1,4 @@
+# Migration files are checksummed byte for byte when applied: a CRLF checkout
+# (core.autocrlf) would make an applied migration look changed
+# (review km-15-fixes F2).
+portal/store/migrations/*.sql text eol=lf

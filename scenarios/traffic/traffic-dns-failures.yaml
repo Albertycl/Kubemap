@@ -1,0 +1,75 @@
+# KM-88. Placeholders: <ns>, <pod>, <svc> and $ns, $pod. The CoreDNS facts
+# are k8server's (k3s v1.34.8): CoreDNS in kube-system, forward to the
+# node's /etc/resolv.conf, cache 30 s.
+id: traffic-dns-failures
+area: traffic
+title: "DNS lookups fail inside the cluster"
+question: "Pods log 'no such host', 'Temporary failure in name resolution' or 'i/o timeout' on DNS. What do you do?"
+symptoms:
+  - "Apps fail to reach other Services or external hosts by name, while IPs work"
+  - "Errors like 'lookup api.shop.svc.cluster.local: no such host' or 'dial udp 10.43.0.10:53: i/o timeout'"
+  - "Often after a CoreDNS change, a NetworkPolicy change, or a node DNS change"
+steps:
+  - title: "Which names fail, from which pod?"
+    why: "Split the problem: a cluster name (svc.cluster.local), an external name, or everything? From one pod or all? A single pod points at its own settings (dnsPolicy, a NetworkPolicy), all pods at CoreDNS or the node's upstream DNS."
+    command: "kubectl -n <ns> logs <pod> --tail=50 | grep -iE 'no such host|name resolution|lookup|:53'"
+    kubemap: "logs"
+    check: {op: "pod.debug", args: {namespace: "$ns", pod: "$pod"}}
+    good: "The errors name one host that really does not exist (a typo, a deleted Service)."
+    bad: "Many names fail, or only external names fail, or only from some pods: continue."
+  - title: "Is CoreDNS running and ready?"
+    why: "Every lookup in the cluster goes to the kube-dns Service (10.43.0.10 on k3s), which is CoreDNS. If its pods are not ready, the Service has no endpoints and every lookup times out."
+    command: "kubectl -n kube-system get deploy coredns; kubectl -n kube-system get endpointslices -l kubernetes.io/service-name=kube-dns; kubectl -n kube-system logs deploy/coredns --tail=30"
+    kubemap: "app-map"
+    check: {op: "service.check", args: {namespace: "kube-system", service: "kube-dns"}}
+    good: "CoreDNS ready, kube-dns has ready endpoints, no errors in its log."
+    bad: "Not ready or crash-looping (often a bad Corefile after an edit, or a 'loop detected' message): fix CoreDNS first."
+  - title: "Resolve from inside the failing pod"
+    why: "Resolving from the failing pod itself uses its own resolv.conf, search path and labels, so every NetworkPolicy that applies to the app applies to the test too. A throwaway 'kubectl run' pod gets only the label run=<name>: policies that select the app's labels do not apply to it, so it can resolve while the app is blocked, which is the classic DNS NetworkPolicy failure. Needs exec rights; it runs inside the container and only reads. Cluster names and external names test different paths: CoreDNS alone, or CoreDNS plus the node's upstream resolver. If the image has no getent or nslookup (distroless), a test pod is the fallback, but it creates a pod: give it the app's labels and a non-root user, for example kubectl -n <ns> run dns-test --rm -it --restart=Never --labels=app=<the app's label> --image=busybox:1.36 --overrides='{\"spec\":{\"securityContext\":{\"runAsNonRoot\":true,\"runAsUser\":65534}}}' -- nslookup <svc>, and only where creating a pod is allowed."
+    command: "kubectl -n <ns> exec <pod> -- sh -c 'cat /etc/resolv.conf; for h in kubernetes.default.svc.cluster.local <svc> example.com; do getent hosts $h 2>/dev/null || nslookup $h; done'   # getent (glibc images) or nslookup (busybox, Alpine)"
+    kubemap: "netpol"
+    check: {op: "netpol.check", args: {fromNamespace: "$ns", fromPod: "$pod", toNamespace: "kube-system", toService: "kube-dns", port: "53", protocol: "UDP"}}
+    good: "All three names resolve: DNS works; look at the app's own settings (a hard-coded resolver, a wrong name)."
+    bad: "Cluster names fail: CoreDNS or a NetworkPolicy. Only example.com fails: CoreDNS's upstream (the node's /etc/resolv.conf)."
+  - title: "Does a NetworkPolicy block port 53?"
+    why: "A pod whose egress is isolated by a NetworkPolicy may reach the Service it needs but not kube-dns: without an egress rule for UDP and TCP 53 to kube-system, every lookup times out. It is the most common DNS break after 'locking down' a namespace."
+    command: "kubectl -n <ns> get networkpolicy -o wide; kubectl -n <ns> describe networkpolicy | grep -iE 'policy types|egress|53' "
+    kubemap: "netpol"
+    check: {op: "netpol.check", args: {fromNamespace: "$ns", fromPod: "$pod", toNamespace: "kube-system", toService: "kube-dns", port: "53", protocol: "TCP"}}
+    good: "Egress to kube-dns on TCP 53 is allowed here, and on UDP 53 in the step before (lookups use UDP; large answers fall back to TCP)."
+    bad: "Blocked: add an egress rule for UDP and TCP 53 to the kube-system namespace (the check names the policy)."
+  - title: "Is the upstream (the node's resolver) the problem?"
+    why: "CoreDNS answers cluster names itself and forwards the rest to the node's /etc/resolv.conf. If the node's resolver is broken or slow, external names fail from every pod while cluster names work."
+    command: "kubectl -n kube-system get configmap coredns -o jsonpath='{.data.Corefile}' | grep -E 'forward|cache'; ssh <node> 'cat /etc/resolv.conf; resolvectl status 2>/dev/null | head -20'"
+    kubemap: "node"
+    good: "The node resolves external names quickly (dig example.com on the node)."
+    bad: "The node's own DNS fails or is slow: fix the node's resolver (or forward CoreDNS to a known good server)."
+  - title: "Is it slow rather than broken? The ndots trap"
+    why: "With the default ndots:5, a lookup of 'api.example.com' first tries every search domain (api.example.com.<ns>.svc.cluster.local, …), so each external lookup becomes up to 5 queries. Under load that looks like intermittent DNS timeouts. A trailing dot or ndots:2 in dnsConfig avoids it."
+    command: "kubectl -n <ns> get pod <pod> -o jsonpath='{.spec.dnsPolicy}{\"  \"}{.spec.dnsConfig}'; kubectl -n kube-system top pod -l k8s-app=kube-dns"
+    kubemap: "pod"
+    good: "Normal CoreDNS CPU, and failures are not intermittent."
+    bad: "CoreDNS busy and timeouts come and go: lower ndots for that app, raise CoreDNS replicas, or add NodeLocal DNSCache."
+causes:
+  - cause: "CoreDNS is down or crash-looping (a bad Corefile edit, 'loop detected' when the node's resolv.conf points to itself)."
+    fix: "Undo the Corefile change (kubectl -n kube-system rollout undo is not enough for a ConfigMap: restore the ConfigMap), then restart CoreDNS."
+    prove: "kubectl -n kube-system get endpointslices -l kubernetes.io/service-name=kube-dns   # ready addresses"
+  - cause: "A NetworkPolicy isolates the pod's egress and does not allow DNS."
+    fix: "Add an egress rule to namespace kube-system, pods k8s-app=kube-dns, UDP and TCP port 53."
+    prove: "kubectl -n <ns> exec <pod> -- nslookup kubernetes.default.svc.cluster.local   # an address, no timeout (getent hosts in images without nslookup)"
+  - cause: "The node's upstream resolver is broken or slow (only external names fail)."
+    fix: "Fix the node's resolver, or set CoreDNS's forward to reliable servers."
+    prove: "kubectl -n <ns> exec <pod> -- nslookup example.com   # an address, quickly"
+  - cause: "ndots:5 multiplies external lookups, so CoreDNS is overloaded."
+    fix: "Set dnsConfig ndots:2 for apps that call many external names, use fully qualified names with a trailing dot, or add NodeLocal DNSCache."
+    prove: "kubectl -n kube-system top pod -l k8s-app=kube-dns   # CPU back to normal"
+prevention:
+  - "Always allow DNS (UDP and TCP 53 to kube-system) in a default-deny egress policy"
+  - "Keep the Corefile in Git and test it before rollout; watch CoreDNS's errors and latency metrics (coredns_dns_request_duration_seconds)"
+  - "Two or more CoreDNS replicas on different nodes, and NodeLocal DNSCache on busy clusters"
+  - "Alert on the SERVFAIL and NXDOMAIN rate from CoreDNS, not only on pod restarts"
+senior:
+  - "'It's always DNS' is a joke because DNS failures look like everything else: I prove it with a lookup from the failing pod's namespace first."
+  - "Cluster names versus external names splits CoreDNS from the upstream in one step."
+  - "Blast radius: one namespace failing is almost always a NetworkPolicy; the whole cluster is CoreDNS or the node's resolver."
+  - "What I would automate: a synthetic lookup of an internal and an external name every minute, from a few namespaces."

@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-1",
+  "payload": {
+    "op": "list",
+    "version": "v1",
+    "resource": "pods",
+    "namespace": "kubemap-demo",
+    "labelSelector": "app=web",
+    "limit": 100
+  }
+}

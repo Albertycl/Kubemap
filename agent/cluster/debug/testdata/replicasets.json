@@ -1,0 +1,658 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "apps/v1",
+   "kind": "ReplicaSet",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "api",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "netpol",
+     "pod-template-hash": "6b75877cb4"
+    },
+    "name": "api-6b75877cb4",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "apps/v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Deployment",
+      "name": "api",
+      "uid": "2e64d6e1-7c05-4fcd-9de2-0bb1853dd275"
+     }
+    ],
+    "uid": "27767361-cc10-4f2a-9aa8-69f62667d989"
+   },
+   "spec": {
+    "replicas": 1,
+    "selector": {
+     "matchLabels": {
+      "app.kubernetes.io/name": "api",
+      "pod-template-hash": "6b75877cb4"
+     }
+    },
+    "template": {
+     "metadata": {
+      "labels": {
+       "app.kubernetes.io/component": "backend",
+       "app.kubernetes.io/name": "api",
+       "app.kubernetes.io/part-of": "kubemap-demo",
+       "kubemap.io/scenario": "netpol",
+       "pod-template-hash": "6b75877cb4"
+      }
+     },
+     "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+       {
+        "args": [
+         "--port",
+         "8080",
+         "--name",
+         "api"
+        ],
+        "image": "traefik/whoami:v1.10",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "api",
+        "ports": [
+         {
+          "containerPort": 8080,
+          "name": "http",
+          "protocol": "TCP"
+         }
+        ],
+        "readinessProbe": {
+         "failureThreshold": 3,
+         "httpGet": {
+          "path": "/health",
+          "port": "http",
+          "scheme": "HTTP"
+         },
+         "periodSeconds": 10,
+         "successThreshold": 1,
+         "timeoutSeconds": 1
+        },
+        "resources": {
+         "limits": {
+          "cpu": "50m",
+          "memory": "12Mi"
+         },
+         "requests": {
+          "cpu": "5m",
+          "memory": "12Mi"
+         }
+        },
+        "securityContext": {
+         "allowPrivilegeEscalation": false,
+         "capabilities": {
+          "drop": [
+           "ALL"
+          ]
+         },
+         "readOnlyRootFilesystem": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+       }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+       "runAsNonRoot": true,
+       "runAsUser": 65534,
+       "seccompProfile": {
+        "type": "RuntimeDefault"
+       }
+      },
+      "terminationGracePeriodSeconds": 30
+     }
+    }
+   },
+   "status": {
+    "availableReplicas": 1,
+    "fullyLabeledReplicas": 1,
+    "observedGeneration": 1,
+    "readyReplicas": 1,
+    "replicas": 1
+   }
+  },
+  {
+   "apiVersion": "apps/v1",
+   "kind": "ReplicaSet",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "batch-worker",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "pending",
+     "pod-template-hash": "87d9fb7d8"
+    },
+    "name": "batch-worker-87d9fb7d8",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "apps/v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Deployment",
+      "name": "batch-worker",
+      "uid": "2c9e1620-6592-4dec-a6cf-4d767175f460"
+     }
+    ],
+    "uid": "4019c3d8-dd1c-4813-9649-d1539078d0ea"
+   },
+   "spec": {
+    "replicas": 1,
+    "selector": {
+     "matchLabels": {
+      "app.kubernetes.io/name": "batch-worker",
+      "pod-template-hash": "87d9fb7d8"
+     }
+    },
+    "template": {
+     "metadata": {
+      "labels": {
+       "app.kubernetes.io/name": "batch-worker",
+       "app.kubernetes.io/part-of": "kubemap-demo",
+       "kubemap.io/scenario": "pending",
+       "pod-template-hash": "87d9fb7d8"
+      }
+     },
+     "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+       {
+        "command": [
+         "sh",
+         "-c",
+         "echo worker ready; exec sleep 3600"
+        ],
+        "image": "busybox:1.36",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "worker",
+        "resources": {
+         "limits": {
+          "cpu": "8",
+          "memory": "6Mi"
+         },
+         "requests": {
+          "cpu": "8",
+          "memory": "6Mi"
+         }
+        },
+        "securityContext": {
+         "allowPrivilegeEscalation": false,
+         "capabilities": {
+          "drop": [
+           "ALL"
+          ]
+         },
+         "readOnlyRootFilesystem": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+       }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+       "runAsNonRoot": true,
+       "runAsUser": 65534,
+       "seccompProfile": {
+        "type": "RuntimeDefault"
+       }
+      },
+      "terminationGracePeriodSeconds": 30
+     }
+    }
+   },
+   "status": {
+    "fullyLabeledReplicas": 1,
+    "observedGeneration": 1,
+    "replicas": 1
+   }
+  },
+  {
+   "apiVersion": "apps/v1",
+   "kind": "ReplicaSet",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "catalog",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "badsvc",
+     "pod-template-hash": "86767567d7"
+    },
+    "name": "catalog-86767567d7",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "apps/v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Deployment",
+      "name": "catalog",
+      "uid": "ec6fb250-86d0-499f-9a84-5daf69f7b052"
+     }
+    ],
+    "uid": "531255e5-7fa3-4255-bf6e-890b36e414b8"
+   },
+   "spec": {
+    "replicas": 1,
+    "selector": {
+     "matchLabels": {
+      "app.kubernetes.io/name": "catalog",
+      "pod-template-hash": "86767567d7"
+     }
+    },
+    "template": {
+     "metadata": {
+      "labels": {
+       "app.kubernetes.io/name": "catalog",
+       "app.kubernetes.io/part-of": "kubemap-demo",
+       "kubemap.io/scenario": "badsvc",
+       "pod-template-hash": "86767567d7"
+      }
+     },
+     "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+       {
+        "args": [
+         "--port",
+         "8080",
+         "--name",
+         "catalog"
+        ],
+        "image": "traefik/whoami:v1.10",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "catalog",
+        "ports": [
+         {
+          "containerPort": 8080,
+          "name": "http",
+          "protocol": "TCP"
+         }
+        ],
+        "readinessProbe": {
+         "failureThreshold": 3,
+         "httpGet": {
+          "path": "/health",
+          "port": "http",
+          "scheme": "HTTP"
+         },
+         "periodSeconds": 10,
+         "successThreshold": 1,
+         "timeoutSeconds": 1
+        },
+        "resources": {
+         "limits": {
+          "cpu": "50m",
+          "memory": "12Mi"
+         },
+         "requests": {
+          "cpu": "5m",
+          "memory": "12Mi"
+         }
+        },
+        "securityContext": {
+         "allowPrivilegeEscalation": false,
+         "capabilities": {
+          "drop": [
+           "ALL"
+          ]
+         },
+         "readOnlyRootFilesystem": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+       }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+       "runAsNonRoot": true,
+       "runAsUser": 65534,
+       "seccompProfile": {
+        "type": "RuntimeDefault"
+       }
+      },
+      "terminationGracePeriodSeconds": 30
+     }
+    }
+   },
+   "status": {
+    "availableReplicas": 1,
+    "fullyLabeledReplicas": 1,
+    "observedGeneration": 1,
+    "readyReplicas": 1,
+    "replicas": 1
+   }
+  },
+  {
+   "apiVersion": "apps/v1",
+   "kind": "ReplicaSet",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "checkout",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "crashloop",
+     "pod-template-hash": "5869b76bbb"
+    },
+    "name": "checkout-5869b76bbb",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "apps/v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Deployment",
+      "name": "checkout",
+      "uid": "cf991eaa-3fe7-4087-b139-000f1abaeffe"
+     }
+    ],
+    "uid": "e877dc40-8d8a-43c6-a1e9-8479239d05e4"
+   },
+   "spec": {
+    "replicas": 1,
+    "selector": {
+     "matchLabels": {
+      "app.kubernetes.io/name": "checkout",
+      "pod-template-hash": "5869b76bbb"
+     }
+    },
+    "template": {
+     "metadata": {
+      "labels": {
+       "app.kubernetes.io/name": "checkout",
+       "app.kubernetes.io/part-of": "kubemap-demo",
+       "kubemap.io/scenario": "crashloop",
+       "pod-template-hash": "5869b76bbb"
+      }
+     },
+     "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+       {
+        "command": [
+         "sh",
+         "-c",
+         "echo \"checkout starting (log level $LOG_LEVEL)\"\nif [ -z \"$DATABASE_URL\" ]; then\n  echo \"FATAL: required setting DATABASE_URL is not set (ConfigMap checkout-config)\" >&2\n  exit 1\nfi\necho \"connected to $DATABASE_URL\"; exec sleep 3600\n"
+        ],
+        "env": [
+         {
+          "name": "DATABASE_URL",
+          "valueFrom": {
+           "configMapKeyRef": {
+            "key": "DATABASE_URL",
+            "name": "checkout-config",
+            "optional": true
+           }
+          }
+         },
+         {
+          "name": "LOG_LEVEL",
+          "valueFrom": {
+           "configMapKeyRef": {
+            "key": "LOG_LEVEL",
+            "name": "checkout-config",
+            "optional": true
+           }
+          }
+         }
+        ],
+        "image": "busybox:1.36",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "checkout",
+        "resources": {
+         "limits": {
+          "cpu": "50m",
+          "memory": "6Mi"
+         },
+         "requests": {
+          "cpu": "5m",
+          "memory": "6Mi"
+         }
+        },
+        "securityContext": {
+         "allowPrivilegeEscalation": false,
+         "capabilities": {
+          "drop": [
+           "ALL"
+          ]
+         },
+         "readOnlyRootFilesystem": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+       }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+       "runAsNonRoot": true,
+       "runAsUser": 65534,
+       "seccompProfile": {
+        "type": "RuntimeDefault"
+       }
+      },
+      "terminationGracePeriodSeconds": 30
+     }
+    }
+   },
+   "status": {
+    "fullyLabeledReplicas": 1,
+    "observedGeneration": 1,
+    "replicas": 1
+   }
+  },
+  {
+   "apiVersion": "apps/v1",
+   "kind": "ReplicaSet",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "oom",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "oom",
+     "pod-template-hash": "69b9ccc88"
+    },
+    "name": "oom-69b9ccc88",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "apps/v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Deployment",
+      "name": "oom",
+      "uid": "d925009b-6e28-4681-9b9f-15d1d310342f"
+     }
+    ],
+    "uid": "ddc52546-f2e6-47f2-a8ba-802bd212acd6"
+   },
+   "spec": {
+    "replicas": 1,
+    "selector": {
+     "matchLabels": {
+      "app.kubernetes.io/name": "oom",
+      "pod-template-hash": "69b9ccc88"
+     }
+    },
+    "template": {
+     "metadata": {
+      "labels": {
+       "app.kubernetes.io/name": "oom",
+       "app.kubernetes.io/part-of": "kubemap-demo",
+       "kubemap.io/scenario": "oom",
+       "pod-template-hash": "69b9ccc88"
+      }
+     },
+     "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+       {
+        "command": [
+         "sh",
+         "-c",
+         "echo 'building monthly report (needs 32 MiB)'; exec awk 'BEGIN { s = sprintf(\"%33554432s\", \"\"); print \"report done, \" length(s) \" bytes\"; system(\"exec sleep 3600\") }'"
+        ],
+        "image": "busybox:1.36",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "report-builder",
+        "resources": {
+         "limits": {
+          "cpu": "100m",
+          "memory": "24Mi"
+         },
+         "requests": {
+          "cpu": "10m",
+          "memory": "24Mi"
+         }
+        },
+        "securityContext": {
+         "allowPrivilegeEscalation": false,
+         "capabilities": {
+          "drop": [
+           "ALL"
+          ]
+         },
+         "readOnlyRootFilesystem": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+       }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+       "runAsNonRoot": true,
+       "runAsUser": 65534,
+       "seccompProfile": {
+        "type": "RuntimeDefault"
+       }
+      },
+      "terminationGracePeriodSeconds": 30
+     }
+    }
+   },
+   "status": {
+    "fullyLabeledReplicas": 1,
+    "observedGeneration": 1,
+    "replicas": 1
+   }
+  },
+  {
+   "apiVersion": "apps/v1",
+   "kind": "ReplicaSet",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "web",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "netpol",
+     "pod-template-hash": "59f856967c"
+    },
+    "name": "web-59f856967c",
+    "namespace": "kubemap-demo",
+    "ownerReferences": [
+     {
+      "apiVersion": "apps/v1",
+      "blockOwnerDeletion": true,
+      "controller": true,
+      "kind": "Deployment",
+      "name": "web",
+      "uid": "68bf414f-dd7e-4bec-a8f0-30b1e60d5e8e"
+     }
+    ],
+    "uid": "5e923ba7-e6f9-426a-b9b2-21e76a2c03a4"
+   },
+   "spec": {
+    "replicas": 1,
+    "selector": {
+     "matchLabels": {
+      "app.kubernetes.io/name": "web",
+      "pod-template-hash": "59f856967c"
+     }
+    },
+    "template": {
+     "metadata": {
+      "labels": {
+       "app.kubernetes.io/component": "frontend",
+       "app.kubernetes.io/name": "web",
+       "app.kubernetes.io/part-of": "kubemap-demo",
+       "kubemap.io/scenario": "netpol",
+       "pod-template-hash": "59f856967c"
+      }
+     },
+     "spec": {
+      "automountServiceAccountToken": false,
+      "containers": [
+       {
+        "command": [
+         "sh",
+         "-c",
+         "while true; do\n  if out=$(wget -q -T 3 -O - \"$API_URL\" 2>&1); then\n    echo \"$(date -u +%FT%TZ) GET $API_URL ok\"\n  else\n    echo \"$(date -u +%FT%TZ) ERROR GET $API_URL failed: ${out:-connection timed out}\"\n  fi\n  sleep 5\ndone\n"
+        ],
+        "env": [
+         {
+          "name": "API_URL",
+          "value": "http://api.kubemap-demo.svc/api"
+         }
+        ],
+        "image": "busybox:1.36",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "web",
+        "resources": {
+         "limits": {
+          "cpu": "50m",
+          "memory": "6Mi"
+         },
+         "requests": {
+          "cpu": "5m",
+          "memory": "6Mi"
+         }
+        },
+        "securityContext": {
+         "allowPrivilegeEscalation": false,
+         "capabilities": {
+          "drop": [
+           "ALL"
+          ]
+         },
+         "readOnlyRootFilesystem": true
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File"
+       }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+       "runAsNonRoot": true,
+       "runAsUser": 65534,
+       "seccompProfile": {
+        "type": "RuntimeDefault"
+       }
+      },
+      "terminationGracePeriodSeconds": 30
+     }
+    }
+   },
+   "status": {
+    "availableReplicas": 1,
+    "fullyLabeledReplicas": 1,
+    "observedGeneration": 1,
+    "readyReplicas": 1,
+    "replicas": 1
+   }
+  }
+ ],
+ "kind": "ReplicaSetList"
+}

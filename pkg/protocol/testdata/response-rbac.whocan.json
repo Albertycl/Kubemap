@@ -1,0 +1,38 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-14",
+  "payload": {
+    "object": {
+      "mode": "whocan",
+      "subjects": [
+        {
+          "kind": "Group",
+          "name": "system:masters",
+          "binding": "ClusterRoleBinding//cluster-admin",
+          "role": "ClusterRole//cluster-admin",
+          "scope": "cluster"
+        },
+        {
+          "kind": "ServiceAccount",
+          "name": "argocd-application-controller",
+          "namespace": "argocd",
+          "binding": "ClusterRoleBinding//argocd-application-controller",
+          "role": "ClusterRole//argocd-application-controller",
+          "scope": "cluster"
+        },
+        {
+          "kind": "ServiceAccount",
+          "name": "traefik",
+          "namespace": "kube-system",
+          "binding": "ClusterRoleBinding//traefik-kube-system",
+          "role": "ClusterRole//traefik-kube-system",
+          "scope": "cluster"
+        }
+      ],
+      "notes": [
+        "Evaluated from the RBAC objects in the agent's cache with the RBAC authorizer's rules; other authorizers (Node, webhooks) and admission (PodSecurity, quota, webhooks) are not included."
+      ]
+    }
+  }
+}

@@ -1,0 +1,83 @@
+# upstream502: the orders backend accepts each connection and then its request
+# handler crashes, closing the connection without an HTTP answer (busybox nc
+# runs a handler that only logs a panic). The pod is Ready (the probe only
+# checks that the port accepts connections), so Traefik forwards the request
+# and answers 502 Bad Gateway. Fix: the correct command (a real HTTP server).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+  namespace: kubemap-demo
+  labels: &labels
+    app.kubernetes.io/part-of: kubemap-demo
+    app.kubernetes.io/name: orders
+    kubemap.io/scenario: upstream502
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: orders
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile: {type: RuntimeDefault}
+      volumes:
+        - name: www
+          emptyDir: {sizeLimit: 1Mi}
+      containers:
+        - name: orders
+          image: busybox:1.36
+          # Broken on purpose. The fixed command is in docs/demo-scenarios.md:
+          #   mkdir -p /www && echo '{"orders":[]}' > /www/index.html && exec httpd -f -v -p 8080 -h /www
+          command: ["sh", "-c", "echo 'orders: listening on :8080'; exec nc -lk -p 8080 -e sh -c 'echo \"panic: runtime error: invalid memory address or nil pointer dereference [handler /api/orders]\" >&2'"]
+          ports:
+            - {name: http, containerPort: 8080}
+          readinessProbe:
+            tcpSocket: {port: http}
+            periodSeconds: 5
+          volumeMounts:
+            - {name: www, mountPath: /www}
+          resources:
+            requests: {cpu: 5m, memory: 6Mi}
+            limits: {cpu: 50m, memory: 6Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: upstream502
+spec:
+  selector:
+    app.kubernetes.io/name: orders
+  ports:
+    - {name: http, port: 80, targetPort: http}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: orders
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: upstream502
+spec:
+  entryPoints: [web]
+  routes:
+    - kind: Rule
+      match: Host(`demo-502.local`)
+      services:
+        - name: orders
+          port: 80

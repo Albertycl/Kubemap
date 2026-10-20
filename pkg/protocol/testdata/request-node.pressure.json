@@ -1,0 +1,82 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-9",
+  "payload": {
+    "op": "node.pressure",
+    "name": "k8server",
+    "nodeMetrics": [
+      {
+        "time": "2026-09-27T11:59:55Z",
+        "nodeName": "k8server",
+        "cpu": {
+          "cores": 4,
+          "usagePercent": 71.5
+        },
+        "memory": {
+          "totalBytes": 12884901888,
+          "availableBytes": 3221225472
+        },
+        "swap": {
+          "totalBytes": 4294967296,
+          "usedBytes": 4294967296
+        },
+        "load": {
+          "load1": 6.2,
+          "load5": 5.8,
+          "load15": 5.1
+        },
+        "psi": {
+          "cpu": {
+            "some": {
+              "avg10": 24.2,
+              "avg60": 27.26,
+              "avg300": 27.25
+            },
+            "full": {
+              "avg10": 0,
+              "avg60": 0,
+              "avg300": 0
+            }
+          },
+          "memory": {
+            "some": {
+              "avg10": 0,
+              "avg60": 0,
+              "avg300": 0.04
+            },
+            "full": {
+              "avg10": 0,
+              "avg60": 0,
+              "avg300": 0
+            }
+          },
+          "io": {
+            "some": {
+              "avg10": 0.3,
+              "avg60": 0.2,
+              "avg300": 0.4
+            },
+            "full": {
+              "avg10": 0,
+              "avg60": 0.1,
+              "avg300": 0
+            }
+          }
+        },
+        "filesystems": [
+          {
+            "mountPoint": "/",
+            "device": "/dev/mapper/ubuntu--vg-ubuntu--lv",
+            "fsType": "ext4",
+            "totalBytes": 100073570304,
+            "usedBytes": 86300000000,
+            "availableBytes": 13700000000,
+            "inodesTotal": 6225920,
+            "inodesFree": 5429637
+          }
+        ]
+      }
+    ]
+  }
+}

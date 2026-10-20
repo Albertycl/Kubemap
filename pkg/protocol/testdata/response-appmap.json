@@ -1,0 +1,228 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-6",
+  "payload": {
+    "object": {
+      "apps": [
+        {
+          "id": "argocd/url-shortener",
+          "name": "url-shortener",
+          "namespace": "sre-lab-app",
+          "source": "argocd",
+          "health": "Healthy, OutOfSync",
+          "state": "warn",
+          "components": [
+            {
+              "id": "IngressRoute.traefik.io/sre-lab-app/url-shortener",
+              "kind": "IngressRoute.traefik.io",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener",
+              "app": "argocd/url-shortener",
+              "tier": "entry",
+              "tierReason": "IngressRoute.traefik.io rules",
+              "healthy": true,
+              "routes": [
+                {
+                  "host": "sre-lab.albertycliu.xyz",
+                  "path": "/",
+                  "tls": true,
+                  "entryPoints": [
+                    "websecure"
+                  ],
+                  "service": "Service/sre-lab-app/url-shortener",
+                  "port": "80",
+                  "readyEndpoints": 2
+                }
+              ]
+            },
+            {
+              "id": "Deployment/sre-lab-app/url-shortener",
+              "kind": "Deployment",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener",
+              "app": "argocd/url-shortener",
+              "tier": "backend",
+              "tierReason": "receives traffic from an entry and calls a data store",
+              "status": "2/2 ready",
+              "healthy": true,
+              "services": [
+                "Service/sre-lab-app/url-shortener"
+              ],
+              "pods": [
+                {
+                  "name": "url-shortener-6d5f7-abcde",
+                  "node": "k8server",
+                  "status": "Running",
+                  "ready": true,
+                  "restarts": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sre-lab-app/url-shortener-db",
+          "name": "url-shortener-db",
+          "namespace": "sre-lab-app",
+          "source": "label",
+          "health": "Degraded",
+          "state": "fail",
+          "problems": [
+            {
+              "id": "Pod/sre-lab-app/url-shortener-db-1",
+              "status": "CrashLoopBackOff (OOMKilled)"
+            }
+          ],
+          "components": [
+            {
+              "id": "Cluster.postgresql.cnpg.io/sre-lab-app/url-shortener-db",
+              "kind": "Cluster.postgresql.cnpg.io",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-db",
+              "app": "sre-lab-app/url-shortener-db",
+              "tier": "database",
+              "tierReason": "postgres: CloudNativePG Cluster",
+              "status": "Cluster in healthy state",
+              "healthy": false,
+              "engine": "postgres",
+              "version": "16",
+              "services": [
+                "Service/sre-lab-app/url-shortener-db-rw"
+              ],
+              "pods": [
+                {
+                  "name": "url-shortener-db-1",
+                  "node": "k8server",
+                  "status": "CrashLoopBackOff (OOMKilled)",
+                  "ready": false,
+                  "restarts": 7
+                },
+                {
+                  "name": "url-shortener-db-2",
+                  "node": "k8server",
+                  "status": "Running",
+                  "ready": true,
+                  "restarts": 0,
+                  "primary": true
+                }
+              ]
+            },
+            {
+              "id": "Pooler.postgresql.cnpg.io/sre-lab-app/url-shortener-pooler",
+              "kind": "Pooler.postgresql.cnpg.io",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-pooler",
+              "app": "sre-lab-app/url-shortener-db",
+              "tier": "database",
+              "tierReason": "pgbouncer: CloudNativePG Pooler",
+              "status": "active",
+              "healthy": true,
+              "engine": "pgbouncer",
+              "services": [
+                "Service/sre-lab-app/url-shortener-pooler"
+              ],
+              "pods": [
+                {
+                  "name": "url-shortener-pooler-7c9d8-fghij",
+                  "node": "k8server",
+                  "status": "Running",
+                  "ready": true,
+                  "restarts": 0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "from": "Deployment/sre-lab-app/url-shortener",
+          "to": "StatefulSet/sre-lab-app/redis-master",
+          "fromApp": "argocd/url-shortener",
+          "toApp": "sre-lab-app/redis",
+          "via": [
+            "Service/sre-lab-app/redis-master"
+          ],
+          "evidence": [
+            {
+              "type": "configmap",
+              "object": "ConfigMap/sre-lab-app/url-shortener-db-config",
+              "name": "REDIS_HOST",
+              "port": "6379",
+              "detail": "env REDIS_HOST (ConfigMap url-shortener-db-config) → Service/sre-lab-app/redis-master:6379"
+            }
+          ]
+        },
+        {
+          "from": "Deployment/sre-lab-app/url-shortener",
+          "to": "Pooler.postgresql.cnpg.io/sre-lab-app/url-shortener-pooler",
+          "fromApp": "argocd/url-shortener",
+          "toApp": "sre-lab-app/url-shortener-db",
+          "via": [
+            "Service/sre-lab-app/url-shortener-pooler"
+          ],
+          "evidence": [
+            {
+              "type": "configmap",
+              "object": "ConfigMap/sre-lab-app/url-shortener-db-config",
+              "name": "DB_HOST",
+              "key": "host",
+              "port": "5432",
+              "detail": "env DB_HOST (ConfigMap url-shortener-db-config) → Service/sre-lab-app/url-shortener-pooler:5432"
+            }
+          ]
+        },
+        {
+          "from": "Pooler.postgresql.cnpg.io/sre-lab-app/url-shortener-pooler",
+          "to": "Cluster.postgresql.cnpg.io/sre-lab-app/url-shortener-db",
+          "fromApp": "sre-lab-app/url-shortener-db",
+          "toApp": "sre-lab-app/url-shortener-db",
+          "evidence": [
+            {
+              "type": "operator",
+              "object": "Pooler.postgresql.cnpg.io/sre-lab-app/url-shortener-pooler",
+              "name": "url-shortener-db",
+              "detail": "CloudNativePG Pooler pgbouncer pools url-shortener-db"
+            }
+          ]
+        },
+        {
+          "from": "IngressRoute.traefik.io/sre-lab-app/url-shortener",
+          "to": "Deployment/sre-lab-app/url-shortener",
+          "fromApp": "argocd/url-shortener",
+          "toApp": "argocd/url-shortener",
+          "via": [
+            "Service/sre-lab-app/url-shortener"
+          ],
+          "evidence": [
+            {
+              "type": "route",
+              "object": "IngressRoute.traefik.io/sre-lab-app/url-shortener",
+              "name": "sre-lab.albertycliu.xyz/",
+              "port": "80",
+              "detail": "sre-lab.albertycliu.xyz/ → Service/sre-lab-app/url-shortener:80"
+            }
+          ]
+        }
+      ],
+      "peers": [
+        {
+          "id": "StatefulSet/sre-lab-app/redis-master",
+          "kind": "StatefulSet",
+          "namespace": "sre-lab-app",
+          "name": "redis-master",
+          "app": "sre-lab-app/redis",
+          "tier": "cache",
+          "tierReason": "redis: image bitnamilegacy/redis:latest",
+          "status": "1/1 ready",
+          "healthy": true,
+          "engine": "redis",
+          "services": [
+            "Service/sre-lab-app/redis-master"
+          ]
+        }
+      ]
+    }
+  }
+}

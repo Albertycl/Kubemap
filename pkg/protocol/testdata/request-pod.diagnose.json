@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-8",
+  "payload": {
+    "op": "pod.diagnose",
+    "namespace": "sre-lab-app",
+    "name": "url-shortener-6f89bdc657-rgwsv"
+  }
+}

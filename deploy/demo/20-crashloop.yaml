@@ -1,0 +1,66 @@
+# crashloop: the app needs DATABASE_URL from the ConfigMap, but the key is
+# missing (the ConfigMap has DATABASE_HOST instead), so it exits 1 at start:
+# CrashLoopBackOff. Fix: add the key "DATABASE_URL" and restart the pods.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checkout-config
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: crashloop
+data:
+  DATABASE_HOST: postgres.kubemap-demo.svc
+  LOG_LEVEL: info
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+  namespace: kubemap-demo
+  labels: &labels
+    app.kubernetes.io/part-of: kubemap-demo
+    app.kubernetes.io/name: checkout
+    kubemap.io/scenario: crashloop
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: checkout
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: checkout
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              echo "checkout starting (log level $LOG_LEVEL)"
+              if [ -z "$DATABASE_URL" ]; then
+                echo "FATAL: required setting DATABASE_URL is not set (ConfigMap checkout-config)" >&2
+                exit 1
+              fi
+              echo "connected to $DATABASE_URL"; exec sleep 3600
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef: {name: checkout-config, key: DATABASE_URL, optional: true}
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef: {name: checkout-config, key: LOG_LEVEL, optional: true}
+          resources:
+            requests: {cpu: 5m, memory: 6Mi}
+            limits: {cpu: 50m, memory: 6Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}

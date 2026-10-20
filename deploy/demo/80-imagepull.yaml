@@ -1,0 +1,38 @@
+# imagepull: the image tag does not exist (busybox:1.36.99), so the kubelet
+# cannot pull it: ErrImagePull, then ImagePullBackOff. Fix: the correct tag
+# (busybox:1.36).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invoice
+  namespace: kubemap-demo
+  labels: &labels
+    app.kubernetes.io/part-of: kubemap-demo
+    app.kubernetes.io/name: invoice
+    kubemap.io/scenario: imagepull
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: invoice
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: invoice
+          image: busybox:1.36.99
+          command: ["sh", "-c", "echo invoice worker ready; exec sleep 3600"]
+          resources:
+            requests: {cpu: 5m, memory: 6Mi}
+            limits: {cpu: 50m, memory: 6Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}

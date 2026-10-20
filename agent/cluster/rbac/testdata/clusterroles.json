@@ -1,0 +1,10224 @@
+{
+"apiVersion": "v1",
+"items": [
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "admin"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"orders"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"orders"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/attach",
+"pods/exec",
+"pods/portforward",
+"pods/proxy",
+"secrets",
+"services/proxy"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts"
+],
+"verbs": [
+"impersonate"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"pods/attach",
+"pods/exec",
+"pods/portforward",
+"pods/proxy"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/eviction"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"events",
+"persistentvolumeclaims",
+"replicationcontrollers",
+"replicationcontrollers/scale",
+"secrets",
+"serviceaccounts",
+"services",
+"services/proxy"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts/token"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"daemonsets",
+"deployments",
+"deployments/rollback",
+"deployments/scale",
+"replicasets",
+"replicasets/scale",
+"statefulsets",
+"statefulsets/scale"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs",
+"jobs"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"daemonsets",
+"deployments",
+"deployments/rollback",
+"deployments/scale",
+"ingresses",
+"networkpolicies",
+"replicasets",
+"replicasets/scale",
+"replicationcontrollers/scale"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses",
+"networkpolicies"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaimtemplates"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"metrics.k8s.io"
+],
+"resources": [
+"pods",
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"endpoints",
+"persistentvolumeclaims",
+"persistentvolumeclaims/status",
+"pods",
+"replicationcontrollers",
+"replicationcontrollers/scale",
+"serviceaccounts",
+"services",
+"services/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"bindings",
+"events",
+"limitranges",
+"namespaces/status",
+"pods/log",
+"pods/status",
+"replicationcontrollers/status",
+"resourcequotas",
+"resourcequotas/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"controllerrevisions",
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"statefulsets",
+"statefulsets/scale",
+"statefulsets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers",
+"horizontalpodautoscalers/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs",
+"cronjobs/status",
+"jobs",
+"jobs/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"ingresses",
+"ingresses/status",
+"networkpolicies",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"replicationcontrollers/scale"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets",
+"poddisruptionbudgets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses",
+"ingresses/status",
+"networkpolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaims/status",
+"resourceclaimtemplates"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"localsubjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"rbac.authorization.k8s.io"
+],
+"resources": [
+"rolebindings",
+"roles"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "argocd-application-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"*"
+]
+},
+{
+"nonResourceURLs": [
+"*"
+],
+"verbs": [
+"*"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "argocd-applicationset-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applications",
+"applicationsets",
+"applicationsets/finalizers"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"appprojects"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applicationsets/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets",
+"configmaps"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resourceNames": [
+"58ac56fa.applicationsets.argoproj.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"update",
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "argocd-server"
+},
+"rules": [
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"delete",
+"get",
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"list"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"pods/log"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applications",
+"applicationsets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"workflows"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-cni-plugin"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"nodes",
+"namespaces"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"blockaffinities",
+"ipamblocks",
+"ipamhandles",
+"ipamconfigs",
+"clusterinformations",
+"ippools",
+"ipreservations"
+],
+"verbs": [
+"get",
+"list",
+"create",
+"update",
+"delete"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-crds"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes",
+"namespaces",
+"pods",
+"serviceaccounts"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"networkpolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy.networking.k8s.io"
+],
+"resources": [
+"adminnetworkpolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"globalnetworkpolicies",
+"networkpolicies",
+"caliconodestatuses",
+"clusterinformations",
+"hostendpoints",
+"globalnetworksets",
+"networksets",
+"bgpconfigurations",
+"bgpfilters",
+"bgppeers",
+"felixconfigurations",
+"kubecontrollersconfigurations",
+"ippools",
+"ipreservations",
+"ipamblocks",
+"blockaffinities",
+"ipamconfigs",
+"tiers"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"update",
+"delete",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-extension-apiserver-auth-access"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"extension-apiserver-authentication"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"rbac.authorization.k8s.io"
+],
+"resources": [
+"clusterroles",
+"clusterrolebindings",
+"roles",
+"rolebindings"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-kube-controllers"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes",
+"endpoints",
+"services"
+],
+"verbs": [
+"watch",
+"list",
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"ipreservations"
+],
+"verbs": [
+"list"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"blockaffinities",
+"ipamblocks",
+"ipamhandles",
+"networksets"
+],
+"verbs": [
+"get",
+"list",
+"create",
+"update",
+"delete",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"ippools"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"clusterinformations"
+],
+"verbs": [
+"get",
+"create",
+"update",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"hostendpoints"
+],
+"verbs": [
+"get",
+"list",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"kubecontrollersconfigurations"
+],
+"verbs": [
+"get",
+"create",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"tiers"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-node"
+},
+"rules": [
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"nodes",
+"namespaces"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"services"
+],
+"verbs": [
+"watch",
+"list",
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"networkpolicies"
+],
+"verbs": [
+"watch",
+"list"
+]
+},
+{
+"apiGroups": [
+"policy.networking.k8s.io"
+],
+"resources": [
+"adminnetworkpolicies"
+],
+"verbs": [
+"watch",
+"list"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"namespaces",
+"serviceaccounts"
+],
+"verbs": [
+"watch",
+"list"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"calico-cni-plugin"
+],
+"resources": [
+"serviceaccounts/token"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"bgpconfigurations",
+"bgpfilters",
+"bgpfilters",
+"bgppeers",
+"blockaffinities",
+"clusterinformations",
+"felixconfigurations",
+"globalnetworkpolicies",
+"globalnetworksets",
+"hostendpoints",
+"ipamblocks",
+"ippools",
+"ipreservations",
+"networkpolicies",
+"networksets",
+"stagedglobalnetworkpolicies",
+"stagedkubernetesnetworkpolicies",
+"stagednetworkpolicies",
+"tiers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"caliconodestatuses"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"update"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"globalbgpconfigs",
+"globalfelixconfigs"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"clusterinformations",
+"felixconfigurations",
+"ippools"
+],
+"verbs": [
+"create",
+"update"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"tiers"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"blockaffinities",
+"ipamblocks",
+"ipamconfigs",
+"ipamhandles"
+],
+"verbs": [
+"get",
+"list",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"ipamconfigs"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"blockaffinities"
+],
+"verbs": [
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-tier-getter"
+},
+"rules": [
+{
+"apiGroups": [
+"projectcalico.org"
+],
+"resources": [
+"tiers"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-tiered-policy-passthrough"
+},
+"rules": [
+{
+"apiGroups": [
+"projectcalico.org"
+],
+"resources": [
+"networkpolicies",
+"globalnetworkpolicies"
+],
+"verbs": [
+"*"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-typha"
+},
+"rules": [
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"nodes",
+"namespaces"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"services"
+],
+"verbs": [
+"watch",
+"list",
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"networkpolicies"
+],
+"verbs": [
+"watch",
+"list"
+]
+},
+{
+"apiGroups": [
+"policy.networking.k8s.io"
+],
+"resources": [
+"adminnetworkpolicies"
+],
+"verbs": [
+"watch",
+"list"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"namespaces",
+"serviceaccounts"
+],
+"verbs": [
+"watch",
+"list"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"bgpconfigurations",
+"bgppeers",
+"bgpfilters",
+"blockaffinities",
+"caliconodestatuses",
+"clusterinformations",
+"felixconfigurations",
+"globalnetworkpolicies",
+"globalnetworksets",
+"hostendpoints",
+"ipamblocks",
+"ippools",
+"ipreservations",
+"networkpolicies",
+"networksets",
+"tiers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"globalbgpconfigs",
+"globalfelixconfigs"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"clusterinformations",
+"felixconfigurations",
+"ippools"
+],
+"verbs": [
+"create",
+"update"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"tiers"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"blockaffinities",
+"ipamblocks",
+"ipamhandles"
+],
+"verbs": [
+"get",
+"list",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"ipamconfigs"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"blockaffinities"
+],
+"verbs": [
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "calico-webhook-reader"
+},
+"rules": [
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"mutatingwebhookconfigurations",
+"validatingwebhookconfigurations"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-cainjector"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"get",
+"create",
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"validatingwebhookconfigurations",
+"mutatingwebhookconfigurations"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"apiregistration.k8s.io"
+],
+"resources": [
+"apiservices"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"apiextensions.k8s.io"
+],
+"resources": [
+"customresourcedefinitions"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"update",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-cluster-view"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"clusterissuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-approve:cert-manager-io"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resourceNames": [
+"issuers.cert-manager.io/*",
+"clusterissuers.cert-manager.io/*"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"approve"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-certificates"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificates/status",
+"certificaterequests",
+"certificaterequests/status"
+],
+"verbs": [
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"clusterissuers",
+"issuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates/finalizers",
+"certificaterequests/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"orders"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"update",
+"delete",
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-certificatesigningrequests"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"update"
+]
+},
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests/status"
+],
+"verbs": [
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resourceNames": [
+"issuers.cert-manager.io/*",
+"clusterissuers.cert-manager.io/*"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"sign"
+]
+},
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"subjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-challenges"
+},
+"rules": [
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"challenges/status"
+],
+"verbs": [
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"issuers",
+"clusterissuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"delete"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"delete",
+"update"
+]
+},
+{
+"apiGroups": [
+"gateway.networking.k8s.io"
+],
+"resources": [
+"httproutes"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"delete",
+"update"
+]
+},
+{
+"apiGroups": [
+"route.openshift.io"
+],
+"resources": [
+"routes/custom-host"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-clusterissuers"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"clusterissuers",
+"clusterissuers/status"
+],
+"verbs": [
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"clusterissuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-ingress-shim"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests"
+],
+"verbs": [
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers",
+"clusterissuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"gateway.networking.k8s.io"
+],
+"resources": [
+"gateways",
+"httproutes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"gateway.networking.k8s.io"
+],
+"resources": [
+"gateways/finalizers",
+"httproutes/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-issuers"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"issuers",
+"issuers/status"
+],
+"verbs": [
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"issuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-controller-orders"
+},
+"rules": [
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"orders",
+"orders/status"
+],
+"verbs": [
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"orders",
+"challenges"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"clusterissuers",
+"issuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges"
+],
+"verbs": [
+"create",
+"delete"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"orders/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-edit"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"orders"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-view"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"orders"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cert-manager-webhook:subjectaccessreviews"
+},
+"rules": [
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"subjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cluster-admin"
+},
+"rules": [
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"*"
+]
+},
+{
+"nonResourceURLs": [
+"*"
+],
+"verbs": [
+"*"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "clustercidrs-node"
+},
+"rules": [
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"clustercidrs"
+],
+"verbs": [
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cnpg-database-editor-role"
+},
+"rules": [
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databases"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databases/status"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cnpg-database-viewer-role"
+},
+"rules": [
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databases"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databases/status"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cnpg-manager"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"secrets",
+"services"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps/status",
+"secrets/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims",
+"pods",
+"pods/exec"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"mutatingwebhookconfigurations",
+"validatingwebhookconfigurations"
+],
+"verbs": [
+"get",
+"patch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"deployments"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"monitoring.coreos.com"
+],
+"resources": [
+"podmonitors"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"backups",
+"clusters",
+"databaseroles",
+"databases",
+"poolers",
+"publications",
+"scheduledbackups",
+"subscriptions"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"backups/status",
+"databases/status",
+"publications/status",
+"scheduledbackups/status",
+"subscriptions/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"clusterimagecatalogs",
+"imagecatalogs"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"clusters/finalizers",
+"databaseroles/finalizers",
+"poolers/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"clusters/status",
+"databaseroles/status",
+"failoverquorums/status",
+"poolers/status"
+],
+"verbs": [
+"get",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"failoverquorums"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"rbac.authorization.k8s.io"
+],
+"resources": [
+"rolebindings",
+"roles"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"snapshot.storage.k8s.io"
+],
+"resources": [
+"volumesnapshots"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"patch",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cnpg-publication-editor-role"
+},
+"rules": [
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"publications"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"publications/status"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cnpg-publication-viewer-role"
+},
+"rules": [
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"publications"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"publications/status"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cnpg-subscription-editor-role"
+},
+"rules": [
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"subscriptions"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"subscriptions/status"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "cnpg-subscription-viewer-role"
+},
+"rules": [
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"subscriptions"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"subscriptions/status"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "edit"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"orders"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"orders"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/attach",
+"pods/exec",
+"pods/portforward",
+"pods/proxy",
+"secrets",
+"services/proxy"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts"
+],
+"verbs": [
+"impersonate"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"pods/attach",
+"pods/exec",
+"pods/portforward",
+"pods/proxy"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/eviction"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"events",
+"persistentvolumeclaims",
+"replicationcontrollers",
+"replicationcontrollers/scale",
+"secrets",
+"serviceaccounts",
+"services",
+"services/proxy"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts/token"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"daemonsets",
+"deployments",
+"deployments/rollback",
+"deployments/scale",
+"replicasets",
+"replicasets/scale",
+"statefulsets",
+"statefulsets/scale"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs",
+"jobs"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"daemonsets",
+"deployments",
+"deployments/rollback",
+"deployments/scale",
+"ingresses",
+"networkpolicies",
+"replicasets",
+"replicasets/scale",
+"replicationcontrollers/scale"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses",
+"networkpolicies"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaimtemplates"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"metrics.k8s.io"
+],
+"resources": [
+"pods",
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"endpoints",
+"persistentvolumeclaims",
+"persistentvolumeclaims/status",
+"pods",
+"replicationcontrollers",
+"replicationcontrollers/scale",
+"serviceaccounts",
+"services",
+"services/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"bindings",
+"events",
+"limitranges",
+"namespaces/status",
+"pods/log",
+"pods/status",
+"replicationcontrollers/status",
+"resourcequotas",
+"resourcequotas/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"controllerrevisions",
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"statefulsets",
+"statefulsets/scale",
+"statefulsets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers",
+"horizontalpodautoscalers/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs",
+"cronjobs/status",
+"jobs",
+"jobs/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"ingresses",
+"ingresses/status",
+"networkpolicies",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"replicationcontrollers/scale"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets",
+"poddisruptionbudgets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses",
+"ingresses/status",
+"networkpolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaims/status",
+"resourceclaimtemplates"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "k3s-cloud-controller-manager"
+},
+"rules": [
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"create",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status",
+"services/status"
+],
+"verbs": [
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services",
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts"
+],
+"verbs": [
+"create",
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"create",
+"get"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"daemonsets"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "kube-prometheus-stack-grafana-clusterrole"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"secrets"
+],
+"verbs": [
+"get",
+"watch",
+"list"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "kube-prometheus-stack-kube-state-metrics"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions",
+"apps"
+],
+"resources": [
+"daemonsets"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions",
+"apps"
+],
+"resources": [
+"deployments"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions",
+"networking.k8s.io"
+],
+"resources": [
+"ingresses"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"limitranges"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"mutatingwebhookconfigurations"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"networkpolicies"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions",
+"apps"
+],
+"resources": [
+"replicasets"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"replicationcontrollers"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"resourcequotas"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"statefulsets"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"storageclasses"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"validatingwebhookconfigurations"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"volumeattachments"
+],
+"verbs": [
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "kube-prometheus-stack-operator"
+},
+"rules": [
+{
+"apiGroups": [
+"monitoring.coreos.com"
+],
+"resources": [
+"alertmanagers",
+"alertmanagers/finalizers",
+"alertmanagers/status",
+"alertmanagerconfigs",
+"prometheuses",
+"prometheuses/finalizers",
+"prometheuses/status",
+"prometheusagents",
+"prometheusagents/finalizers",
+"prometheusagents/status",
+"thanosrulers",
+"thanosrulers/finalizers",
+"thanosrulers/status",
+"scrapeconfigs",
+"servicemonitors",
+"podmonitors",
+"probes",
+"prometheusrules"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"statefulsets"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"secrets"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"list",
+"delete"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services",
+"services/finalizers",
+"endpoints"
+],
+"verbs": [
+"get",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"patch",
+"create"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"storageclasses"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "kube-prometheus-stack-prometheus"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes",
+"nodes/metrics",
+"services",
+"endpoints",
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"nonResourceURLs": [
+"/metrics",
+"/metrics/cadvisor"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "local-path-provisioner-role"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes",
+"persistentvolumeclaims",
+"configmaps",
+"pods/log"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"persistentvolumes",
+"pods"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"storageclasses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "metallb-system:controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services",
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resourceNames": [
+"controller"
+],
+"resources": [
+"podsecuritypolicies"
+],
+"verbs": [
+"use"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resourceNames": [
+"metallb-webhook-configuration"
+],
+"resources": [
+"validatingwebhookconfigurations"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"validatingwebhookconfigurations"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apiextensions.k8s.io"
+],
+"resourceNames": [
+"bfdprofiles.metallb.io",
+"bgpadvertisements.metallb.io",
+"bgppeers.metallb.io",
+"ipaddresspools.metallb.io",
+"l2advertisements.metallb.io",
+"communities.metallb.io"
+],
+"resources": [
+"customresourcedefinitions"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apiextensions.k8s.io"
+],
+"resources": [
+"customresourcedefinitions"
+],
+"verbs": [
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "metallb-system:speaker"
+},
+"rules": [
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"servicel2statuses",
+"servicel2statuses/status"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services",
+"endpoints",
+"nodes",
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resourceNames": [
+"speaker"
+],
+"resources": [
+"podsecuritypolicies"
+],
+"verbs": [
+"use"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:aggregate-to-admin"
+},
+"rules": [
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"localsubjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"rbac.authorization.k8s.io"
+],
+"resources": [
+"rolebindings",
+"roles"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:aggregate-to-edit"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/attach",
+"pods/exec",
+"pods/portforward",
+"pods/proxy",
+"secrets",
+"services/proxy"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts"
+],
+"verbs": [
+"impersonate"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"pods/attach",
+"pods/exec",
+"pods/portforward",
+"pods/proxy"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/eviction"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"events",
+"persistentvolumeclaims",
+"replicationcontrollers",
+"replicationcontrollers/scale",
+"secrets",
+"serviceaccounts",
+"services",
+"services/proxy"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts/token"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"daemonsets",
+"deployments",
+"deployments/rollback",
+"deployments/scale",
+"replicasets",
+"replicasets/scale",
+"statefulsets",
+"statefulsets/scale"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs",
+"jobs"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"daemonsets",
+"deployments",
+"deployments/rollback",
+"deployments/scale",
+"ingresses",
+"networkpolicies",
+"replicasets",
+"replicasets/scale",
+"replicationcontrollers/scale"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses",
+"networkpolicies"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaimtemplates"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:aggregate-to-view"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"endpoints",
+"persistentvolumeclaims",
+"persistentvolumeclaims/status",
+"pods",
+"replicationcontrollers",
+"replicationcontrollers/scale",
+"serviceaccounts",
+"services",
+"services/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"bindings",
+"events",
+"limitranges",
+"namespaces/status",
+"pods/log",
+"pods/status",
+"replicationcontrollers/status",
+"resourcequotas",
+"resourcequotas/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"controllerrevisions",
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"statefulsets",
+"statefulsets/scale",
+"statefulsets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers",
+"horizontalpodautoscalers/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs",
+"cronjobs/status",
+"jobs",
+"jobs/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"ingresses",
+"ingresses/status",
+"networkpolicies",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"replicationcontrollers/scale"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets",
+"poddisruptionbudgets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses",
+"ingresses/status",
+"networkpolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaims/status",
+"resourceclaimtemplates"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:aggregated-metrics-reader"
+},
+"rules": [
+{
+"apiGroups": [
+"metrics.k8s.io"
+],
+"resources": [
+"pods",
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:auth-delegator"
+},
+"rules": [
+{
+"apiGroups": [
+"authentication.k8s.io"
+],
+"resources": [
+"tokenreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"subjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:basic-user"
+},
+"rules": [
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"selfsubjectaccessreviews",
+"selfsubjectrulesreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"authentication.k8s.io"
+],
+"resources": [
+"selfsubjectreviews"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:certificates.k8s.io:certificatesigningrequests:nodeclient"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests/nodeclient"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:certificates.k8s.io:certificatesigningrequests:selfnodeclient"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests/selfnodeclient"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:certificates.k8s.io:kube-apiserver-client-approver"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resourceNames": [
+"kubernetes.io/kube-apiserver-client"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"approve"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:certificates.k8s.io:kube-apiserver-client-kubelet-approver"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resourceNames": [
+"kubernetes.io/kube-apiserver-client-kubelet"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"approve"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:certificates.k8s.io:kubelet-serving-approver"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resourceNames": [
+"kubernetes.io/kubelet-serving"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"approve"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:certificates.k8s.io:legacy-unknown-approver"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resourceNames": [
+"kubernetes.io/legacy-unknown"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"approve"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:attachdetach-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims",
+"persistentvolumes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"volumeattachments"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csidrivers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csinodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:certificate-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests/approval",
+"certificatesigningrequests/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resourceNames": [
+"kubernetes.io/kube-apiserver-client-kubelet"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"approve"
+]
+},
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resourceNames": [
+"kubernetes.io/kube-apiserver-client",
+"kubernetes.io/kube-apiserver-client-kubelet",
+"kubernetes.io/kubelet-serving",
+"kubernetes.io/legacy-unknown"
+],
+"resources": [
+"signers"
+],
+"verbs": [
+"sign"
+]
+},
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"subjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:clusterrole-aggregation-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"rbac.authorization.k8s.io"
+],
+"resources": [
+"clusterroles"
+],
+"verbs": [
+"escalate",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:cronjob-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"delete",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:daemon-set-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"daemonsets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"daemonsets/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"daemonsets/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"create",
+"delete",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/binding"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"controllerrevisions"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:deployment-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"deployments"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"deployments/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"deployments/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"replicasets"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:disruption-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"deployments"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"replicasets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"replicationcontrollers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"statefulsets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*/scale"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:endpoint-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints/restricted"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:endpointslice-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes",
+"pods",
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:endpointslicemirroring-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:ephemeral-volume-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:expand-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:generic-garbage-collector"
+},
+"rules": [
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:horizontal-pod-autoscaler"
+},
+"rules": [
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*/scale"
+],
+"verbs": [
+"get",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metrics.k8s.io"
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"custom.metrics.k8s.io"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"external.metrics.k8s.io"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:job-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs"
+],
+"verbs": [
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"create",
+"delete",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:legacy-service-account-token-cleaner"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"kube-apiserver-legacy-service-account-token-tracking"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"delete",
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:namespace-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces/finalize",
+"namespaces/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"delete",
+"deletecollection",
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:node-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:persistent-volume-binder"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"storageclasses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:pod-garbage-collector"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"delete",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:pv-protection-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:pvc-protection-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:replicaset-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"replicasets"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"replicasets/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"replicasets/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"create",
+"delete",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:replication-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"replicationcontrollers"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"replicationcontrollers/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"replicationcontrollers/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"create",
+"delete",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:resource-claim-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaims/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:resourcequota-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"resourcequotas/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:root-ca-cert-publisher"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"create",
+"update"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:route-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:selinux-warning-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csidrivers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:service-account-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:service-cidrs-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"servicecidrs"
+],
+"verbs": [
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"servicecidrs/finalizers"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"servicecidrs/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ipaddresses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:service-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:statefulset-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"statefulsets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"statefulsets/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"statefulsets/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"controllerrevisions"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"delete",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/finalizers"
+],
+"verbs": [
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:ttl-after-finished-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"jobs"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:ttl-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:validatingadmissionpolicy-status-controller"
+},
+"rules": [
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"validatingadmissionpolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"validatingadmissionpolicies/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:controller:volumeattributesclass-protection-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"volumeattributesclasses"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:coredns"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"services",
+"pods",
+"namespaces"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:discovery"
+},
+"rules": [
+{
+"nonResourceURLs": [
+"/api",
+"/api/*",
+"/apis",
+"/apis/*",
+"/healthz",
+"/livez",
+"/openapi",
+"/openapi/*",
+"/readyz",
+"/version",
+"/version/"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:heapster"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events",
+"namespaces",
+"nodes",
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"deployments"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:k3s-controller"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"networkpolicies",
+"clustercidrs"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"pods"
+],
+"verbs": [
+"list",
+"get",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"list",
+"get",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:kube-aggregator"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:kube-controller-manager"
+},
+"rules": [
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resourceNames": [
+"kube-controller-manager"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets",
+"serviceaccounts"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"delete"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"namespaces",
+"secrets",
+"serviceaccounts"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets",
+"serviceaccounts"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"authentication.k8s.io"
+],
+"resources": [
+"tokenreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"subjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"*"
+],
+"resources": [
+"*"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts/token"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:kube-dns"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"services"
+],
+"verbs": [
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:kube-scheduler"
+},
+"rules": [
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resourceNames": [
+"kube-scheduler"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leasecandidates"
+],
+"verbs": [
+"create",
+"delete",
+"deletecollection",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"bindings",
+"pods/binding"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"replicationcontrollers",
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps",
+"extensions"
+],
+"resources": [
+"replicasets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"statefulsets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims",
+"persistentvolumes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"authentication.k8s.io"
+],
+"resources": [
+"tokenreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"subjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csinodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"volumeattachments"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csidrivers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csistoragecapacities"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"deviceclasses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims"
+],
+"verbs": [
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims/status"
+],
+"verbs": [
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:kubelet-api-admin"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"proxy"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/log",
+"nodes/metrics",
+"nodes/proxy",
+"nodes/stats"
+],
+"verbs": [
+"*"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/configz",
+"nodes/healthz",
+"nodes/pods"
+],
+"verbs": [
+"*"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:metrics-server"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/metrics"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods",
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:monitoring"
+},
+"rules": [
+{
+"nonResourceURLs": [
+"/healthz",
+"/healthz/*",
+"/livez",
+"/livez/*",
+"/metrics",
+"/metrics/slis",
+"/readyz",
+"/readyz/*"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/metrics"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:node"
+},
+"rules": [
+{
+"apiGroups": [
+"authentication.k8s.io"
+],
+"resources": [
+"tokenreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"authorization.k8s.io"
+],
+"resources": [
+"localsubjectaccessreviews",
+"subjectaccessreviews"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"create",
+"delete"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/status"
+],
+"verbs": [
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods/eviction"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims",
+"persistentvolumes"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"volumeattachments"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts/token"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csidrivers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csinodes"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"node.k8s.io"
+],
+"resources": [
+"runtimeclasses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceslices"
+],
+"verbs": [
+"deletecollection"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"serviceaccounts"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:node-bootstrapper"
+},
+"rules": [
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:node-problem-detector"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes/status"
+],
+"verbs": [
+"patch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:node-proxier"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"endpoints",
+"services"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"servicecidrs"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:persistent-volume-provisioner"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"storageclasses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:public-info-viewer"
+},
+"rules": [
+{
+"nonResourceURLs": [
+"/healthz",
+"/livez",
+"/readyz",
+"/version",
+"/version/"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:service-account-issuer-discovery"
+},
+"rules": [
+{
+"nonResourceURLs": [
+"/.well-known/openid-configuration",
+"/.well-known/openid-configuration/",
+"/openid/v1/jwks",
+"/openid/v1/jwks/"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "system:volume-scheduler"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumes"
+],
+"verbs": [
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"storageclasses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"persistentvolumeclaims"
+],
+"verbs": [
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "tigera-operator"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces",
+"pods",
+"podtemplates",
+"services",
+"endpoints",
+"events",
+"configmaps",
+"secrets",
+"serviceaccounts"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"delete",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"resourcequotas"
+],
+"verbs": [
+"list",
+"get",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"calico-critical-pods",
+"tigera-critical-pods"
+],
+"resources": [
+"resourcequotas"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"delete",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"nodes"
+],
+"verbs": [
+"get",
+"patch",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"rbac.authorization.k8s.io"
+],
+"resources": [
+"clusterroles",
+"clusterrolebindings",
+"rolebindings",
+"roles"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"delete",
+"watch",
+"bind",
+"escalate"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"deployments",
+"daemonsets",
+"statefulsets"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"patch",
+"update",
+"delete",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resourceNames": [
+"tigera-operator"
+],
+"resources": [
+"deployments/finalizers"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"operator.tigera.io"
+],
+"resources": [
+"apiservers/finalizers",
+"installations",
+"installations/status",
+"installations/finalizers",
+"tigerastatuses",
+"tigerastatuses/status",
+"tigerastatuses/finalizers",
+"apiservers",
+"apiservers/status",
+"imagesets"
+],
+"verbs": [
+"get",
+"list",
+"update",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+"operator.tigera.io"
+],
+"resources": [
+"tigerastatuses"
+],
+"verbs": [
+"create",
+"delete"
+]
+},
+{
+"apiGroups": [
+"operator.tigera.io"
+],
+"resources": [
+"installations",
+"apiservers"
+],
+"verbs": [
+"delete"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"networkpolicies"
+],
+"verbs": [
+"create",
+"update",
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"felixconfigurations",
+"ippools"
+],
+"verbs": [
+"create",
+"patch",
+"list",
+"get",
+"watch"
+]
+},
+{
+"apiGroups": [
+"crd.projectcalico.org"
+],
+"resources": [
+"kubecontrollersconfigurations",
+"bgpconfigurations"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"projectcalico.org"
+],
+"resources": [
+"ippools"
+],
+"verbs": [
+"create",
+"update",
+"delete",
+"patch",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"projectcalico.org"
+],
+"resources": [
+"ipamconfigurations"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"scheduling.k8s.io"
+],
+"resources": [
+"priorityclasses"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"delete",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"delete",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apiregistration.k8s.io"
+],
+"resources": [
+"apiservices"
+],
+"verbs": [
+"list",
+"watch",
+"create",
+"update"
+]
+},
+{
+"apiGroups": [
+"admissionregistration.k8s.io"
+],
+"resources": [
+"mutatingwebhookconfigurations"
+],
+"verbs": [
+"delete"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"delete",
+"watch"
+]
+},
+{
+"apiGroups": [
+"storage.k8s.io"
+],
+"resources": [
+"csidrivers"
+],
+"verbs": [
+"list",
+"watch",
+"update",
+"get",
+"create",
+"delete"
+]
+},
+{
+"apiGroups": [
+"certificates.k8s.io"
+],
+"resources": [
+"certificatesigningrequests"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resourceNames": [
+"tigera-operator"
+],
+"resources": [
+"podsecuritypolicies"
+],
+"verbs": [
+"use"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"podsecuritypolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+"projectcalico.org"
+],
+"resourceNames": [
+"allow-tigera.*"
+],
+"resources": [
+"tier.networkpolicies",
+"tier.globalnetworkpolicies"
+],
+"verbs": [
+"list",
+"watch",
+"get",
+"create",
+"update",
+"delete"
+]
+},
+{
+"apiGroups": [
+"projectcalico.org"
+],
+"resourceNames": [
+"allow-tigera"
+],
+"resources": [
+"tiers"
+],
+"verbs": [
+"get",
+"delete",
+"update"
+]
+},
+{
+"apiGroups": [
+"projectcalico.org"
+],
+"resources": [
+"tiers"
+],
+"verbs": [
+"create",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "traefik-kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"nodes",
+"services"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions",
+"networking.k8s.io"
+],
+"resources": [
+"ingressclasses",
+"ingresses"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions",
+"networking.k8s.io"
+],
+"resources": [
+"ingresses/status"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"traefik.io"
+],
+"resources": [
+"ingressroutes",
+"ingressroutetcps",
+"ingressrouteudps",
+"middlewares",
+"middlewaretcps",
+"serverstransports",
+"serverstransporttcps",
+"tlsoptions",
+"tlsstores",
+"traefikservices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "ClusterRole",
+"metadata": {
+"name": "view"
+},
+"rules": [
+{
+"apiGroups": [
+"cert-manager.io"
+],
+"resources": [
+"certificates",
+"certificaterequests",
+"issuers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"acme.cert-manager.io"
+],
+"resources": [
+"challenges",
+"orders"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"endpoints",
+"persistentvolumeclaims",
+"persistentvolumeclaims/status",
+"pods",
+"replicationcontrollers",
+"replicationcontrollers/scale",
+"serviceaccounts",
+"services",
+"services/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"bindings",
+"events",
+"limitranges",
+"namespaces/status",
+"pods/log",
+"pods/status",
+"replicationcontrollers/status",
+"resourcequotas",
+"resourcequotas/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"namespaces"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"discovery.k8s.io"
+],
+"resources": [
+"endpointslices"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"controllerrevisions",
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"statefulsets",
+"statefulsets/scale",
+"statefulsets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"autoscaling"
+],
+"resources": [
+"horizontalpodautoscalers",
+"horizontalpodautoscalers/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"batch"
+],
+"resources": [
+"cronjobs",
+"cronjobs/status",
+"jobs",
+"jobs/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"extensions"
+],
+"resources": [
+"daemonsets",
+"daemonsets/status",
+"deployments",
+"deployments/scale",
+"deployments/status",
+"ingresses",
+"ingresses/status",
+"networkpolicies",
+"replicasets",
+"replicasets/scale",
+"replicasets/status",
+"replicationcontrollers/scale"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"policy"
+],
+"resources": [
+"poddisruptionbudgets",
+"poddisruptionbudgets/status"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"networking.k8s.io"
+],
+"resources": [
+"ingresses",
+"ingresses/status",
+"networkpolicies"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"resource.k8s.io"
+],
+"resources": [
+"resourceclaims",
+"resourceclaims/status",
+"resourceclaimtemplates"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metrics.k8s.io"
+],
+"resources": [
+"pods",
+"nodes"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+}
+],
+"kind": "ClusterRoleList"
+}

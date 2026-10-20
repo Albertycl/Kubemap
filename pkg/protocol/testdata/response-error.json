@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-2",
+  "payload": {
+    "error": {
+      "code": "not_found",
+      "message": "deployments.apps \"web\" not found"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-9",
+  "payload": {
+    "object": {
+      "time": "2026-09-27T12:00:00Z",
+      "nodes": [
+        {
+          "node": "k8server",
+          "ready": true,
+          "psiAvailable": true,
+          "reportTime": "2026-09-27T11:59:55Z",
+          "verdict": "pressure",
+          "summary": "pressure: [cpu]",
+          "resources": [
+            {
+              "resource": "cpu",
+              "psi": {
+                "some": {
+                  "avg10": 24.2,
+                  "avg60": 27.26,
+                  "avg300": 27.25
+                },
+                "full": {
+                  "avg10": 0,
+                  "avg60": 0,
+                  "avg300": 0
+                }
+              },
+              "verdict": "pressure",
+              "detail": "tasks waited for CPU 27.3% of the last minute (10 s: 24.2%, 5 min: 27.2%); Kubernetes has no cpu pressure condition, so it reports all clear"
+            },
+            {
+              "resource": "memory",
+              "condition": "MemoryPressure",
+              "conditionStatus": "False",
+              "conditionSince": "2026-09-27T15:29:09Z",
+              "psi": {
+                "some": {
+                  "avg10": 0,
+                  "avg60": 0,
+                  "avg300": 0.04
+                },
+                "full": {
+                  "avg10": 0,
+                  "avg60": 0,
+                  "avg300": 0
+                }
+              },
+              "verdict": "ok",
+              "detail": "tasks stalled on memory (reclaim, swap) 0.0% of the last minute (10 s: 0.0%, 5 min: 0.0%)"
+            },
+            {
+              "resource": "io",
+              "psi": {
+                "some": {
+                  "avg10": 0.3,
+                  "avg60": 0.2,
+                  "avg300": 0.4
+                },
+                "full": {
+                  "avg10": 0,
+                  "avg60": 0.1,
+                  "avg300": 0
+                }
+              },
+              "verdict": "ok",
+              "detail": "tasks waited for disk or network I/O 0.2% of the last minute (10 s: 0.3%, 5 min: 0.4%), all tasks stalled 0.1%"
+            },
+            {
+              "resource": "disk",
+              "condition": "DiskPressure",
+              "conditionStatus": "False",
+              "conditionSince": "2026-09-27T15:29:09Z",
+              "verdict": "ok",
+              "detail": "DiskPressure is False"
+            },
+            {
+              "resource": "pids",
+              "condition": "PIDPressure",
+              "conditionStatus": "False",
+              "conditionSince": "2026-09-27T15:29:09Z",
+              "verdict": "ok",
+              "detail": "PIDPressure is False"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

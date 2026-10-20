@@ -1,0 +1,20 @@
+# build output
+/bin/
+/dist/
+# web
+node_modules
+/web/dist/*
+!/web/dist/.gitkeep
+# local data (portal dev data dir, SQLite incl. WAL/journal files)
+/data/
+*.db
+*.db-*
+*.sqlite*
+# secrets and certificates
+*.pem
+*.key
+*.pfx
+*.p12
+*kubeconfig*
+.env
+.env.*

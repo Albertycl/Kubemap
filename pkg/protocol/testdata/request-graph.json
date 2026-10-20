@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-5",
+  "payload": {
+    "op": "graph",
+    "namespace": "sre-lab-app",
+    "graph": {
+      "around": "Deployment/sre-lab-app/url-shortener",
+      "depth": 2
+    }
+  }
+}

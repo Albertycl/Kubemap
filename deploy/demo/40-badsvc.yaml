@@ -1,0 +1,56 @@
+# badsvc: the Service selects app.kubernetes.io/name=catalog-api, but the
+# pods are labelled app.kubernetes.io/name=catalog, so the Service has no
+# endpoints and every call to it fails. Fix: correct the Service selector.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog
+  namespace: kubemap-demo
+  labels: &labels
+    app.kubernetes.io/part-of: kubemap-demo
+    app.kubernetes.io/name: catalog
+    kubemap.io/scenario: badsvc
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: catalog
+          image: traefik/whoami:v1.10
+          args: ["--port", "8080", "--name", "catalog"]
+          ports:
+            - {name: http, containerPort: 8080}
+          readinessProbe:
+            httpGet: {path: /health, port: http}
+          resources:
+            requests: {cpu: 5m, memory: 12Mi}
+            limits: {cpu: 50m, memory: 12Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    kubemap.io/scenario: badsvc
+spec:
+  selector:
+    app.kubernetes.io/name: catalog-api
+  ports:
+    - {name: http, port: 80, targetPort: http}

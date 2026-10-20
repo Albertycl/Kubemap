@@ -1,0 +1,16 @@
+{{- include "kubemap.validate" . -}}
+{{- /*
+  kubemap-system is the release namespace: `helm install --create-namespace`
+  creates it, so the chart does not (a template for it would clash). Helm does
+  not own it, so `helm uninstall` leaves it (and the kept PVC) in place.
+  kubemap-node is owned by the release and is removed with it.
+*/ -}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    kubemap.io/note: The node agent needs hostPID and read-only host mounts (A7).
+  labels:
+    app.kubernetes.io/managed-by: kubemap
+    pod-security.kubernetes.io/enforce: privileged
+  name: kubemap-node

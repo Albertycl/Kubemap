@@ -1,0 +1,75 @@
+# KM-84. Placeholders: <ns>, <pod>, <container>, <node> and $ns, $pod, $node.
+id: pods-oom-137
+area: pods
+title: "A container was killed: OOMKilled or exit 137"
+question: "A container keeps dying with OOMKilled, or with exit code 137. What do you do?"
+symptoms:
+  - "Last State: Terminated, Reason: OOMKilled, Exit Code: 137 (or Reason: Error with exit 137)"
+  - "Restarts rise, often under load or after some hours; the log stops in the middle of work"
+  - "Sometimes several pods on one node die at once"
+steps:
+  - title: "Confirm the kill: exit code, reason and time"
+    why: "137 is 128 + 9: the process got SIGKILL. With a memory limit that is almost always the kernel's OOM killer. Do not rely on the reason field alone: on k8server before the k3s restart of 28 Sep 2026, the same OOM kill was reported as 'Error' with 137, not 'OOMKilled'."
+    command: |-
+      kubectl -n <ns> get pod <pod> -o jsonpath='{range .status.containerStatuses[*]}{.name}{"  "}{.lastState.terminated.reason}{"  exit "}{.lastState.terminated.exitCode}{"  "}{.lastState.terminated.finishedAt}{"  restarts "}{.restartCount}{"\n"}{end}'
+    kubemap: "pod"
+    check: {op: "pod.diagnose", args: {namespace: "$ns", pod: "$pod"}}
+    good: "No exit 137: this is not a kill; go to the CrashLoopBackOff scenario."
+    bad: "Exit 137 (OOMKilled or Error): note the container and the time, then compare its limit with its use."
+  - title: "What is the memory limit, and how much does it really use?"
+    why: "The container is killed when its working set reaches its limit. If normal use is close to the limit, a small spike kills it. If use grows steadily between restarts, it is a leak, and a higher limit only delays the kill."
+    command: |-
+      kubectl -n <ns> get pod <pod> -o jsonpath='{range .spec.containers[*]}{.name}{"  requests "}{.resources.requests.memory}{"  limits "}{.resources.limits.memory}{"\n"}{end}'; kubectl -n <ns> top pod <pod> --containers
+    kubemap: "pod"
+    check: {op: "pod.debug", args: {namespace: "$ns", pod: "$pod"}}
+    good: "Use stays well below the limit (for example under 70 %)."
+    bad: "Use is near the limit, or climbs after every restart: see 'leak or spike' below."
+  - title: "Was it the container's limit or the whole node?"
+    why: "The kernel log tells them apart. 'Memory cgroup out of memory' means the container hit its own limit. 'Out of memory: Killed process' without a memory cgroup means the node ran out of memory, and the kernel picked a victim, maybe a pod that did nothing wrong."
+    command: "journalctl -k --since -2h | grep -iE 'memory cgroup out of memory|out of memory: killed process'   # on the node <node>"
+    kubemap: "node"
+    good: "'Memory cgroup out of memory … Killed process … (the app)': the container's own limit."
+    bad: "A node-wide OOM: the node is overcommitted; go on to the node check."
+  - title: "Is the node itself short of memory?"
+    why: "Pods without memory limits, or limits much larger than requests, can together need more than the node has. On k8server the kubelet has no memory eviction threshold (allocatable memory equals capacity), so it never evicts for memory: the kernel OOM killer is the only protection."
+    command: "kubectl describe node <node> | grep -A8 'Allocated resources'; kubectl top node <node>"
+    kubemap: "node"
+    check: {op: "node.pressure", args: {node: "$node"}}
+    good: "No memory pressure, and the sum of memory limits is not far above the node's memory."
+    bad: "Memory pressure, or limits far above capacity: find the biggest users and the pods without limits (problem finder)."
+  - title: "Was it the liveness probe instead?"
+    why: "When a liveness probe fails, the kubelet stops the container: SIGTERM (143), and SIGKILL (137) if it does not stop within the grace period. That also looks like 137, but the events show 'Liveness probe failed' and 'Killing' first."
+    command: "kubectl -n <ns> get events --field-selector involvedObject.name=<pod> --sort-by=.lastTimestamp | grep -E 'Unhealthy|Killing|OOM' | tail"
+    kubemap: "debug"
+    good: "No probe failures before the kills: it is memory."
+    bad: "Liveness failures before each kill: fix the probe (CrashLoopBackOff scenario, step 6)."
+  - title: "Leak or spike?"
+    why: "A leak grows steadily and dies at the same size every time; a spike (a large request, a batch, a cache fill) jumps. The fix differs: a leak needs a code fix, a spike needs a bigger limit or smaller batches."
+    command: "kubectl -n <ns> top pod <pod> --containers   # run a few times, a minute apart, or look at container_memory_working_set_bytes in Grafana"
+    kubemap: "pod"
+    good: "Use is flat and the kill follows a known heavy job: size the limit for that peak."
+    bad: "Use grows until the kill, every time: a leak; keep the limit and get a heap profile."
+causes:
+  - cause: "The limit is lower than the real peak (a batch, a large request, a cache)."
+    fix: "Raise the limit to the measured peak plus headroom, and set the request close to normal use."
+    prove: "kubectl -n <ns> get pod <pod> -w   # RESTARTS stops rising"
+  - cause: "A memory leak."
+    fix: "Keep the limit (it protects the node); find the leak with a heap profile; restart on a schedule only as a stopgap."
+    prove: "kubectl -n <ns> top pod <pod>   # flat over hours"
+  - cause: "The runtime does not respect the container limit (an old JVM, a Node.js or Python heap setting)."
+    fix: "Set the heap from the limit (-XX:MaxRAMPercentage, --max-old-space-size) and leave room for non-heap memory."
+    prove: "kubectl -n <ns> logs <pod> | grep -i heap   # heap size below the limit"
+  - cause: "The node ran out of memory (pods without limits, or overcommitted limits), and the kernel killed this container."
+    fix: "Set memory limits on every pod (a LimitRange gives defaults), reserve memory for the system (system-reserved), and add memory.available to the kubelet's eviction thresholds."
+    prove: "journalctl -k --since -1h | grep -ci 'out of memory'   # 0 new kills"
+prevention:
+  - "Memory requests and limits on every container, from measured use (kubectl top, VPA in recommend mode)"
+  - "A LimitRange per namespace, so a pod without limits still gets one"
+  - "Alert on containers above 90 % of their memory limit, before the kill"
+  - "On the node: system-reserved and kube-reserved, and a memory.available eviction threshold, so the kubelet acts before the kernel does"
+senior:
+  - "Exit 137 is SIGKILL; I check the kernel log to know whether it was the container limit or the node, because the fix is opposite."
+  - "I do not trust the reason field alone: I have seen a real OOM kill reported as 'Error' with 137."
+  - "Raising the limit is a mitigation, not a fix, when the use grows: I say which one I am doing."
+  - "QoS matters: Guaranteed pods (requests equal to limits) are killed last when the node runs out."
+lab: "kubemap-demo/oom"

@@ -1,0 +1,53 @@
+# Who may reach Kubemap (ingress only; egress is left open because the
+# server must reach the Kubernetes API server, whose address differs per
+# cluster). Needs a CNI that enforces NetworkPolicy (k3s does, kube-router).
+#
+# - kubemap-system: default deny, then 8080 from Traefik (the browser path)
+#   and from the node agents (kubemap-node), which dial in over plain ws
+#   inside the cluster. Nothing else in the cluster can open the server.
+# - kubemap-node: the node agents listen on nothing; deny all ingress.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: kubemap-system
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-traefik-and-node-agents
+  namespace: kubemap-system
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kubemap
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kubemap-node
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: kubemap-node-agent
+      ports:
+        - port: 8080
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: kubemap-node
+spec:
+  podSelector: {}
+  policyTypes: [Ingress]

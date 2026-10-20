@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-10",
+  "payload": {
+    "op": "pod.debug",
+    "namespace": "kubemap-demo",
+    "name": "web-59f856967c-lj7fl"
+  }
+}

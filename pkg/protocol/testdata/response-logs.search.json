@@ -1,0 +1,76 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-16",
+  "payload": {
+    "object": {
+      "app": "argocd/url-shortener",
+      "since": "2026-09-27T11:00:00Z",
+      "until": "2026-09-27T12:00:00Z",
+      "entries": [
+        {
+          "time": "2026-09-27T11:48:00Z",
+          "namespace": "sre-lab-app",
+          "pod": "url-shortener-6f89bdc657-jxxl8",
+          "container": "url-shortener",
+          "previous": true,
+          "level": "error",
+          "text": "Traceback (most recent call last):",
+          "stack": [
+            "  File \"/app/app.py\", line 41, in shorten",
+            "    conn = pool.getconn()",
+            "psycopg2.pool.PoolError: connection pool exhausted"
+          ]
+        },
+        {
+          "time": "2026-09-27T11:49:00Z",
+          "namespace": "sre-lab-app",
+          "pod": "url-shortener-pooler-7c9d8-abcde",
+          "container": "pgbouncer",
+          "level": "warn",
+          "text": "2026-09-27 11:49:00.000 UTC [1] WARNING C-0x55d: sre/app@10.42.0.31:40112 pooler error: no more connections allowed (max_client_conn)"
+        }
+      ],
+      "levels": {
+        "debug": 0,
+        "error": 1,
+        "info": 214,
+        "unknown": 3,
+        "warn": 1
+      },
+      "matched": 2,
+      "sources": [
+        {
+          "namespace": "sre-lab-app",
+          "pod": "url-shortener-6f89bdc657-jxxl8",
+          "container": "url-shortener",
+          "previous": true,
+          "lines": 40,
+          "matched": 1
+        },
+        {
+          "namespace": "sre-lab-app",
+          "pod": "url-shortener-6f89bdc657-jxxl8",
+          "container": "url-shortener",
+          "lines": 180,
+          "matched": 0
+        },
+        {
+          "namespace": "sre-lab-app",
+          "pod": "url-shortener-pooler-7c9d8-abcde",
+          "container": "pgbouncer",
+          "lines": 60,
+          "matched": 1
+        },
+        {
+          "namespace": "sre-lab-app",
+          "pod": "url-shortener-db-1",
+          "container": "postgres",
+          "lines": 0,
+          "matched": 0,
+          "error": "forbidden: pods \"url-shortener-db-1\" is forbidden"
+        }
+      ]
+    }
+  }
+}

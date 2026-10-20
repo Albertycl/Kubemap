@@ -1,0 +1,75 @@
+# KM-88. Placeholders: <ns>, <pod>, <svc> and $ns, $pod, $svc. k8server
+# facts (28 Sep 2026): url-shortener -> Pooler url-shortener-pooler (CNPG,
+# pgbouncer, poolMode transaction, default_pool_size 20, max_client_conn 200,
+# 1 instance) -> Cluster url-shortener-db (2 instances, max_connections 100).
+id: traffic-db-connections
+area: traffic
+title: "Database connections are exhausted (pgbouncer)"
+question: "The app logs 'too many connections', 'no more connections allowed' or connection timeouts to the database. What do you do?"
+symptoms:
+  - "Postgres: 'FATAL: sorry, too many clients already' or 'remaining connection slots are reserved'"
+  - "pgbouncer: 'no more connections allowed (max_client_conn)' or clients waiting with query_wait_timeout"
+  - "Requests slow down, then fail, often when the app scales up or after a deploy"
+steps:
+  - title: "Where are the connections refused: at the pooler or at Postgres?"
+    why: "With a pooler in between there are two limits: pgbouncer's max_client_conn (how many app connections it accepts) and its pool size per database and user (how many server connections it opens), below Postgres's max_connections. The error text says which one is hit."
+    command: "kubectl -n <ns> logs <pod> --tail=100 | grep -iE 'too many|connection|slots|max_client_conn|timeout' | tail -20"
+    kubemap: "logs"
+    check: {op: "pod.debug", args: {namespace: "$ns", pod: "$pod"}}
+    good: "No connection errors: look at query latency instead."
+    bad: "'max_client_conn' means the pooler's client limit; 'too many clients already' means Postgres itself (something bypasses the pooler)."
+  - title: "Is the pooler healthy, and is the app really using it?"
+    why: "The app should point at the pooler Service, not at the database Service. A direct connection skips pooling, and a few app replicas with their own pools can use up max_connections alone."
+    command: "kubectl -n <ns> get pooler,cluster.postgresql.cnpg.io; kubectl -n <ns> get svc <svc>; kubectl -n <ns> get configmap -o yaml | grep -iE 'DB_HOST|DATABASE_URL|PGHOST'   # the host is often in a ConfigMap, not a literal env value"
+    kubemap: "app-map"
+    check: {op: "service.check", args: {namespace: "$ns", service: "$svc"}}
+    good: "The pooler has ready endpoints, and every app points at the pooler's Service."
+    bad: "An app points at the database Service directly, or the pooler has no ready pods."
+  - title: "Read the pooler's settings against the demand"
+    why: "In transaction mode each server connection serves many clients, one transaction at a time. The pool (default_pool_size) must cover the peak of concurrent transactions; max_client_conn must cover every app replica times its own pool size. k8server: pool 20, 200 clients, 1 pooler instance."
+    command: "kubectl -n <ns> get pooler -o jsonpath='{range .items[*]}{.metadata.name}{\": \"}{.spec.pgbouncer.poolMode}{\" \"}{.spec.pgbouncer.parameters}{\" instances \"}{.spec.instances}{\"\\n\"}{end}'; kubectl -n <ns> get deploy -o custom-columns=NAME:.metadata.name,REPLICAS:.spec.replicas"
+    kubemap: "app-map"
+    good: "Replicas × the app's pool size is well below max_client_conn, and the pool covers the real concurrency."
+    bad: "The app was scaled up (or an HPA did it) past what the pooler accepts: raise max_client_conn, or shrink the apps' own pools."
+  - title: "What is holding the server connections?"
+    why: "Long transactions, 'idle in transaction' sessions (a code path that opens a transaction and waits), or locks keep server connections busy, so the pool runs dry while traffic is normal. pg_stat_activity shows them. Needs exec rights and runs inside the database container as the postgres superuser: PGOPTIONS makes the session read-only, so a pasted typo cannot write."
+    command: "kubectl -n <ns> exec <pod> -- env PGOPTIONS='-c default_transaction_read_only=on' psql -U postgres -c \"select state, count(*), max(now() - xact_start) as oldest from pg_stat_activity group by state order by 2 desc\"   # on a database pod; read-only query"
+    kubemap: "pod"
+    check: {op: "pod.diagnose", args: {namespace: "$ns", pod: "$pod"}}
+    good: "Mostly idle and a few short active sessions."
+    bad: "Many 'idle in transaction' or very old transactions: find the code path (application_name, client_addr) and fix it; kill only with care."
+  - title: "Is Postgres itself close to max_connections?"
+    why: "max_connections covers every client: the pooler's server connections, replication, monitoring, admin sessions and superuser reserved slots. If anything connects directly, the pooler's own pools can no longer open connections. Needs exec rights; the session is read-only (PGOPTIONS)."
+    command: "kubectl -n <ns> exec <pod> -- env PGOPTIONS='-c default_transaction_read_only=on' psql -U postgres -c \"select count(*) as used, current_setting('max_connections') as max from pg_stat_activity\"   # read-only"
+    kubemap: "pod"
+    good: "Used is well below max (k8server: max_connections 100)."
+    bad: "Near max: find who connects directly (usename, application_name, client_addr), move them to the pooler."
+  - title: "Is the pooler itself a bottleneck?"
+    why: "One pgbouncer instance is single-threaded: under heavy load its CPU saturates and adds latency, which looks like a slow database. More instances behind the pooler Service spread the load."
+    command: "kubectl -n <ns> top pod -l cnpg.io/podRole=pooler; kubectl -n <ns> logs -l cnpg.io/podRole=pooler --tail=30 | grep -iE 'error|warn|wait'"
+    kubemap: "pod"
+    good: "Pooler CPU low, no waiting warnings."
+    bad: "Pooler CPU near its limit: add pooler instances or raise its CPU limit."
+causes:
+  - cause: "App replicas × their own pool size exceed pgbouncer's max_client_conn (often after a scale-up)."
+    fix: "Lower the apps' pool size (with a pooler in front, small app pools are enough), or raise max_client_conn."
+    prove: "kubectl -n <ns> logs <pod> --since=10m | grep -c max_client_conn   # 0"
+  - cause: "Long or 'idle in transaction' sessions hold the pool."
+    fix: "Fix the code path; set idle_in_transaction_session_timeout and statement_timeout in Postgres."
+    prove: "psql … -c \"select count(*) from pg_stat_activity where state = 'idle in transaction'\"   # near 0"
+  - cause: "Something connects to Postgres directly and uses up max_connections."
+    fix: "Point it at the pooler Service; reserve slots for admins (superuser_reserved_connections)."
+    prove: "psql … -c \"select usename, application_name, count(*) from pg_stat_activity group by 1,2\""
+  - cause: "One pooler instance saturates its CPU."
+    fix: "Run 2 or more pooler instances (spec.instances) and give them CPU."
+    prove: "kubectl -n <ns> top pod -l cnpg.io/podRole=pooler   # CPU well below limit"
+prevention:
+  - "Every client through the pooler; the database Service not reachable from apps (a NetworkPolicy)"
+  - "A connection budget written down: replicas × pool size per app against max_client_conn and the pool size"
+  - "Alerts on pgbouncer waiting clients (cnpg_pgbouncer_pools_cl_waiting) and on Postgres connections above 80 % of max"
+  - "statement_timeout and idle_in_transaction_session_timeout set, so one bug cannot hold the pool"
+senior:
+  - "Two limits, two errors: I read which one is hit before I raise anything."
+  - "Raising max_connections is rarely the answer: each Postgres connection costs memory; a pooler and shorter transactions are."
+  - "An HPA scaling the app up can take the database down: the connection budget belongs in the scaling design."
+  - "What I would automate: an alert on pool waits, and a CI check that the sum of the apps' pools fits the pooler."

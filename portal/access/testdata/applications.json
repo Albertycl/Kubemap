@@ -1,0 +1,257 @@
+{
+  "items": [
+    {
+      "apiVersion": "argoproj.io/v1alpha1",
+      "kind": "Application",
+      "metadata": {
+        "name": "flask-vue",
+        "namespace": "argocd"
+      },
+      "spec": {
+        "destination": {
+          "namespace": "sre-lab-app",
+          "server": "https://kubernetes.default.svc"
+        },
+        "project": "default",
+        "source": {
+          "path": "k8s",
+          "repoURL": "git@gitlab.com:albert-awesome-group/flask-vue-gitops.git",
+          "targetRevision": "main"
+        }
+      },
+      "status": {
+        "controllerNamespace": "argocd",
+        "health": {
+          "lastTransitionTime": "2026-09-28T04:10:34Z",
+          "status": "Healthy"
+        },
+        "operationState": {
+          "finishedAt": "2026-09-06T08:42:59Z",
+          "message": "successfully synced (all tasks run)",
+          "operation": {
+            "initiatedBy": {
+              "username": "admin"
+            },
+            "retry": {},
+            "sync": {
+              "revision": "89ab3fbc67f8aa652fed162bec69bbfe36cf1da8",
+              "source": {
+                "path": "k8s",
+                "repoURL": "git@gitlab.com:albert-awesome-group/flask-vue-gitops.git",
+                "targetRevision": "main"
+              },
+              "syncStrategy": {
+                "hook": {}
+              }
+            }
+          },
+          "phase": "Succeeded",
+          "startedAt": "2026-09-06T08:42:56Z",
+          "syncResult": {
+            "resources": [
+              {
+                "group": "",
+                "hookPhase": "Running",
+                "kind": "Service",
+                "message": "service/flask-vue-frontend unchanged",
+                "name": "flask-vue-frontend",
+                "namespace": "sre-lab-app",
+                "status": "Synced",
+                "syncPhase": "Sync",
+                "version": "v1"
+              },
+              {
+                "group": "",
+                "hookPhase": "Running",
+                "kind": "Service",
+                "message": "service/flask-vue-backend unchanged",
+                "name": "flask-vue-backend",
+                "namespace": "sre-lab-app",
+                "status": "Synced",
+                "syncPhase": "Sync",
+                "version": "v1"
+              },
+              {
+                "group": "apps",
+                "hookPhase": "Running",
+                "images": [
+                  "albertycliu/flask-vue-backend@sha256:59f42fa2e69d3df99e23bf48b8c1bd5a7d26fd90125b1a5bb21edb55896c85a1"
+                ],
+                "kind": "Deployment",
+                "message": "deployment.apps/flask-vue-backend unchanged",
+                "name": "flask-vue-backend",
+                "namespace": "sre-lab-app",
+                "status": "Synced",
+                "syncPhase": "Sync",
+                "version": "v1"
+              },
+              {
+                "group": "apps",
+                "hookPhase": "Running",
+                "images": [
+                  "albertycliu/flask-vue-frontend@sha256:6f96dc7f40cd559e956b550b0f2cd779a8cee93cc444e9e725c0e921d4520414"
+                ],
+                "kind": "Deployment",
+                "message": "deployment.apps/flask-vue-frontend configured",
+                "name": "flask-vue-frontend",
+                "namespace": "sre-lab-app",
+                "status": "Synced",
+                "syncPhase": "Sync",
+                "version": "v1"
+              },
+              {
+                "group": "traefik.io",
+                "hookPhase": "Running",
+                "kind": "IngressRoute",
+                "message": "ingressroute.traefik.io/flask-vue-http unchanged",
+                "name": "flask-vue-http",
+                "namespace": "sre-lab-app",
+                "status": "Synced",
+                "syncPhase": "Sync",
+                "version": "v1alpha1"
+              }
+            ],
+            "revision": "89ab3fbc67f8aa652fed162bec69bbfe36cf1da8",
+            "source": {
+              "path": "k8s",
+              "repoURL": "git@gitlab.com:albert-awesome-group/flask-vue-gitops.git",
+              "targetRevision": "main"
+            }
+          }
+        },
+        "reconciledAt": "2026-09-28T09:04:31Z",
+        "resourceHealthSource": "appTree",
+        "resources": [
+          {
+            "kind": "Service",
+            "name": "flask-vue-backend",
+            "namespace": "sre-lab-app",
+            "status": "Synced",
+            "version": "v1"
+          },
+          {
+            "kind": "Service",
+            "name": "flask-vue-frontend",
+            "namespace": "sre-lab-app",
+            "status": "Synced",
+            "version": "v1"
+          },
+          {
+            "group": "apps",
+            "kind": "Deployment",
+            "name": "flask-vue-backend",
+            "namespace": "sre-lab-app",
+            "status": "Synced",
+            "version": "v1"
+          },
+          {
+            "group": "apps",
+            "kind": "Deployment",
+            "name": "flask-vue-frontend",
+            "namespace": "sre-lab-app",
+            "status": "Synced",
+            "version": "v1"
+          },
+          {
+            "group": "traefik.io",
+            "kind": "IngressRoute",
+            "name": "flask-vue-http",
+            "namespace": "sre-lab-app",
+            "status": "Synced",
+            "version": "v1alpha1"
+          }
+        ],
+        "sourceHydrator": {},
+        "sourceType": "Kustomize",
+        "summary": {
+          "images": [
+            "albertycliu/flask-vue-backend@sha256:59f42fa2e69d3df99e23bf48b8c1bd5a7d26fd90125b1a5bb21edb55896c85a1",
+            "albertycliu/flask-vue-frontend@sha256:6f96dc7f40cd559e956b550b0f2cd779a8cee93cc444e9e725c0e921d4520414"
+          ]
+        },
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "sre-lab-app",
+              "server": "https://kubernetes.default.svc"
+            },
+            "source": {
+              "path": "k8s",
+              "repoURL": "git@gitlab.com:albert-awesome-group/flask-vue-gitops.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "89ab3fbc67f8aa652fed162bec69bbfe36cf1da8",
+          "status": "Synced"
+        }
+      }
+    },
+    {
+      "apiVersion": "argoproj.io/v1alpha1",
+      "kind": "Application",
+      "metadata": {
+        "name": "url-shortener",
+        "namespace": "argocd"
+      },
+      "spec": {
+        "destination": {
+          "namespace": "sre-lab-app",
+          "server": "https://kubernetes.default.svc/"
+        },
+        "project": "default",
+        "source": {
+          "path": "k8s",
+          "repoURL": "git@gitlab.com:albert.liu/url-redirection-gitops.git",
+          "targetRevision": "main"
+        }
+      },
+      "status": {
+        "controllerNamespace": "argocd",
+        "health": {
+          "lastTransitionTime": "2026-09-28T00:15:20Z",
+          "status": "Healthy"
+        },
+        "reconciledAt": "2026-09-28T09:07:07Z",
+        "resourceHealthSource": "appTree",
+        "resources": [
+          {
+            "kind": "Service",
+            "name": "url-shortener",
+            "namespace": "sre-lab-app",
+            "status": "OutOfSync",
+            "version": "v1"
+          },
+          {
+            "group": "apps",
+            "kind": "Deployment",
+            "name": "url-shortener",
+            "namespace": "sre-lab-app",
+            "status": "OutOfSync",
+            "version": "v1"
+          }
+        ],
+        "sourceType": "Directory",
+        "summary": {
+          "images": [
+            "docker.io/library/url-shortener:v0.2"
+          ]
+        },
+        "sync": {
+          "comparedTo": {
+            "destination": {
+              "namespace": "sre-lab-app",
+              "server": "https://kubernetes.default.svc/"
+            },
+            "source": {
+              "path": "k8s",
+              "repoURL": "git@gitlab.com:albert.liu/url-redirection-gitops.git",
+              "targetRevision": "main"
+            }
+          },
+          "revision": "85d55c1ee52f7c1dd8c4d745b6b817e148c8a14d",
+          "status": "OutOfSync"
+        }
+      }
+    }
+  ]
+}

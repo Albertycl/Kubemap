@@ -1,0 +1,25 @@
+# Namespace for the interview demo scenarios (KM-71, approved A9). It is the
+# only namespace Kubemap's builders may change. The ResourceQuota enforces the
+# budget. KM-71's six labs need 66 MiB of memory limits; KM-87's four more
+# labs bring it to 118 MiB (reporter only while a run is active), and 142 MiB
+# with every fix applied, so the quota is 160 MiB (the most KM-87 allows).
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+    pod-security.kubernetes.io/enforce: restricted
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: demo-budget
+  namespace: kubemap-demo
+  labels:
+    app.kubernetes.io/part-of: kubemap-demo
+spec:
+  hard:
+    limits.memory: 160Mi
+    requests.memory: 160Mi
+    pods: "16"

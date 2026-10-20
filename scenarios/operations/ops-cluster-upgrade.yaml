@@ -1,0 +1,74 @@
+# KM-88. Placeholders: <node>, <ns> and $node. k8server facts (28 Sep 2026):
+# one node, k3s v1.34.8+k3s1 on Ubuntu 24.04; PodDisruptionBudget
+# sre-lab-app/url-shortener-db-primary allows 0 disruptions; clients still
+# call two deprecated APIs (componentstatuses, v1 Endpoints), neither with a
+# removal release yet.
+id: ops-cluster-upgrade
+area: operations
+title: "Upgrading a cluster safely"
+question: "You must upgrade Kubernetes (k3s) by one minor version. How do you plan and check it?"
+symptoms:
+  - "The version is near end of support, or a needed feature or fix is in a newer version"
+  - "You need to know what will break and how to roll back before you start"
+steps:
+  - title: "Where are you, and what is the path?"
+    why: "Kubernetes supports upgrading the control plane one minor version at a time (1.34 → 1.35, never 1.33 → 1.35), with nodes at most a few minors behind. Read the release notes of every minor you cross for removed APIs and changed defaults."
+    command: "kubectl version; kubectl get nodes -o custom-columns=NAME:.metadata.name,KUBELET:.status.nodeInfo.kubeletVersion,RUNTIME:.status.nodeInfo.containerRuntimeVersion,OS:.status.nodeInfo.osImage"
+    kubemap: "node"
+    check: {op: "node.pressure"}
+    good: "All nodes on the same version, one minor step to the target, nodes healthy."
+    bad: "Mixed versions or a node under pressure: fix that before upgrading."
+  - title: "Does anything use an API the new version removes?"
+    why: "Removed APIs are the classic upgrade break: manifests in Git, Helm charts and operators that still use them fail after the upgrade. The API server counts every call to a deprecated API, with the release that removes it."
+    command: "kubectl get --raw /metrics | grep '^apiserver_requested_deprecated_apis'   # removed_release= shows the version that removes it"
+    kubemap: "findings"
+    good: "No deprecated API with a removed_release at or below the target (k8server: componentstatuses and v1 Endpoints are deprecated, with no removal release yet)."
+    bad: "A deprecated API is removed in the target: update the client, chart or operator first."
+  - title: "Are the add-ons compatible?"
+    why: "CNI (Calico), ingress (Traefik), cert-manager, CloudNativePG, Argo CD and the metrics stack each support a range of Kubernetes versions. An operator that does not support the new version can stop reconciling, which looks like data loss."
+    command: "kubectl get deployments,daemonsets -A -o 'custom-columns=NS:.metadata.namespace,NAME:.metadata.name,IMAGE:.spec.template.spec.containers[0].image' | grep -iE 'calico|traefik|cert-manager|cnpg|cloudnative|argocd|prometheus'"
+    kubemap: "app-map"
+    good: "Every add-on's version lists the target Kubernetes version as supported."
+    bad: "An add-on is too old: upgrade it on the current Kubernetes first, one change at a time."
+  - title: "Will draining the nodes work? PodDisruptionBudgets"
+    why: "A node upgrade drains the node: every pod is evicted, respecting PodDisruptionBudgets. A PDB that allows 0 disruptions (k8server: url-shortener-db-primary) blocks the drain forever: a server dry run on 28 Sep 2026 showed 'Cannot evict pod as it would violate the pod's disruption budget' for url-shortener-db-2, retried every 5 s. On a single-node cluster there is nowhere to move pods, so the upgrade is downtime; plan it as such."
+    command: "kubectl get pdb -A; kubectl drain <node> --ignore-daemonsets --delete-emptydir-data --dry-run=server --timeout=60s   # a dry run evicts nothing; without --timeout it retries a PDB-blocked pod forever"
+    kubemap: "findings"
+    good: "Every PDB allows at least 1 disruption, and there is room on other nodes."
+    bad: "ALLOWED DISRUPTIONS 0, or a single node: plan a maintenance window, or scale the protected app first."
+  - title: "Can you go back? Backup of the datastore and the manifests"
+    why: "Downgrading the control plane is not supported; the way back is a restore. Take a datastore backup right before (k3s: an etcd snapshot, or a copy of the SQLite database with k3s stopped), and make sure every app's manifests are in Git."
+    command: "ssh <node> 'sudo k3s etcd-snapshot ls 2>/dev/null || sudo ls -l /var/lib/rancher/k3s/server/db/'   # which datastore, and the latest backup"
+    kubemap: "node"
+    good: "A fresh backup you have restored once in a test, and all apps in Git."
+    bad: "No tested backup: do not start."
+  - title: "Upgrade one step, then prove it"
+    why: "Upgrade the control plane first, then the nodes one by one (cordon, drain, upgrade, uncordon), and check after each step: nodes Ready on the new version, system pods running, apps serving, no new findings. Stop at the first surprise."
+    command: "kubectl get nodes; kubectl get pods -A --field-selector=status.phase!=Running,status.phase!=Succeeded; kubectl get --raw '/readyz?verbose' | grep -v '+'"
+    kubemap: "findings"
+    check: {op: "health.check"}
+    good: "Every node Ready on the new version, no failing pods, readyz ok, and the problem finder shows nothing new."
+    bad: "Something broke: stop, restore the service (roll the node back from backup, or fix forward if the cause is clear)."
+causes:
+  - cause: "A removed API is still used by a manifest, chart or operator."
+    fix: "Update it on the old version before the upgrade (kubectl convert, a new chart version)."
+    prove: "kubectl get --raw /metrics | grep apiserver_requested_deprecated_apis   # nothing removed in the target"
+  - cause: "A PodDisruptionBudget allows 0 disruptions and blocks the drain."
+    fix: "Scale the app so the PDB allows 1, or change the PDB for the window (and put it back)."
+    prove: "kubectl get pdb -A   # ALLOWED DISRUPTIONS at least 1"
+  - cause: "An add-on (CNI, operator) does not support the new version."
+    fix: "Upgrade the add-on first, on the current Kubernetes version."
+    prove: "The add-on's pods run and reconcile after the upgrade"
+  - cause: "No way back: no tested backup."
+    fix: "Take and test-restore a datastore backup before starting."
+    prove: "A restore of the backup in a test cluster works"
+prevention:
+  - "Upgrade every few months, one minor at a time; never fall more than two minors behind"
+  - "A staging cluster that gets each upgrade first"
+  - "A CI check for deprecated APIs in every manifest (kubent, pluto)"
+  - "PDBs that allow at least one disruption, and at least three nodes so drains have somewhere to go"
+senior:
+  - "An upgrade is a change like any other: a plan, a backup, a rollback path, small steps and a check after each."
+  - "The control plane cannot be downgraded; my rollback is a restore, so I test the restore before, not during."
+  - "Removed APIs and add-on compatibility cause most upgrade outages, not Kubernetes itself."
+  - "On a single-node cluster an upgrade is downtime; I say so and schedule it, rather than pretend it is rolling."

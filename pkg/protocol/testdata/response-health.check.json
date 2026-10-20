@@ -1,0 +1,55 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-12",
+  "payload": {
+    "object": {
+      "time": "2026-09-27T12:00:00Z",
+      "findings": [
+        {
+          "rule": "node.disk.eviction",
+          "severity": "critical",
+          "object": "Node/k8server",
+          "title": "DiskPressure: the kubelet is evicting pods (13.7% free)",
+          "evidence": "root filesystem (nodefs): 12.8 GiB free of 93.2 GiB (13.7%). The kubelet evicts pods below 5% (nodefs.available\u003c5%) and then keeps evicting until 15% free (14.0 GiB) (minimum reclaim 10%). Container images are on the same filesystem. DiskPressure is True since 2026-09-27 23:32 UTC.",
+          "meaning": "The disk that holds container logs, emptyDir volumes and writable layers (and on k3s also the images) is close to the kubelet's hard eviction threshold.",
+          "why": "At the threshold the kubelet sets DiskPressure, evicts pods (BestEffort first) and deletes unused images, and it does not stop at the threshold: it frees until 15% free (14.0 GiB).",
+          "fix": "Eviction continues until 15% free (14.0 GiB): free at least 1.2 GiB now to get above 15% free. Do not prune images yet: 2 pods use images that exist only on this node (imagePullPolicy: Never): sre-lab-app/url-shortener-6f89bdc657-jxxl8, sre-lab-app/url-shortener-6f89bdc657-vktnd. Push them to a registry or save them first (k3s ctr images export), and remove only named images. In this order: (1) what is outside Kubernetes: build caches (go clean -cache, docker builder prune) and old logs (journalctl --vacuum-size=500M); (2) named images you know a registry still has (crictl images, then crictl rmi \u003cimage\u003e); (3) only then crictl rmi --prune, which deletes every image that no running container uses, including the images of evicted, crash-looping or scaled-down workloads.",
+          "verify": "df -h /   # above 15% free\nkubectl describe node k8server | grep DiskPressure   # False"
+        },
+        {
+          "rule": "pod.evicted",
+          "severity": "warning",
+          "object": "Cluster",
+          "title": "2840 pods were evicted",
+          "evidence": "Stopped by the kubelet (DisruptionTarget TerminationByKubelet, or reason Evicted): argocd/argocd-server-7d9f-abcde and 2839 more.",
+          "meaning": "The kubelet stopped these pods to protect the node (disk, memory or PID pressure). Their records stay until deleted.",
+          "why": "Evictions mean the node ran out of something; the records also hide the real pods in lists.",
+          "fix": "Find what ran out, fix that, then delete only these records by name: kubectl delete pod -n argocd argocd-server-7d9f-abcde … (2839 more). Do not delete by phase across all namespaces: that also removes failed Job pods kept for debugging.",
+          "verify": "kubectl get pod -n argocd argocd-server-7d9f-abcde   # NotFound",
+          "items": [
+            "argocd/argocd-server-7d9f-abcde"
+          ],
+          "count": 2840
+        }
+      ],
+      "rules": [
+        "node.not-ready",
+        "node.disk.eviction",
+        "pod.evicted"
+      ],
+      "thresholds": {
+        "evictionHard": {
+          "imagefs.available": "5%",
+          "memory.available": "100Mi",
+          "nodefs.available": "5%"
+        },
+        "evictionMinimumReclaim": {
+          "nodefs.available": "10%"
+        },
+        "imageGCHighPercent": 85,
+        "source": "agent settings"
+      }
+    }
+  }
+}

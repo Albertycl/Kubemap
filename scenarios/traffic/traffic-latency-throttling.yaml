@@ -1,0 +1,67 @@
+# KM-88. Placeholders: <ns>, <pod>, <container>, <deploy>, <node> and $ns, $pod, $node.
+id: traffic-latency-throttling
+area: traffic
+title: "Latency is high: is it CPU throttling?"
+question: "An app's p95/p99 latency went up, with no errors and a normal CPU graph. What do you check?"
+symptoms:
+  - "p99 latency several times the p50, timeouts at the ingress or in callers"
+  - "CPU usage looks well below the limit on an averaged graph"
+  - "Liveness or readiness probes time out now and then, and the pod restarts or leaves the Service"
+steps:
+  - title: "Is it one app, or everything on a node?"
+    why: "Latency in every app on one node points at the node (CPU contention, swap, disk: the nodes-psi scenario). Latency in one app, wherever it runs, points at the app: its CPU limit, its dependencies, or its own code."
+    command: "kubectl -n <ns> get pods -o wide -l app.kubernetes.io/name=<deploy>; kubectl top pods -A --sort-by=cpu | head"
+    kubemap: "node"
+    check: {op: "node.pressure", args: {node: "$node"}}
+    good: "Only this app is slow, and its node shows no CPU pressure."
+    bad: "Every app on the node is slow and the node shows pressure: go to the nodes-psi scenario."
+  - title: "CPU limit versus real use, in short windows"
+    why: "A CPU limit is enforced per 100 ms period (CFS quota). A container that needs 300 ms of CPU for one request, with a 200m limit, gets 20 ms per period and waits the rest: the request takes over a second, while the one-minute average shows 20 % of the limit. Averages hide throttling."
+    command: "kubectl -n <ns> get pod <pod> -o jsonpath='{range .spec.containers[*]}{.name}{\"  requests \"}{.resources.requests.cpu}{\"  limits \"}{.resources.limits.cpu}{\"\\n\"}{end}'; kubectl -n <ns> top pod <pod> --containers"
+    kubemap: "pod"
+    check: {op: "pod.diagnose", args: {namespace: "$ns", pod: "$pod"}}
+    good: "No CPU limit, or a limit far above the peak."
+    bad: "A tight CPU limit: check the throttling counters (next step)."
+  - title: "Read the throttling counters"
+    why: "The cgroup counts periods and throttled periods. A throttled share above a few percent means requests wait for CPU time the limit forbids, even on an idle node. In Prometheus: container_cpu_cfs_throttled_periods_total / container_cpu_cfs_periods_total. Needs exec rights: it runs inside the container, and only reads."
+    command: "kubectl -n <ns> exec <pod> -c <container> -- cat /sys/fs/cgroup/cpu.stat   # nr_periods, nr_throttled, throttled_usec; read twice a minute apart"
+    kubemap: "pod"
+    good: "nr_throttled grows slowly compared with nr_periods (below about 1 %)."
+    bad: "A large share of periods are throttled: the limit is too low for the bursts."
+  - title: "Is the pod itself waiting for CPU? (pod PSI)"
+    why: "Pressure stall information per pod shows how much of the time its tasks waited for CPU, from throttling or contention. The kubelet reports it per pod on Kubernetes 1.34."
+    command: |-
+      kubectl get --raw /api/v1/nodes/<node>/proxy/stats/summary | jq -c '.pods[] | select(.podRef.name=="<pod>") | {cpuSomeAvg60: .cpu.psi.some.avg60, memSomeAvg60: .memory.psi.some.avg60}'
+    kubemap: "pod"
+    good: "cpu some avg60 low (below 5 %)."
+    bad: "High for this pod while the node is fine: its own limit throttles it."
+  - title: "Or is the time spent elsewhere: dependencies and GC"
+    why: "If CPU is not throttled, latency comes from waiting: a slow database or cache, DNS, a lock, a full connection pool, or garbage collection pauses. Traces (Tempo on k8server) show where the time goes per request."
+    command: "kubectl -n <ns> logs <pod> --since=15m | grep -iE 'timeout|slow|gc|pool' | tail -20"
+    kubemap: "app-map"
+    check: {op: "appmap", args: {namespace: "$ns"}}
+    good: "Dependencies healthy in the app map, no slow calls in the log or traces."
+    bad: "A dependency is slow or unhealthy: follow it (database connections, DNS scenarios)."
+causes:
+  - cause: "A CPU limit too low for request bursts (CFS throttling), while the average looks fine."
+    fix: "Raise the CPU limit or remove it; keep the request at real use so scheduling stays honest."
+    prove: "kubectl -n <ns> exec <pod> -- cat /sys/fs/cgroup/cpu.stat   # nr_throttled barely grows"
+  - cause: "A runtime sized for all the node's CPUs (GOMAXPROCS, JVM thread pools) inside a small limit, so it bursts into the quota."
+    fix: "Size the runtime from the limit (automaxprocs for Go, -XX:ActiveProcessorCount for the JVM)."
+    prove: "Latency p99 back to normal on the dashboard"
+  - cause: "Node-wide CPU contention (see nodes-psi)."
+    fix: "Move load off the node, set requests to real use."
+    prove: "cat /proc/pressure/cpu   # some avg60 below 10"
+  - cause: "A slow dependency (database, cache, DNS)."
+    fix: "Fix the dependency; add timeouts and a circuit breaker in the caller."
+    prove: "Traces show the dependency's span back to normal"
+prevention:
+  - "Alert on the throttled share per container (above 5 % for 15 minutes), not only on CPU usage"
+  - "CPU requests from measured use; CPU limits only where a noisy neighbour is a real risk, and then generous"
+  - "Runtimes that read the container's CPU limit"
+  - "Latency SLOs per route, measured at the ingress"
+senior:
+  - "CPU limits are enforced in 100 ms slices: a one-minute average of 20 % can hide a request waiting most of every period."
+  - "Many teams drop CPU limits and keep requests; I would decide per app, with the throttling metric as evidence."
+  - "p99 tells the user's story, the average does not: I debug from the tail."
+  - "What I would automate: a dashboard of throttled share against latency per app, and an alert when both rise."

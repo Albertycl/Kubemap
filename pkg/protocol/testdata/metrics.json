@@ -1,0 +1,109 @@
+{
+  "v": 1,
+  "type": "metrics",
+  "payload": {
+    "time": "2026-09-27T12:00:00Z",
+    "nodeName": "k8server",
+    "cpu": {
+      "cores": 4,
+      "usagePercent": 37.5
+    },
+    "memory": {
+      "totalBytes": 12884901888,
+      "availableBytes": 1288490188
+    },
+    "swap": {
+      "totalBytes": 4294967296,
+      "usedBytes": 536870912
+    },
+    "load": {
+      "load1": 1.2,
+      "load5": 1.4,
+      "load15": 1.1
+    },
+    "psi": {
+      "cpu": {
+        "some": {
+          "avg10": 14.2,
+          "avg60": 12.8,
+          "avg300": 11
+        }
+      },
+      "memory": {
+        "some": {
+          "avg10": 0.5,
+          "avg60": 0,
+          "avg300": 0
+        },
+        "full": {
+          "avg10": 0.1,
+          "avg60": 0,
+          "avg300": 0
+        }
+      },
+      "io": {
+        "some": {
+          "avg10": 2.3,
+          "avg60": 1.9,
+          "avg300": 1.5
+        },
+        "full": {
+          "avg10": 1.1,
+          "avg60": 0.9,
+          "avg300": 0.7
+        }
+      }
+    },
+    "filesystems": [
+      {
+        "mountPoint": "/",
+        "device": "/dev/sda2",
+        "fsType": "ext4",
+        "totalBytes": 107374182400,
+        "usedBytes": 59055800320,
+        "availableBytes": 42949672960,
+        "inodesTotal": 6553600,
+        "inodesFree": 5898240
+      }
+    ],
+    "network": [
+      {
+        "interface": "eth0",
+        "rxBytes": 123456789,
+        "txBytes": 98765432,
+        "rxErrors": 0,
+        "txErrors": 0
+      }
+    ],
+    "topProcesses": [
+      {
+        "pid": 1234,
+        "command": "java",
+        "cpuPercent": 22.5,
+        "rssBytes": 734003200,
+        "origin": "pod",
+        "containerId": "0000000000000000000000000000000000000000000000000000000000000abc",
+        "podUid": "00000000-0000-0000-0000-00000000abcd",
+        "podNamespace": "default",
+        "podName": "backend-5c6b7",
+        "container": "app"
+      },
+      {
+        "pid": 812,
+        "command": "k3s-server",
+        "cpuPercent": 9.1,
+        "rssBytes": 681574400,
+        "origin": "service",
+        "unit": "k3s.service"
+      },
+      {
+        "pid": 950,
+        "command": "mariadbd",
+        "cpuPercent": 1.2,
+        "rssBytes": 104857600,
+        "origin": "container",
+        "containerId": "0000000000000000000000000000000000000000000000000000000000000def"
+      }
+    ]
+  }
+}

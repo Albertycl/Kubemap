@@ -1,0 +1,91 @@
+# KM-85, from the real incident of 28 Sep 2026 on k8server
+# (docs/incidents/2026-09-28-disk-pressure.md). Times are GMT+8.
+# Placeholders: <node> and $node.
+id: nodes-disk-pressure
+area: nodes
+title: "DiskPressure: the kubelet evicts pods"
+question: "Pods are being evicted and the node reports DiskPressure. What do you do?"
+symptoms:
+  - "Many pods in many namespaces stop at once; the node stays Ready"
+  - "The node has the DiskPressure condition and the node.kubernetes.io/disk-pressure taint; new pods stay Pending or are evicted at once"
+  - "On Kubernetes 1.34 evicted pods can show as Completed, not Evicted (28 Sep 2026: argocd-server, cert-manager, otel-collector …)"
+  - "Pods do not come back for minutes after you free space"
+steps:
+  - title: "Confirm DiskPressure and when it started"
+    why: "The node stays Ready during disk pressure. Kubernetes' only signals are the DiskPressure condition, the disk-pressure taint, and evicted pods. On 28 Sep 2026 DiskPressure turned True at 07:32 and False only at 07:49."
+    command: |-
+      kubectl get node <node> -o jsonpath='{range .status.conditions[?(@.type=="DiskPressure")]}{.status}{"  since "}{.lastTransitionTime}{"  "}{.message}{"\n"}{end}{.spec.taints}{"\n"}'
+    kubemap: "node"
+    check: {op: "node.pressure", args: {node: "$node"}}
+    good: "DiskPressure False: look at other causes of lost pods."
+    bad: "DiskPressure True: the kubelet is evicting now. Find out how much space is free and how much it will insist on."
+  - title: "How much is free, on which filesystem?"
+    why: "The kubelet watches two filesystems: nodefs (the kubelet's root dir, logs, emptyDir, writable layers) and imagefs (the container runtime's images). On k3s both are usually the root disk. Inodes count too: a disk can be 'full' with bytes left."
+    command: "ssh <node> 'df -h / /var/lib/rancher /var/lib/kubelet; df -i /'"
+    kubemap: "node"
+    good: "More than the reclaim target free (15 % on k8server)."
+    bad: "Below the eviction threshold (5 % on k8server), or inodes almost used up."
+  - title: "What are the kubelet's thresholds and minimum reclaim?"
+    why: "evictionHard says when eviction starts (nodefs.available below 5 % on k8server); evictionMinimumReclaim says how much more the kubelet frees once it starts (10 %). So it keeps evicting until 5 % + 10 % = 15 % is free. On 28 Sep the disk recovered to 13.7 % by itself and the kubelet still evicted, because 13.7 % is below 15 %. evictionPressureTransitionPeriod (5 minutes) keeps the condition True that long after the disk recovers. Reading configz needs cluster-admin (nodes/proxy); the Kubemap agent cannot, so the problem finder uses the thresholds it was given."
+    command: |-
+      kubectl get --raw /api/v1/nodes/<node>/proxy/configz | jq '.kubeletconfig | {evictionHard, evictionMinimumReclaim, evictionPressureTransitionPeriod, imageGCHighThresholdPercent, imageGCLowThresholdPercent}'
+    kubemap: "findings"
+    good: "You know the trigger and the target (k8server: 5 % and 15 %, image clean-up from 85 % used)."
+    bad: "No minimum reclaim and a threshold close to current usage: expect the node to flap in and out of pressure."
+  - title: "What is the kubelet doing right now?"
+    why: "The kubelet logs every step: which resource it reclaims, which pods it ranks and evicts, and which images it deletes. These lines are the incident timeline. On 28 Sep: 'Eviction manager: attempting to reclaim resourceName=ephemeral-storage' at 07:32:50, then 'must evict pod(s)', then 'Removing image to free bytes'."
+    command: "journalctl -u k3s --since -30min | grep -E 'eviction_manager|image_gc_manager' | tail -20   # on the node <node>"
+    kubemap: "logs"
+    good: "No eviction lines in the last minutes: the kubelet has reached its target."
+    bad: "'must evict pod(s)' keeps repeating: free space now; every minute costs pods."
+  - title: "Which pods were evicted, and why?"
+    why: "On Kubernetes 1.26+ an evicted pod carries the condition DisruptionTarget with reason TerminationByKubelet. On 1.34 it may end with phase Succeeded, so kubectl shows Completed, not Evicted. The condition's message says which resource and how much each pod used: 'The node was low on resource: ephemeral-storage. Threshold quantity: 5003678589, available: 7582028Ki. Container argocd-server was using 780Ki, request is 0'."
+    command: |-
+      kubectl get pods -A -o json | jq -r '.items[] | select(any(.status.conditions[]?; .type=="DisruptionTarget" and .reason=="TerminationByKubelet")) | "\(.metadata.namespace)/\(.metadata.name)  \(.status.phase)  \(.status.conditions[] | select(.type=="DisruptionTarget") | .message[0:120])"'
+    kubemap: "findings"
+    good: "No pods evicted by the kubelet."
+    bad: "A list of evicted pods: the blast radius. Pods without an ephemeral-storage request are chosen first."
+  - title: "What fills the disk?"
+    why: "Usually something outside Kubernetes: on 28 Sep build caches (Go 7.4 GB, Docker 14.9 GB) shared the root disk with containerd and the pods. Inside Kubernetes it is container logs, emptyDir volumes, writable layers and unused images. Look before you delete."
+    command: "ssh <node> 'sudo du -xh --max-depth=2 /var/lib /home /root 2>/dev/null | sort -h | tail -15; sudo k3s crictl imagefsinfo'"
+    kubemap: "node"
+    good: "You know the biggest consumers and whether they belong to Kubernetes."
+    bad: "A cache or a log grew by gigabytes: that is the cause; clear it (next step)."
+  - title: "Free space safely, in the right order"
+    why: "Clear what is outside Kubernetes first (on 28 Sep: go clean -cache freed 7.4 GB, docker builder prune 12.2 GB). Delete only named images you know a registry still has. crictl rmi --prune deletes every image no running container uses, including images of evicted or crash-looping pods, and an image that exists only on the node cannot come back (url-shortener, imagePullPolicy: Never)."
+    command: |-
+      kubectl get pods -A -o json | jq -r '.items[] | select(any(.spec.containers[]; .imagePullPolicy=="Never")) | "\(.metadata.namespace)/\(.metadata.name)  \(.spec.containers[].image)"'   # local-only images: save them before any prune
+    kubemap: "findings"
+    good: "Free space above the reclaim target (15 %), and no local-only image at risk."
+    bad: "Pods use local-only images: export them (sudo k3s ctr images export) before you prune anything."
+  - title: "After recovery: are all pods back and all images there?"
+    why: "DiskPressure turns False only after the transition period (5 minutes), then pods are scheduled again. The recovery is not over until every app runs: on 28 Sep url-shortener failed with ErrImageNeverPull at 08:05 because its image had been deleted, and it ran again at 08:12."
+    command: "kubectl get pods -A --no-headers | grep -vE 'Running|Completed'; kubectl get pods -A -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}{\"  \"}{.status.containerStatuses[*].state.waiting.reason}{\"\\n\"}{end}' | grep -E 'ErrImage|BackOff'"
+    kubemap: "findings"
+    good: "Every pod is Running (or Completed for real Jobs)."
+    bad: "ErrImageNeverPull or ImagePullBackOff: the kubelet deleted images; go to the image pull scenario."
+causes:
+  - cause: "Build caches on the node's root disk (28 Sep 2026: Go 7.4 GB, Docker 14.9 GB)."
+    fix: "Clear them (go clean -cache, docker builder prune); move them to another disk; builds check df -h / and stop below 18 % free."
+    prove: "df -h /   # above 15 % free; kubectl describe node <node> | grep DiskPressure   # False"
+  - cause: "Container logs grow without rotation, or an app writes large files to emptyDir or its writable layer."
+    fix: "Set log rotation (container-log-max-size), give emptyDir a sizeLimit, and set ephemeral-storage requests and limits."
+    prove: "sudo du -sh /var/log/pods   # stable"
+  - cause: "Unused images pile up faster than the image clean-up removes them."
+    fix: "Delete named old images; keep usage below imageGCHighThresholdPercent (85 %)."
+    prove: "sudo k3s crictl imagefsinfo   # usage below the threshold"
+  - cause: "The eviction threshold and minimum reclaim leave no room (5 % trigger on a disk that also holds build caches)."
+    fix: "Give /var/lib/rancher its own disk, or alert well before the trigger (Kubemap warns at threshold + 10 points)."
+    prove: "kubectl get --raw /api/v1/nodes/<node>/proxy/configz | jq .kubeletconfig.evictionHard"
+prevention:
+  - "Build caches and other non-Kubernetes data off the node's root disk, or a separate disk for /var/lib/rancher"
+  - "Alert on free disk well before the kubelet's threshold: Kubemap warns at threshold + 10 points and shows the reclaim target"
+  - "Every image in a registry (no imagePullPolicy: Never), so image clean-up can never destroy an app"
+  - "ephemeral-storage requests on pods, so the kubelet evicts the real disk hog first"
+  - "A 'df -h /' check before every build on a shared machine (done after 28 Sep: stop below 18 % free)"
+senior:
+  - "The incident in one line: build caches filled the disk, the kubelet evicted every app for about 40 minutes, and it kept evicting after the disk recovered to 13.7 %, because its minimum reclaim target was 15 %."
+  - "Kubernetes said Ready the whole time; the only signals were DiskPressure, evictions and kubelet logs. That is why I alert on disk, not on node readiness."
+  - "Mitigation first: stop what is writing and clear caches outside Kubernetes; do not prune images blindly during an incident."
+  - "The recovery is not done when DiskPressure turns False: check for pods that cannot come back (ErrImageNeverPull)."
+  - "Follow-ups I would own: a separate disk for the runtime, a registry for every image, and disk alerts at the threshold plus a margin."

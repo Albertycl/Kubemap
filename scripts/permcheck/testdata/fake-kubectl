@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# A stand-in for kubectl, for testing verify-agent-permissions.sh offline
+# (permcheck_test.go). It answers only what the script asks, with the RBAC
+# group semantics that matter for the test:
+#   FAKE_GRANT_GROUP / FAKE_GRANT_NS: a caller carrying that group gets
+#     "update persistentvolumeclaims" in that namespace (auth can-i --list);
+#   FAKE_RB_JSON / FAKE_CRB_JSON: files returned for "get rolebindings -A
+#     -o json" and "get clusterrolebindings -o json".
+# Every other auth can-i question answers "no".
+args=()
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--context) shift 2 ;;
+	*) args+=("$1"); shift ;;
+	esac
+done
+set -- "${args[@]}"
+empty='{"items":[]}'
+case "$1 $2" in
+"version "* | "version") echo '{"serverVersion":{"gitVersion":"v0.0.0-fake"}}'; exit 0 ;;
+"config current-context") echo fake; exit 0 ;;
+"get rolebindings")
+	if [[ " $* " == *" -o json "* ]]; then cat "${FAKE_RB_JSON:-/dev/null}" 2>/dev/null || echo "$empty"; fi
+	exit 0 ;;
+"get clusterrolebindings")
+	if [[ " $* " == *" -o json "* ]]; then cat "${FAKE_CRB_JSON:-/dev/null}" 2>/dev/null || echo "$empty"; fi
+	exit 0 ;;
+"auth can-i")
+	shift 2
+	list=0 ns="" groups=()
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		--list) list=1 ;;
+		-n) ns=$2; shift ;;
+		--as-group=*) groups+=("${1#--as-group=}") ;;
+		esac
+		shift
+	done
+	if [ "$list" = 1 ]; then
+		echo "Resources                                       Non-Resource URLs   Resource Names   Verbs"
+		echo "selfsubjectaccessreviews.authorization.k8s.io   []                  []               [create]"
+		for g in "${groups[@]}"; do
+			if [ -n "${FAKE_GRANT_GROUP:-}" ] && [ "$g" = "$FAKE_GRANT_GROUP" ] && [ "$ns" = "${FAKE_GRANT_NS:-}" ]; then
+				echo "persistentvolumeclaims                          []                  []               [update]"
+			fi
+		done
+		exit 0
+	fi
+	echo no
+	exit 1 ;;
+esac
+echo "fake-kubectl: not handled: $*" >&2
+exit 2

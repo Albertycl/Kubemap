@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-16",
+  "payload": {
+    "op": "logs.search",
+    "logSearch": {
+      "app": "argocd/url-shortener",
+      "text": "pool",
+      "levels": [
+        "error",
+        "warn"
+      ],
+      "since": "2026-09-27T11:00:00Z",
+      "previous": true
+    }
+  }
+}

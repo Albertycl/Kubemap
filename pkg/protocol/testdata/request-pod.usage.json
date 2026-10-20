@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-13",
+  "payload": {
+    "op": "pod.usage",
+    "namespace": "sre-lab-app"
+  }
+}

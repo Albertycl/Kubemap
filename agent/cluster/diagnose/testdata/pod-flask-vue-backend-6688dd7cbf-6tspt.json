@@ -1,0 +1,206 @@
+{
+ "apiVersion": "v1",
+ "kind": "Pod",
+ "metadata": {
+  "creationTimestamp": "2026-09-27T23:33:54Z",
+  "generation": 1,
+  "labels": {
+   "app.kubernetes.io/component": "backend",
+   "app.kubernetes.io/name": "flask-vue",
+   "pod-template-hash": "6688dd7cbf"
+  },
+  "name": "flask-vue-backend-6688dd7cbf-6tspt",
+  "namespace": "sre-lab-app",
+  "ownerReferences": [
+   {
+    "apiVersion": "apps/v1",
+    "blockOwnerDeletion": true,
+    "controller": true,
+    "kind": "ReplicaSet",
+    "name": "flask-vue-backend-6688dd7cbf",
+    "uid": "147c70c1-8c56-4f38-ad39-dd19a0f757b3"
+   }
+  ],
+  "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+ },
+ "spec": {
+  "containers": [
+   {
+    "image": "albertycliu/flask-vue-backend@sha256:59f42fa2e69d3df99e23bf48b8c1bd5a7d26fd90125b1a5bb21edb55896c85a1",
+    "imagePullPolicy": "IfNotPresent",
+    "livenessProbe": {
+     "failureThreshold": 3,
+     "httpGet": {
+      "path": "/api/hello",
+      "port": "http",
+      "scheme": "HTTP"
+     },
+     "initialDelaySeconds": 10,
+     "periodSeconds": 10,
+     "successThreshold": 1,
+     "timeoutSeconds": 1
+    },
+    "name": "backend",
+    "ports": [
+     {
+      "containerPort": 5000,
+      "name": "http",
+      "protocol": "TCP"
+     }
+    ],
+    "readinessProbe": {
+     "failureThreshold": 3,
+     "httpGet": {
+      "path": "/api/hello",
+      "port": "http",
+      "scheme": "HTTP"
+     },
+     "initialDelaySeconds": 3,
+     "periodSeconds": 5,
+     "successThreshold": 1,
+     "timeoutSeconds": 1
+    },
+    "resources": {
+     "limits": {
+      "cpu": "250m",
+      "memory": "256Mi"
+     },
+     "requests": {
+      "cpu": "50m",
+      "memory": "64Mi"
+     }
+    },
+    "terminationMessagePath": "/dev/termination-log",
+    "terminationMessagePolicy": "File"
+   }
+  ],
+  "dnsPolicy": "ClusterFirst",
+  "enableServiceLinks": true,
+  "nodeName": "k8server",
+  "preemptionPolicy": "PreemptLowerPriority",
+  "priority": 0,
+  "restartPolicy": "Always",
+  "schedulerName": "default-scheduler",
+  "securityContext": {},
+  "serviceAccount": "default",
+  "serviceAccountName": "default",
+  "terminationGracePeriodSeconds": 30,
+  "tolerations": [
+   {
+    "effect": "NoExecute",
+    "key": "node.kubernetes.io/not-ready",
+    "operator": "Exists",
+    "tolerationSeconds": 300
+   },
+   {
+    "effect": "NoExecute",
+    "key": "node.kubernetes.io/unreachable",
+    "operator": "Exists",
+    "tolerationSeconds": 300
+   }
+  ]
+ },
+ "status": {
+  "conditions": [
+   {
+    "lastProbeTime": null,
+    "lastTransitionTime": "2026-09-27T23:53:14Z",
+    "observedGeneration": 1,
+    "status": "True",
+    "type": "PodReadyToStartContainers"
+   },
+   {
+    "lastProbeTime": null,
+    "lastTransitionTime": "2026-09-27T23:51:32Z",
+    "observedGeneration": 1,
+    "status": "True",
+    "type": "Initialized"
+   },
+   {
+    "lastProbeTime": null,
+    "lastTransitionTime": "2026-09-27T23:53:20Z",
+    "observedGeneration": 1,
+    "status": "True",
+    "type": "Ready"
+   },
+   {
+    "lastProbeTime": null,
+    "lastTransitionTime": "2026-09-27T23:53:20Z",
+    "observedGeneration": 1,
+    "status": "True",
+    "type": "ContainersReady"
+   },
+   {
+    "lastProbeTime": null,
+    "lastTransitionTime": "2026-09-27T23:47:43Z",
+    "observedGeneration": 1,
+    "status": "True",
+    "type": "PodScheduled"
+   }
+  ],
+  "containerStatuses": [
+   {
+    "allocatedResources": {
+     "cpu": "50m",
+     "memory": "64Mi"
+    },
+    "containerID": "containerd://4380acf46a2bc7bb878be7d51b3a50bbdac247a3927b37565ccb54e3a5b63cf6",
+    "image": "sha256:35afa34a9c68c31459001decbd8fa1cff2e6f55f33cc555cc4c0dee5ea85502d",
+    "imageID": "docker.io/albertycliu/flask-vue-backend@sha256:59f42fa2e69d3df99e23bf48b8c1bd5a7d26fd90125b1a5bb21edb55896c85a1",
+    "lastState": {},
+    "name": "backend",
+    "ready": true,
+    "resources": {
+     "limits": {
+      "cpu": "250m",
+      "memory": "256Mi"
+     },
+     "requests": {
+      "cpu": "50m",
+      "memory": "64Mi"
+     }
+    },
+    "restartCount": 0,
+    "started": true,
+    "state": {
+     "running": {
+      "startedAt": "2026-09-27T23:53:13Z"
+     }
+    },
+    "user": {
+     "linux": {
+      "gid": 0,
+      "supplementalGroups": [
+       0
+      ],
+      "uid": 0
+     }
+    },
+    "volumeMounts": [
+     {
+      "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+      "name": "kube-api-access-gw5fk",
+      "readOnly": true,
+      "recursiveReadOnly": "Disabled"
+     }
+    ]
+   }
+  ],
+  "hostIP": "192.168.32.36",
+  "hostIPs": [
+   {
+    "ip": "192.168.32.36"
+   }
+  ],
+  "observedGeneration": 1,
+  "phase": "Running",
+  "podIP": "192.168.41.138",
+  "podIPs": [
+   {
+    "ip": "192.168.41.138"
+   }
+  ],
+  "qosClass": "Burstable",
+  "startTime": "2026-09-27T23:51:32Z"
+ }
+}

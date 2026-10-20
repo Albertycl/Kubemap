@@ -1,0 +1,11 @@
+# Only what the build needs goes into the Docker build context.
+*
+!go.mod
+!go.sum
+!cmd/
+!agent/
+!pkg/
+!portal/
+!scenarios/
+!web/embed.go
+!web/dist/

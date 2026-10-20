@@ -1,0 +1,1850 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.161"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-applicationset-controller-6db89bc85d-c8wl7",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "applicationset-controller",
+     "app.kubernetes.io/name": "argocd-applicationset-controller",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-applicationset-controller"
+    },
+    "name": "argocd-applicationset-controller-r8kwb",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "metrics",
+     "port": 8080,
+     "protocol": "TCP"
+    },
+    {
+     "name": "webhook",
+     "port": 7000,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.174"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-dex-server-5c859d8bd9-fvhdb",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "dex-server",
+     "app.kubernetes.io/name": "argocd-dex-server",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-dex-server"
+    },
+    "name": "argocd-dex-server-fh78l",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "grpc",
+     "port": 5557,
+     "protocol": "TCP"
+    },
+    {
+     "appProtocol": "TCP",
+     "name": "http",
+     "port": 5556,
+     "protocol": "TCP"
+    },
+    {
+     "name": "metrics",
+     "port": 5558,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.167"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-application-controller-0",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/name": "argocd-metrics",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-metrics"
+    },
+    "name": "argocd-metrics-xpgww",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "metrics",
+     "port": 8082,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.134"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-notifications-controller-659d6db5fc-hrdz5",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "notifications-controller",
+     "app.kubernetes.io/name": "argocd-notifications-controller-metrics",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-notifications-controller-metrics"
+    },
+    "name": "argocd-notifications-controller-metrics-n9zm6",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "metrics",
+     "port": 9001,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.155"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-redis-f8766bdc7-k6ngh",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "redis",
+     "app.kubernetes.io/name": "argocd-redis",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-redis"
+    },
+    "name": "argocd-redis-ll5sv",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "tcp-redis",
+     "port": 6379,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.136"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-repo-server-7b8c487b84-89d5s",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "repo-server",
+     "app.kubernetes.io/name": "argocd-repo-server",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-repo-server"
+    },
+    "name": "argocd-repo-server-pp72v",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "server",
+     "port": 8081,
+     "protocol": "TCP"
+    },
+    {
+     "name": "metrics",
+     "port": 8084,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.150"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-server-6799b86d7-vzjzf",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "server",
+     "app.kubernetes.io/name": "argocd-server",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-server"
+    },
+    "name": "argocd-server-2qrrp",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "http",
+     "port": 8080,
+     "protocol": "TCP"
+    },
+    {
+     "name": "https",
+     "port": 8080,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.150"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "argocd-server-6799b86d7-vzjzf",
+      "namespace": "argocd"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "server",
+     "app.kubernetes.io/name": "argocd-server-metrics",
+     "app.kubernetes.io/part-of": "argocd",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "argocd-server-metrics"
+    },
+    "name": "argocd-server-metrics-gzrk7",
+    "namespace": "argocd"
+   },
+   "ports": [
+    {
+     "name": "metrics",
+     "port": 8083,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.162"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "calico-apiserver-864fc5d5bb-vk5lx",
+      "namespace": "calico-apiserver"
+     }
+    },
+    {
+     "addresses": [
+      "192.168.41.175"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "calico-apiserver-864fc5d5bb-rq46n",
+      "namespace": "calico-apiserver"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "k8s-app": "tigera-api",
+     "kubernetes.io/service-name": "calico-api"
+    },
+    "name": "calico-api-hkmwt",
+    "namespace": "calico-apiserver"
+   },
+   "ports": [
+    {
+     "name": "apiserver",
+     "port": 5443,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.142"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "calico-kube-controllers-fb95db7f7-xqw2q",
+      "namespace": "calico-system"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "k8s-app": "calico-kube-controllers",
+     "kubernetes.io/service-name": "calico-kube-controllers-metrics",
+     "service.kubernetes.io/headless": ""
+    },
+    "name": "calico-kube-controllers-metrics-qfll5",
+    "namespace": "calico-system"
+   },
+   "ports": [
+    {
+     "name": "metrics-port",
+     "port": 9094,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.32.36"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "calico-typha-549b788cb-bqd7r",
+      "namespace": "calico-system"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "k8s-app": "calico-typha",
+     "kubernetes.io/service-name": "calico-typha"
+    },
+    "name": "calico-typha-bpn54",
+    "namespace": "calico-system"
+   },
+   "ports": [
+    {
+     "name": "calico-typha",
+     "port": 5473,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.188"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "cert-manager-webhook-5ff9d8f4fd-7lg5z",
+      "namespace": "cert-manager"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "webhook",
+     "app.kubernetes.io/component": "webhook",
+     "app.kubernetes.io/instance": "cert-manager",
+     "app.kubernetes.io/name": "webhook",
+     "app.kubernetes.io/version": "v1.15.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "cert-manager-webhook"
+    },
+    "name": "cert-manager-webhook-4q48g",
+    "namespace": "cert-manager"
+   },
+   "ports": [
+    {
+     "name": "https",
+     "port": 10250,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.140"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "cert-manager-7fd99b978b-z5p58",
+      "namespace": "cert-manager"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "cert-manager",
+     "app.kubernetes.io/component": "controller",
+     "app.kubernetes.io/instance": "cert-manager",
+     "app.kubernetes.io/name": "cert-manager",
+     "app.kubernetes.io/version": "v1.15.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "cert-manager"
+    },
+    "name": "cert-manager-wrp5k",
+    "namespace": "cert-manager"
+   },
+   "ports": [
+    {
+     "name": "tcp-prometheus-servicemonitor",
+     "port": 9402,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "cnpg-webhook-service"
+    },
+    "name": "cnpg-webhook-service-mwkcz",
+    "namespace": "cnpg-system"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "flask-vue",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "flask-vue-backend"
+    },
+    "name": "flask-vue-backend-gg7m5",
+    "namespace": "default"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "flask-vue",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "flask-vue-frontend"
+    },
+    "name": "flask-vue-frontend-g8rxf",
+    "namespace": "default"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.32.36"
+     ],
+     "conditions": {
+      "ready": true
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "kubernetes.io/service-name": "kubernetes"
+    },
+    "name": "kubernetes",
+    "namespace": "default"
+   },
+   "ports": [
+    {
+     "name": "https",
+     "port": 6443,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.131"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "coredns-5594bbd8f5-mbcjg",
+      "namespace": "kube-system"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "k8s-app": "kube-dns",
+     "kubernetes.io/cluster-service": "true",
+     "kubernetes.io/name": "CoreDNS",
+     "kubernetes.io/service-name": "kube-dns",
+     "objectset.rio.cattle.io/hash": "bce283298811743a0386ab510f2f67ef74240c57"
+    },
+    "name": "kube-dns-sb746",
+    "namespace": "kube-system"
+   },
+   "ports": [
+    {
+     "name": "metrics",
+     "port": 9153,
+     "protocol": "TCP"
+    },
+    {
+     "name": "dns",
+     "port": 53,
+     "protocol": "UDP"
+    },
+    {
+     "name": "dns-tcp",
+     "port": 53,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.131"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "coredns-5594bbd8f5-mbcjg",
+      "namespace": "kube-system"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "kube-prometheus-stack-coredns",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/part-of": "kube-prometheus-stack",
+     "app.kubernetes.io/version": "61.3.2",
+     "chart": "kube-prometheus-stack-61.3.2",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "heritage": "Helm",
+     "jobLabel": "coredns",
+     "kubernetes.io/service-name": "kube-prometheus-stack-coredns",
+     "release": "kube-prometheus-stack",
+     "service.kubernetes.io/headless": ""
+    },
+    "name": "kube-prometheus-stack-coredns-fb4dc",
+    "namespace": "kube-system"
+   },
+   "ports": [
+    {
+     "name": "http-metrics",
+     "port": 9153,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "kube-prometheus-stack-kube-proxy",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/part-of": "kube-prometheus-stack",
+     "app.kubernetes.io/version": "61.3.2",
+     "chart": "kube-prometheus-stack-61.3.2",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "heritage": "Helm",
+     "jobLabel": "kube-proxy",
+     "kubernetes.io/service-name": "kube-prometheus-stack-kube-proxy",
+     "release": "kube-prometheus-stack",
+     "service.kubernetes.io/headless": ""
+    },
+    "name": "kube-prometheus-stack-kube-proxy-2fqpk",
+    "namespace": "kube-system"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.32.36"
+     ],
+     "conditions": {
+      "ready": true
+     },
+     "targetRef": {
+      "kind": "Node",
+      "name": "k8server"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/managed-by": "prometheus-operator",
+     "app.kubernetes.io/name": "kubelet",
+     "endpointslice.kubernetes.io/managed-by": "endpointslicemirroring-controller.k8s.io",
+     "k8s-app": "kubelet",
+     "kubernetes.io/service-name": "kube-prometheus-stack-kubelet"
+    },
+    "name": "kube-prometheus-stack-kubelet-kvvkm",
+    "namespace": "kube-system"
+   },
+   "ports": [
+    {
+     "name": "http-metrics",
+     "port": 10255,
+     "protocol": "TCP"
+    },
+    {
+     "name": "https-metrics",
+     "port": 10250,
+     "protocol": "TCP"
+    },
+    {
+     "name": "cadvisor",
+     "port": 4194,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.189"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "metrics-server-c8774f4f4-qp986",
+      "namespace": "kube-system"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/cluster-service": "true",
+     "kubernetes.io/name": "Metrics-server",
+     "kubernetes.io/service-name": "metrics-server",
+     "objectset.rio.cattle.io/hash": "a5d3bc601c871e123fa32b27f549b6ea770bcf4a"
+    },
+    "name": "metrics-server-rk4bw",
+    "namespace": "kube-system"
+   },
+   "ports": [
+    {
+     "name": "https",
+     "port": 10250,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.145"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "traefik-5546cdbbd4-pgl5g",
+      "namespace": "kube-system"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "traefik-kube-system",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "traefik",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "traefik-39.0.701_up39.0.7",
+     "kubernetes.io/service-name": "traefik"
+    },
+    "name": "traefik-bdnnd",
+    "namespace": "kube-system"
+   },
+   "ports": [
+    {
+     "name": "web",
+     "port": 8000,
+     "protocol": "TCP"
+    },
+    {
+     "name": "websecure",
+     "port": 8443,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.156"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "controller-6cb96f995b-wpm9n",
+      "namespace": "metallb-system"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "metallb-webhook-service"
+    },
+    "name": "metallb-webhook-service-dt5lb",
+    "namespace": "metallb-system"
+   },
+   "ports": [
+    {
+     "name": "",
+     "port": 9443,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.163"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "alertmanager-kube-prometheus-stack-alertmanager-0",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "alertmanager-operated",
+     "managed-by": "prometheus-operator",
+     "operated-alertmanager": "true",
+     "service.kubernetes.io/headless": ""
+    },
+    "name": "alertmanager-operated-hq8rc",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "name": "http-web",
+     "port": 9093,
+     "protocol": "TCP"
+    },
+    {
+     "name": "udp-mesh",
+     "port": 9094,
+     "protocol": "UDP"
+    },
+    {
+     "name": "tcp-mesh",
+     "port": 9094,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.163"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "alertmanager-kube-prometheus-stack-alertmanager-0",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "kube-prometheus-stack-alertmanager",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/part-of": "kube-prometheus-stack",
+     "app.kubernetes.io/version": "61.3.2",
+     "chart": "kube-prometheus-stack-61.3.2",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "heritage": "Helm",
+     "kubernetes.io/service-name": "kube-prometheus-stack-alertmanager",
+     "release": "kube-prometheus-stack",
+     "self-monitor": "true"
+    },
+    "name": "kube-prometheus-stack-alertmanager-php8b",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "appProtocol": "http",
+     "name": "reloader-web",
+     "port": 8080,
+     "protocol": "TCP"
+    },
+    {
+     "name": "http-web",
+     "port": 9093,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.130"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "kube-prometheus-stack-grafana-548ff494b-m97q6",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "grafana",
+     "app.kubernetes.io/version": "11.1.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "grafana-8.3.4",
+     "kubernetes.io/service-name": "kube-prometheus-stack-grafana"
+    },
+    "name": "kube-prometheus-stack-grafana-5wmfz",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "name": "http-web",
+     "port": 3000,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.176"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "kube-prometheus-stack-kube-state-metrics-6bbb95858-4kvr6",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "kube-state-metrics",
+     "app.kubernetes.io/part-of": "kube-state-metrics",
+     "app.kubernetes.io/version": "2.12.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "kube-state-metrics-5.21.0",
+     "kubernetes.io/service-name": "kube-prometheus-stack-kube-state-metrics",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-kube-state-metrics-4vqff",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "name": "http",
+     "port": 8080,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.173"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "kube-prometheus-stack-operator-6566c5c-wp6gz",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "kube-prometheus-stack-operator",
+     "app.kubernetes.io/component": "prometheus-operator",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "kube-prometheus-stack-prometheus-operator",
+     "app.kubernetes.io/part-of": "kube-prometheus-stack",
+     "app.kubernetes.io/version": "61.3.2",
+     "chart": "kube-prometheus-stack-61.3.2",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "heritage": "Helm",
+     "kubernetes.io/service-name": "kube-prometheus-stack-operator",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-operator-llvng",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "name": "https",
+     "port": 10250,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.154"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "prometheus-kube-prometheus-stack-prometheus-0",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "kube-prometheus-stack-prometheus",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/part-of": "kube-prometheus-stack",
+     "app.kubernetes.io/version": "61.3.2",
+     "chart": "kube-prometheus-stack-61.3.2",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "heritage": "Helm",
+     "kubernetes.io/service-name": "kube-prometheus-stack-prometheus",
+     "release": "kube-prometheus-stack",
+     "self-monitor": "true"
+    },
+    "name": "kube-prometheus-stack-prometheus-dzsqp",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "appProtocol": "http",
+     "name": "reloader-web",
+     "port": 8080,
+     "protocol": "TCP"
+    },
+    {
+     "name": "http-web",
+     "port": 9090,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.32.36"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "kube-prometheus-stack-prometheus-node-exporter-zt5lv",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "prometheus-node-exporter",
+     "app.kubernetes.io/part-of": "prometheus-node-exporter",
+     "app.kubernetes.io/version": "1.8.1",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "prometheus-node-exporter-4.37.0",
+     "jobLabel": "node-exporter",
+     "kubernetes.io/service-name": "kube-prometheus-stack-prometheus-node-exporter",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-prometheus-node-exporter-9d4zj",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "name": "http-metrics",
+     "port": 9100,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.154"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "prometheus-kube-prometheus-stack-prometheus-0",
+      "namespace": "monitoring"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "prometheus-operated",
+     "managed-by": "prometheus-operator",
+     "operated-prometheus": "true",
+     "service.kubernetes.io/headless": ""
+    },
+    "name": "prometheus-operated-n7phr",
+    "namespace": "monitoring"
+   },
+   "ports": [
+    {
+     "name": "http-web",
+     "port": 9090,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.157"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "otel-collector-669b69c45f-rqcg5",
+      "namespace": "observability"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "standalone-collector",
+     "app.kubernetes.io/instance": "otel-collector",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "opentelemetry-collector",
+     "app.kubernetes.io/part-of": "opentelemetry-collector",
+     "app.kubernetes.io/version": "0.159.0",
+     "component": "standalone-collector",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "opentelemetry-collector-0.172.0",
+     "kubernetes.io/service-name": "otel-collector"
+    },
+    "name": "otel-collector-9b8s8",
+    "namespace": "observability"
+   },
+   "ports": [
+    {
+     "name": "metrics",
+     "port": 8888,
+     "protocol": "TCP"
+    },
+    {
+     "name": "otlp-http",
+     "port": 4318,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.159"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "tempo-0",
+      "namespace": "observability"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "tempo",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "tempo",
+     "app.kubernetes.io/version": "2.9.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "tempo-1.24.4",
+     "kubernetes.io/service-name": "tempo"
+    },
+    "name": "tempo-cqfrd",
+    "namespace": "observability"
+   },
+   "ports": [
+    {
+     "name": "tempo-jaeger-thrift-compact",
+     "port": 6831,
+     "protocol": "UDP"
+    },
+    {
+     "name": "tempo-jaeger-thrift-http",
+     "port": 14268,
+     "protocol": "TCP"
+    },
+    {
+     "name": "tempo-otlp-legacy",
+     "port": 55680,
+     "protocol": "TCP"
+    },
+    {
+     "name": "tempo-jaeger-thrift-binary",
+     "port": 6832,
+     "protocol": "UDP"
+    },
+    {
+     "name": "grpc-tempo-jaeger",
+     "port": 14250,
+     "protocol": "TCP"
+    },
+    {
+     "name": "grpc-tempo-otlp",
+     "port": 4317,
+     "protocol": "TCP"
+    },
+    {
+     "name": "tempo-opencensus",
+     "port": 55678,
+     "protocol": "TCP"
+    },
+    {
+     "name": "tempo-prom-metrics",
+     "port": 3200,
+     "protocol": "TCP"
+    },
+    {
+     "name": "tempo-otlp-http-legacy",
+     "port": 55681,
+     "protocol": "TCP"
+    },
+    {
+     "name": "tempo-zipkin",
+     "port": 9411,
+     "protocol": "TCP"
+    },
+    {
+     "name": "tempo-otlp-http",
+     "port": 4318,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.138"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "flask-vue-backend-6688dd7cbf-6tspt",
+      "namespace": "sre-lab-app"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "flask-vue",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "flask-vue-backend"
+    },
+    "name": "flask-vue-backend-2pdnq",
+    "namespace": "sre-lab-app"
+   },
+   "ports": [
+    {
+     "name": "http",
+     "port": 5000,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.183"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "flask-vue-frontend-7c9cf766d4-fdfk5",
+      "namespace": "sre-lab-app"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "flask-vue",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "flask-vue-frontend"
+    },
+    "name": "flask-vue-frontend-6rxwd",
+    "namespace": "sre-lab-app"
+   },
+   "ports": [
+    {
+     "name": "http",
+     "port": 80,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.153"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "redis-master-0",
+      "namespace": "sre-lab-app"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "redis",
+     "app.kubernetes.io/version": "8.8.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "redis-27.0.13",
+     "kubernetes.io/service-name": "redis-headless",
+     "service.kubernetes.io/headless": ""
+    },
+    "name": "redis-headless-hqsh6",
+    "namespace": "sre-lab-app"
+   },
+   "ports": [
+    {
+     "name": "tcp-redis",
+     "port": 6379,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.153"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "redis-master-0",
+      "namespace": "sre-lab-app"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "master",
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "redis",
+     "app.kubernetes.io/version": "8.8.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "redis-27.0.13",
+     "kubernetes.io/service-name": "redis-master"
+    },
+    "name": "redis-master-4kfbq",
+    "namespace": "sre-lab-app"
+   },
+   "ports": [
+    {
+     "name": "tcp-redis",
+     "port": 6379,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.153"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "redis-master-0",
+      "namespace": "sre-lab-app"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "redis",
+     "app.kubernetes.io/version": "8.8.0",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "helm.sh/chart": "redis-27.0.13",
+     "kubernetes.io/service-name": "redis-metrics"
+    },
+    "name": "redis-metrics-rccfw",
+    "namespace": "sre-lab-app"
+   },
+   "ports": [
+    {
+     "name": "http-metrics",
+     "port": 9121,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "database",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "app.kubernetes.io/version": "16",
+     "cnpg.io/cluster": "url-shortener-db",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "url-shortener-db-r"
+    },
+    "name": "url-shortener-db-r-mgh2l",
+    "namespace": "sre-lab-app"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "database",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "app.kubernetes.io/version": "16",
+     "cnpg.io/cluster": "url-shortener-db",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "url-shortener-db-ro"
+    },
+    "name": "url-shortener-db-ro-kq678",
+    "namespace": "sre-lab-app"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "database",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "app.kubernetes.io/version": "16",
+     "cnpg.io/cluster": "url-shortener-db",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "url-shortener-db-rw"
+    },
+    "name": "url-shortener-db-rw-hpcf4",
+    "namespace": "sre-lab-app"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.160"
+     ],
+     "conditions": {
+      "ready": false,
+      "serving": false,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "url-shortener-6f89bdc657-nzmcz",
+      "namespace": "sre-lab-app"
+     }
+    },
+    {
+     "addresses": [
+      "192.168.41.177"
+     ],
+     "conditions": {
+      "ready": false,
+      "serving": false,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "url-shortener-6f89bdc657-rgwsv",
+      "namespace": "sre-lab-app"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app": "url-shortener",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "url-shortener"
+    },
+    "name": "url-shortener-lhxfc",
+    "namespace": "sre-lab-app"
+   },
+   "ports": [
+    {
+     "name": "http",
+     "port": 8080,
+     "protocol": "TCP"
+    }
+   ]
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "pooler",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/podRole": "pooler",
+     "cnpg.io/poolerName": "url-shortener-pooler",
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "url-shortener-pooler"
+    },
+    "name": "url-shortener-pooler-72vfj",
+    "namespace": "sre-lab-app"
+   },
+   "ports": []
+  },
+  {
+   "addressType": "IPv4",
+   "apiVersion": "discovery.k8s.io/v1",
+   "endpoints": [
+    {
+     "addresses": [
+      "192.168.41.147"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "whoami-76bcdb9fb7-4l48g",
+      "namespace": "sre-lab-app"
+     }
+    },
+    {
+     "addresses": [
+      "192.168.41.152"
+     ],
+     "conditions": {
+      "ready": true,
+      "serving": true,
+      "terminating": false
+     },
+     "targetRef": {
+      "kind": "Pod",
+      "name": "whoami-76bcdb9fb7-hmfz7",
+      "namespace": "sre-lab-app"
+     }
+    }
+   ],
+   "kind": "EndpointSlice",
+   "metadata": {
+    "labels": {
+     "endpointslice.kubernetes.io/managed-by": "endpointslice-controller.k8s.io",
+     "kubernetes.io/service-name": "whoami"
+    },
+    "name": "whoami-99h4d",
+    "namespace": "sre-lab-app"
+   },
+   "ports": [
+    {
+     "name": "",
+     "port": 80,
+     "protocol": "TCP"
+    }
+   ]
+  }
+ ],
+ "kind": "EndpointSliceList"
+}

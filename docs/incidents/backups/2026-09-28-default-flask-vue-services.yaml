@@ -1,0 +1,73 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"backend","app.kubernetes.io/name":"flask-vue"},"name":"flask-vue-backend","namespace":"default"},"spec":{"ports":[{"name":"http","port":80,"protocol":"TCP","targetPort":"http"}],"selector":{"app.kubernetes.io/component":"backend","app.kubernetes.io/name":"flask-vue"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-08-31T08:45:41Z"
+    labels:
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/name: flask-vue
+    name: flask-vue-backend
+    namespace: default
+    resourceVersion: "11685491"
+    uid: 68aa6273-a32d-41d3-bbdc-5c71869452f2
+  spec:
+    clusterIP: 10.43.24.81
+    clusterIPs:
+    - 10.43.24.81
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    selector:
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/name: flask-vue
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app.kubernetes.io/component":"frontend","app.kubernetes.io/name":"flask-vue"},"name":"flask-vue-frontend","namespace":"default"},"spec":{"ports":[{"name":"http","port":80,"protocol":"TCP","targetPort":"http"}],"selector":{"app.kubernetes.io/component":"frontend","app.kubernetes.io/name":"flask-vue"},"type":"ClusterIP"}}
+    creationTimestamp: "2026-08-31T08:45:41Z"
+    labels:
+      app.kubernetes.io/component: frontend
+      app.kubernetes.io/name: flask-vue
+    name: flask-vue-frontend
+    namespace: default
+    resourceVersion: "11685500"
+    uid: 5c39f94f-0591-456e-ab8b-f04635de466c
+  spec:
+    clusterIP: 10.43.89.25
+    clusterIPs:
+    - 10.43.89.25
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    selector:
+      app.kubernetes.io/component: frontend
+      app.kubernetes.io/name: flask-vue
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""

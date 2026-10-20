@@ -1,0 +1,40 @@
+Kubemap {{ .Chart.AppVersion }} is installed as release "{{ .Release.Name }}" (revision {{ .Release.Revision }}).
+
+1. Wait for the server and the node agents:
+     kubectl -n kubemap-system rollout status deploy/kubemap --timeout=180s
+     kubectl -n kubemap-node rollout status ds/kubemap-node-agent
+
+2. Set the admin password (the image has no shell; this prints the new one):
+     kubectl -n kubemap-system exec deploy/kubemap -- /usr/local/bin/kubemap-portal reset-admin-password
+
+3. Open the web page:
+{{- if .Values.ingress.enabled }}
+     https://{{ .Values.ingress.host }}/
+   The name must point at Traefik's address (DNS or /etc/hosts); cert-manager issues the certificate with {{ .Values.ingress.issuer }}.
+{{- else }}
+     kubectl -n kubemap-system port-forward svc/kubemap 8080:8080
+     http://localhost:8080/
+{{- end }}
+   Log in as admin, set a new password, then turn on two-factor sign-in under #/security
+   (https://HOST/#/security).
+
+4. Recommended: --create-namespace made kubemap-system without the Pod Security label that
+   deploy/kubemap.yaml sets. Add it now (next time, run `kubectl create ns kubemap-system` and
+   label it BEFORE helm install, so there is no unlabelled window):
+     kubectl label ns kubemap-system pod-security.kubernetes.io/enforce=restricted app.kubernetes.io/managed-by=kubemap --overwrite
+
+Uninstall caveats:
+  helm uninstall {{ .Release.Name }} -n kubemap-system
+  - removes the server, node agents, RBAC, ingress, NetworkPolicies and the namespace kubemap-node;
+  - keeps the namespace kubemap-system (Helm did not create it as part of the release);
+{{- if .Values.persistence.keepOnUninstall }}
+  - KEEPS the PVC kubemap-data with the database (persistence.keepOnUninstall=true). A new
+    helm install then fails on that PVC until you either delete it (data is lost):
+        kubectl -n kubemap-system delete pvc kubemap-data
+    or let the new release adopt it (data is kept):
+        kubectl -n kubemap-system label pvc kubemap-data app.kubernetes.io/managed-by=Helm --overwrite
+        (Helm 3.2 or newer; keep the same persistence.size and storageClass, they cannot change on an existing PVC)
+        kubectl -n kubemap-system annotate pvc kubemap-data meta.helm.sh/release-name={{ .Release.Name }} meta.helm.sh/release-namespace=kubemap-system --overwrite
+{{- else }}
+  - DELETES the PVC kubemap-data and the database (persistence.keepOnUninstall=false). No way back.
+{{- end }}

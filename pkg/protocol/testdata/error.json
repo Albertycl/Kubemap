@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "type": "error",
+  "id": "x-9",
+  "payload": {
+    "code": "unsupported",
+    "message": "unknown message type \"exec\""
+  }
+}

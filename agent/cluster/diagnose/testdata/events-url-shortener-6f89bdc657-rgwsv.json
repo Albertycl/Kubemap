@@ -1,0 +1,111 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "count": null,
+   "eventTime": "2026-09-27T23:34:53.718301Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "url-shortener-6f89bdc657-rgwsv",
+    "namespace": "sre-lab-app",
+    "uid": "c306c381-f0aa-4d5f-bd30-7e686d2d4edb"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "0/1 nodes are available: 1 node(s) had untolerated taint(s). no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+   "metadata": {
+    "name": "url-shortener-6f89bdc657-rgwsv.18d951a479e959f9",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "FailedScheduling",
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": null,
+   "eventTime": "2026-09-27T23:39:55.456976Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "url-shortener-6f89bdc657-rgwsv",
+    "namespace": "sre-lab-app",
+    "uid": "c306c381-f0aa-4d5f-bd30-7e686d2d4edb"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "0/1 nodes are available: 1 node(s) had untolerated taint(s). no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+   "metadata": {
+    "name": "url-shortener-6f89bdc657-rgwsv.18d951eabaf018f3",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "FailedScheduling",
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": null,
+   "eventTime": "2026-09-27T23:47:44.194776Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "url-shortener-6f89bdc657-rgwsv",
+    "namespace": "sre-lab-app",
+    "uid": "c306c381-f0aa-4d5f-bd30-7e686d2d4edb"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned sre-lab-app/url-shortener-6f89bdc657-rgwsv to k8server",
+   "metadata": {
+    "name": "url-shortener-6f89bdc657-rgwsv.18d95257dde362ff",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Scheduled",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 71,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:52:05Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "url-shortener-6f89bdc657-rgwsv",
+    "namespace": "sre-lab-app",
+    "uid": "c306c381-f0aa-4d5f-bd30-7e686d2d4edb"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:07:11Z",
+   "message": "Container image \"docker.io/library/url-shortener:v0.2\" is not present with pull policy of Never",
+   "metadata": {
+    "name": "url-shortener-6f89bdc657-rgwsv.18d95294d1904977",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "ErrImageNeverPull",
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 12,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:52:05Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "url-shortener-6f89bdc657-rgwsv",
+    "namespace": "sre-lab-app",
+    "uid": "c306c381-f0aa-4d5f-bd30-7e686d2d4edb"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-27T23:54:03Z",
+   "message": "Error: ErrImageNeverPull",
+   "metadata": {
+    "name": "url-shortener-6f89bdc657-rgwsv.18d95294d1909b2a",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Failed",
+   "type": "Warning"
+  }
+ ],
+ "kind": "EventList"
+}

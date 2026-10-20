@@ -1,0 +1,111 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "count": null,
+   "eventTime": "2026-09-28T00:24:25.871921Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned kubemap-demo/oom-69b9ccc88-x5x2x to k8server",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d954587c127d23",
+    "namespace": "kubemap-demo"
+   },
+   "reason": "Scheduled",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 7,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:28Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:30:11Z",
+   "message": "Container image \"busybox:1.36\" already present on machine",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d95459113dbcb5",
+    "namespace": "kubemap-demo"
+   },
+   "reason": "Pulled",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 7,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:28Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:30:11Z",
+   "message": "Created container: report-builder",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d9545913865541",
+    "namespace": "kubemap-demo"
+   },
+   "reason": "Created",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 7,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:28Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:30:11Z",
+   "message": "Started container report-builder",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d95459321eb208",
+    "namespace": "kubemap-demo"
+   },
+   "reason": "Started",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 26,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-28T00:24:32Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo",
+    "uid": "fb38d763-856d-4338-9f6a-69693c041f1a"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-28T00:29:59Z",
+   "message": "Back-off restarting failed container report-builder in pod oom-69b9ccc88-x5x2x_kubemap-demo(fb38d763-856d-4338-9f6a-69693c041f1a)",
+   "metadata": {
+    "name": "oom-69b9ccc88-x5x2x.18d95459f6d740d0",
+    "namespace": "kubemap-demo"
+   },
+   "reason": "BackOff",
+   "type": "Warning"
+  }
+ ],
+ "kind": "EventList"
+}

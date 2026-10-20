@@ -1,0 +1,47 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-11",
+  "payload": {
+    "object": {
+      "services": [
+        {
+          "id": "Service/kubemap-demo/catalog",
+          "namespace": "kubemap-demo",
+          "name": "catalog",
+          "type": "ClusterIP",
+          "selector": {
+            "app.kubernetes.io/name": "catalog-api"
+          },
+          "podsMatched": 0,
+          "podsReady": 0,
+          "readyEndpoints": 0,
+          "healthy": false,
+          "findings": [
+            {
+              "severity": "critical",
+              "problem": "selector matches no pods",
+              "detail": "No running pod in kubemap-demo has all of app.kubernetes.io/name=catalog-api. Pods here have app.kubernetes.io/name=api,batch-worker,catalog,checkout,oom, not catalog-api (a typo? \"catalog-api\" vs \"catalog\").",
+              "fix": "Fix the Service's selector, or the labels in the workload's pod template, so they agree.",
+              "command": "kubectl -n kubemap-demo get pods -l app.kubernetes.io/name=catalog-api; kubectl -n kubemap-demo get pods --show-labels"
+            }
+          ]
+        },
+        {
+          "id": "Service/kubemap-demo/api",
+          "namespace": "kubemap-demo",
+          "name": "api",
+          "type": "ClusterIP",
+          "selector": {
+            "app.kubernetes.io/name": "api"
+          },
+          "podsMatched": 1,
+          "podsReady": 1,
+          "readyEndpoints": 1,
+          "healthy": true
+        }
+      ],
+      "problems": 1
+    }
+  }
+}

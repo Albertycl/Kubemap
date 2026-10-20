@@ -1,0 +1,8 @@
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo: 34866053777 70247003    0    0    0     0          0         0 34866053777 70247003    0    0    0     0       0          0
+ ens33: 17113554759 144329399    0    0    0     0          0         0 374968001030 265092427    0    0    0     0       0          0
+docker0: 2028303416 1589276    0    0    0     0          0         0 1295203202 1655572    0    0    0     0       0          0
+veth009d0a6: 13900516  185795    0    0    0     0          0         0 12561803  188991    0    0    0     0       0          0
+vxlan.calico:       0       0    0    0    0     0          0         0        0       0    0 1872    0     0       0          0
+cali148c0c98d5a: 370311867 1302671    0    0    0     0          0         0 391926626 1271738    0    0    0     0       0          0

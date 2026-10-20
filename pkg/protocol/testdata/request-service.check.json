@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-11",
+  "payload": {
+    "op": "service.check",
+    "namespace": "kubemap-demo"
+  }
+}

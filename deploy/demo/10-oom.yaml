@@ -1,0 +1,44 @@
+# oom: the container has a 24 MiB memory limit, but the report job needs a
+# 32 MiB string, so the kernel's memory cgroup OOM killer kills it (exit 137,
+# SIGKILL) and it restarts again and again. Fix: raise the limit to 48Mi (fits
+# the quota). Note: on k8server (k3s v1.34.8, containerd 2.2.3) the kubelet
+# reports "Reason: Error, Exit Code: 137", not "OOMKilled"; the node's kernel
+# log proves the OOM kill (docs/demo-scenarios.md).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oom
+  namespace: kubemap-demo
+  labels: &labels
+    app.kubernetes.io/part-of: kubemap-demo
+    app.kubernetes.io/name: oom
+    kubemap.io/scenario: oom
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: oom
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: report-builder
+          image: busybox:1.36
+          # awk is PID 1 and holds a 32 MiB string itself, so the container
+          # (not just a child process) is OOMKilled. With enough memory it
+          # prints "report done" and sleeps.
+          command: ["sh", "-c", "echo 'building monthly report (needs 32 MiB)'; exec awk 'BEGIN { s = sprintf(\"%33554432s\", \"\"); print \"report done, \" length(s) \" bytes\"; system(\"exec sleep 3600\") }'"]
+          resources:
+            requests: {cpu: 10m, memory: 24Mi}
+            limits: {cpu: 100m, memory: 24Mi}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}

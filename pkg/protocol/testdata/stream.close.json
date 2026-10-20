@@ -1,0 +1,8 @@
+{
+  "v": 1,
+  "type": "stream.close",
+  "id": "s-1",
+  "payload": {
+    "reason": "pod deleted"
+  }
+}

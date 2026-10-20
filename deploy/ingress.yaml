@@ -1,0 +1,76 @@
+# Kubemap web access through Traefik (k3s ships it in kube-system).
+# Same style as the other apps in this cluster: a cert-manager Certificate,
+# an IngressRoute on the websecure entrypoint with tls.secretName, and an
+# http -> https redirect. TLS ends at Traefik; the server speaks plain HTTP on
+# port 8080 and reads X-Forwarded-Proto for its Secure cookie, and
+# X-Forwarded-For (from the trusted proxies only) for the client address.
+# /v1/connect is not routed: node agents connect to the Service inside the
+# cluster, and nobody outside needs that endpoint.
+#
+# kubemap.albertycliu.xyz is a placeholder: deploy/install.sh --host HOST replaces
+# it. letsencrypt-prod is the default issuer (public names); lab-ca-issuer is
+# this lab's private CA, for a private name (deploy/install.sh --issuer NAME).
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kubemap-tls
+  namespace: kubemap-system
+  labels:
+    app.kubernetes.io/part-of: kubemap
+spec:
+  secretName: kubemap-tls
+  dnsNames:
+    - kubemap.albertycliu.xyz
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+  namespace: kubemap-system
+  labels:
+    app.kubernetes.io/part-of: kubemap
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubemap
+  namespace: kubemap-system
+  labels:
+    app.kubernetes.io/part-of: kubemap
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`kubemap.albertycliu.xyz`) && !PathPrefix(`/v1/connect`)
+      services:
+        - name: kubemap
+          port: 8080
+  tls:
+    secretName: kubemap-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubemap-http-redirect
+  namespace: kubemap-system
+  labels:
+    app.kubernetes.io/part-of: kubemap
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`kubemap.albertycliu.xyz`)
+      middlewares:
+        - name: redirect-https
+      services:
+        - kind: TraefikService
+          name: noop@internal

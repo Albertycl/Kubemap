@@ -1,0 +1,12 @@
+{
+  "v": 1,
+  "type": "register",
+  "id": "reg-3",
+  "payload": {
+    "role": "node",
+    "agentVersion": "v0.1.0",
+    "clusterId": "c-example",
+    "nodeName": "k8server",
+    "serviceAccountToken": "satok_example"
+  }
+}

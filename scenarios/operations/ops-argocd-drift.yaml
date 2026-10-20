@@ -1,0 +1,67 @@
+# KM-88. Placeholders: <argoapp>, <ns>, <deploy>. k8server facts (28 Sep
+# 2026): Argo CD apps flask-vue (Synced) and url-shortener (OutOfSync:
+# Service and Deployment), both with manual sync; the url-shortener
+# Deployment carries a kubectl last-applied annotation (a change by hand).
+id: ops-argocd-drift
+area: operations
+title: "Argo CD shows OutOfSync: drift between Git and the cluster"
+question: "An Argo CD application is OutOfSync, and nobody knows why. What do you do?"
+symptoms:
+  - "Argo CD shows OutOfSync on an app that nobody changed in Git"
+  - "Someone fixed something with kubectl during an incident, and the fix is not in Git"
+  - "Or a sync keeps undoing a change people expect to stay"
+steps:
+  - title: "Which resources drift, since when?"
+    why: "OutOfSync is per resource: find exactly which objects differ, and when the app was last synced and reconciled. On k8server url-shortener shows its Service and Deployment OutOfSync."
+    command: "kubectl -n argocd get applications.argoproj.io <argoapp> -o jsonpath='{range .status.resources[?(@.status!=\"Synced\")]}{.kind}/{.namespace}/{.name}: {.status}{\"\\n\"}{end}{\"reconciled \"}{.status.reconciledAt}{\"  revision \"}{.status.sync.revision}{\"\\n\"}'"
+    kubemap: "app-map"
+    check: {op: "appmap", args: {namespace: "$ns"}}
+    good: "Everything Synced: the drift was temporary."
+    bad: "Named resources are OutOfSync: see what differs (next step)."
+  - title: "What exactly differs?"
+    why: "The diff decides everything: a real change made by hand, a field a controller sets (replicas from an HPA, defaults added by a webhook), or a change in Git that was never synced. The argocd CLI shows it; without it, compare the live object with the Git manifest."
+    command: "argocd app diff <argoapp>   # needs the argocd CLI, logged in; or: kubectl -n <ns> get deployment <deploy> -o yaml, compared with the manifest in Git"
+    kubemap: "app-map"
+    good: "The diff is only fields a controller manages: tell Argo CD to ignore them (ignoreDifferences)."
+    bad: "A real change (image, env, replicas, a Service port): find out who made it and why."
+  - title: "Who changed it by hand?"
+    why: "A change made with kubectl apply leaves a last-applied annotation and a managedFields entry for 'kubectl'; kubectl edit and patch leave managedFields too. That tells you the tool and time of the last manual change, often an incident fix nobody put back into Git. k8server's url-shortener Deployment (28 Sep 2026): kubectl-client-side-apply (24 Jun), kubectl-patch (12 Jul), kubectl-set (16 Jul), kubectl-rollout (3 Aug), and never argocd-application-controller: Argo CD has never synced it."
+    command: "kubectl -n <ns> get deployment <deploy> -o jsonpath='{range .metadata.managedFields[*]}{.manager}{\"  \"}{.operation}{\"  \"}{.time}{\"\\n\"}{end}'; kubectl -n <ns> get deployment <deploy> -o jsonpath='{.metadata.annotations.kubectl\\.kubernetes\\.io/last-applied-configuration}' | head -c 300"
+    kubemap: "app-map"
+    good: "Only argocd-application-controller (and Kubernetes' own controllers) changed it."
+    bad: "kubectl-client-side-apply, kubectl-edit or kubectl-patch changed it: a manual change; ask its author and the incident log."
+  - title: "Is the change in Git, and is sync automatic?"
+    why: "With manual sync (both k8server apps) drift stays until someone syncs; with automated sync and selfHeal, Argo CD reverts manual changes within minutes, which can silently undo an incident fix. Know which one you have before you sync."
+    command: "kubectl -n argocd get applications.argoproj.io <argoapp> -o jsonpath='automated: {.spec.syncPolicy.automated}  source: {.spec.source.repoURL} {.spec.source.path} {.spec.source.targetRevision}{\"\\n\"}'"
+    kubemap: "app-map"
+    good: "You know whether a sync will keep or revert the live change."
+    bad: "selfHeal on and the fix is only live: put it into Git first, or it will be undone."
+  - title: "Decide: Git wins or the live change wins"
+    why: "GitOps means Git is the truth. Either the live change was right (commit it to Git, then sync, and the app is Synced with the fix), or it was wrong (sync from Git and it is reverted). Never leave an app OutOfSync as the normal state: the next sync then does something surprising."
+    command: "argocd app history <argoapp>; argocd app sync <argoapp> --dry-run   # needs the argocd CLI, logged in (argocd login); a dry run shows what a sync would change"
+    kubemap: "app-map"
+    good: "The fix is in Git and the app is Synced."
+    bad: "Still OutOfSync with no owner: add it to the incident follow-ups."
+causes:
+  - cause: "A manual kubectl change during an incident that was never committed to Git (k8server url-shortener: kubectl last-applied on the Deployment)."
+    fix: "Commit the change to Git (or revert it), then sync."
+    prove: "kubectl -n argocd get applications.argoproj.io <argoapp> -o jsonpath='{.status.sync.status}'   # Synced"
+  - cause: "A controller sets fields Argo CD compares (HPA replicas, webhook defaults, cert-manager annotations)."
+    fix: "Add ignoreDifferences for those fields, or remove them from the Git manifest."
+    prove: "argocd app diff <argoapp>   # empty"
+  - cause: "A new commit in Git that was not synced (manual sync policy)."
+    fix: "Review and sync, or enable automated sync if the team wants it."
+    prove: "argocd app get <argoapp>   # Synced to the newest revision"
+  - cause: "Two tools manage the same object (Helm or kubectl and Argo CD)."
+    fix: "Pick one owner; remove the object from the other tool."
+    prove: "managedFields show one manager"
+prevention:
+  - "No kubectl write access for people on GitOps namespaces; changes through pull requests"
+  - "Incident runbooks end with 'put the fix into Git'"
+  - "Alerts on apps OutOfSync for more than an hour"
+  - "ignoreDifferences for fields that controllers own, kept in Git with a comment why"
+senior:
+  - "Drift is information: first I learn who changed what and why, then I decide which side wins."
+  - "With selfHeal on, a hot fix with kubectl lasts minutes; I commit it to Git as part of the mitigation."
+  - "An app that stays OutOfSync hides the next real change: I treat long drift as a defect."
+  - "What I would automate: a daily report of drifted apps with their managedFields managers."

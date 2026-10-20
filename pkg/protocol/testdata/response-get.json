@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-2",
+  "payload": {
+    "object": {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "web",
+        "namespace": "kubemap-demo"
+      }
+    }
+  }
+}

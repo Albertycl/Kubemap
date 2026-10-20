@@ -1,0 +1,34 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-13",
+  "payload": {
+    "object": {
+      "time": "2026-09-27T12:00:00Z",
+      "pods": [
+        {
+          "namespace": "sre-lab-app",
+          "name": "flask-vue-backend-6688dd7cbf-6tspt",
+          "node": "k8server",
+          "sampledAt": "2026-09-27T11:59:48Z",
+          "windowSeconds": 15.1,
+          "cpuMillis": 2,
+          "memoryBytes": 50212864,
+          "containers": [
+            {
+              "name": "backend",
+              "cpuMillis": 2,
+              "memoryBytes": 50212864,
+              "cpuRequestMillis": 50,
+              "memoryRequestBytes": 67108864,
+              "memoryLimitBytes": 268435456,
+              "cpuOfRequest": 4,
+              "memoryOfRequest": 74.8,
+              "memoryOfLimit": 18.7
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

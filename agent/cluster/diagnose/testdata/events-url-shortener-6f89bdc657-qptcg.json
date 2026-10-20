@@ -1,0 +1,48 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:34:51Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "url-shortener-6f89bdc657-qptcg",
+    "namespace": "sre-lab-app",
+    "uid": "6719c241-ae58-4921-83c0-9751027b3188"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-27T23:34:51Z",
+   "message": "The node was low on resource: ephemeral-storage. Threshold quantity: 5003678589, available: 9874964Ki. Container url-shortener was using 32Ki, request is 0, has larger consumption of ephemeral-storage. ",
+   "metadata": {
+    "name": "url-shortener-6f89bdc657-qptcg.18d951a40b13df82",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Evicted",
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:34:51Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "url-shortener-6f89bdc657-qptcg",
+    "namespace": "sre-lab-app",
+    "uid": "6719c241-ae58-4921-83c0-9751027b3188"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-27T23:34:51Z",
+   "message": "Stopping container url-shortener",
+   "metadata": {
+    "name": "url-shortener-6f89bdc657-qptcg.18d951a40b17b866",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Killing",
+   "type": "Normal"
+  }
+ ],
+ "kind": "EventList"
+}

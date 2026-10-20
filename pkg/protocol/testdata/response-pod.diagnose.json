@@ -1,0 +1,61 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-8",
+  "payload": {
+    "object": {
+      "namespace": "sre-lab-app",
+      "name": "url-shortener-6f89bdc657-rgwsv",
+      "node": "k8server",
+      "owner": "Deployment/sre-lab-app/url-shortener",
+      "phase": "Pending",
+      "status": "ErrImageNeverPull",
+      "qosClass": "BestEffort",
+      "findings": [
+        {
+          "severity": "critical",
+          "container": "url-shortener",
+          "title": "Image not on the node",
+          "detail": "Container image \"docker.io/library/url-shortener:v0.2\" is not present with pull policy of Never The image docker.io/library/url-shortener:v0.2 must already be on node k8server because imagePullPolicy is Never. A locally built or imported image is lost when the kubelet's image garbage collection runs (for example under disk pressure) or when the pod moves to another node. Import the image on the node again, or push it to a registry and use IfNotPresent."
+        },
+        {
+          "severity": "info",
+          "container": "url-shortener",
+          "title": "No memory limit",
+          "detail": "Without a limit the container can use the node's memory until the node is under pressure, and then it is among the first to be evicted or OOM-killed."
+        }
+      ],
+      "containers": [
+        {
+          "name": "url-shortener",
+          "image": "docker.io/library/url-shortener:v0.2",
+          "ready": false,
+          "restarts": 0,
+          "state": "waiting: ErrImageNeverPull",
+          "probes": [
+            "liveness: GET /healthz :8080 every 10s, timeout 1s, 3 failures, first after 10s"
+          ]
+        }
+      ],
+      "events": [
+        {
+          "type": "Warning",
+          "reason": "ErrImageNeverPull",
+          "message": "Container image \"docker.io/library/url-shortener:v0.2\" is not present with pull policy of Never",
+          "count": 88,
+          "lastSeen": "2026-09-27T12:00:00Z"
+        },
+        {
+          "type": "Normal",
+          "reason": "Scheduled",
+          "message": "Successfully assigned sre-lab-app/url-shortener-6f89bdc657-rgwsv to k8server",
+          "count": 1,
+          "lastSeen": "2026-09-27T11:42:00Z"
+        }
+      ],
+      "notes": [
+        "usage not available: the pod is Pending"
+      ]
+    }
+  }
+}

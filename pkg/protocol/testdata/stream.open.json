@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "type": "stream.open",
+  "id": "s-1",
+  "payload": {
+    "kind": "logs",
+    "namespace": "kubemap-demo",
+    "name": "web-1",
+    "logs": {
+      "container": "app",
+      "tailLines": 100,
+      "timestamps": true
+    }
+  }
+}

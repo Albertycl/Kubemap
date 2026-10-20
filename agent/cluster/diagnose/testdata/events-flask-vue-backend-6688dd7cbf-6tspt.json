@@ -1,0 +1,153 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "count": null,
+   "eventTime": "2026-09-27T23:33:54.029188Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app",
+    "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "0/1 nodes are available: 1 node(s) had untolerated taint(s). no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+   "metadata": {
+    "name": "flask-vue-backend-6688dd7cbf-6tspt.18d951969429c80f",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "FailedScheduling",
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": null,
+   "eventTime": "2026-09-27T23:38:55.455305Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app",
+    "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "0/1 nodes are available: 1 node(s) had untolerated taint(s). no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+   "metadata": {
+    "name": "flask-vue-backend-6688dd7cbf-6tspt.18d951dcc28f43aa",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "FailedScheduling",
+   "type": "Warning"
+  },
+  {
+   "apiVersion": "v1",
+   "count": null,
+   "eventTime": "2026-09-27T23:47:44.400505Z",
+   "firstTimestamp": null,
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app",
+    "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+   },
+   "kind": "Event",
+   "lastTimestamp": null,
+   "message": "Successfully assigned sre-lab-app/flask-vue-backend-6688dd7cbf-6tspt to k8server",
+   "metadata": {
+    "name": "flask-vue-backend-6688dd7cbf-6tspt.18d95257ea2688db",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Scheduled",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:51:54Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app",
+    "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-27T23:51:54Z",
+   "message": "Pulling image \"albertycliu/flask-vue-backend@sha256:59f42fa2e69d3df99e23bf48b8c1bd5a7d26fd90125b1a5bb21edb55896c85a1\"",
+   "metadata": {
+    "name": "flask-vue-backend-6688dd7cbf-6tspt.18d952922ef0515e",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Pulling",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:53:13Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app",
+    "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-27T23:53:13Z",
+   "message": "Successfully pulled image \"albertycliu/flask-vue-backend@sha256:59f42fa2e69d3df99e23bf48b8c1bd5a7d26fd90125b1a5bb21edb55896c85a1\" in 1m18.629s (1m18.629s including waiting). Image size: 51809762 bytes.",
+   "metadata": {
+    "name": "flask-vue-backend-6688dd7cbf-6tspt.18d952a47d9f0bde",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Pulled",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:53:13Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app",
+    "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-27T23:53:13Z",
+   "message": "Created container: backend",
+   "metadata": {
+    "name": "flask-vue-backend-6688dd7cbf-6tspt.18d952a48254c15d",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Created",
+   "type": "Normal"
+  },
+  {
+   "apiVersion": "v1",
+   "count": 1,
+   "eventTime": null,
+   "firstTimestamp": "2026-09-27T23:53:13Z",
+   "involvedObject": {
+    "kind": "Pod",
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app",
+    "uid": "bdde6976-bb3b-4fb4-b231-68501fb87fb9"
+   },
+   "kind": "Event",
+   "lastTimestamp": "2026-09-27T23:53:13Z",
+   "message": "Started container backend",
+   "metadata": {
+    "name": "flask-vue-backend-6688dd7cbf-6tspt.18d952a48c92da51",
+    "namespace": "sre-lab-app"
+   },
+   "reason": "Started",
+   "type": "Normal"
+  }
+ ],
+ "kind": "EventList"
+}

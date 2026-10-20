@@ -1,0 +1,68 @@
+# KM-88. Placeholders: <ns>, <pvc>, <pod>, <node> and $ns, $pod, $node.
+# k8server facts: StorageClass local-path (rancher.io/local-path,
+# allowVolumeExpansion not set, so no expansion); volumes are folders on the node's root disk
+# under /var/lib/rancher/k3s/storage, and their size is not enforced.
+id: pods-pvc-full
+area: pods
+title: "A persistent volume is full"
+question: "An app with a PersistentVolumeClaim fails with 'No space left on device'. What do you do?"
+symptoms:
+  - "Logs: 'No space left on device', 'could not extend file', 'disk full'; a database stops accepting writes"
+  - "The pod may crash-loop or turn read-only; other pods on the same node may be fine"
+  - "On local-path volumes: the node's root disk fills, and DiskPressure can follow"
+steps:
+  - title: "Which volume is full, and how full?"
+    why: "Find the mount inside the container that is full, and map it to its claim. The claim's size and the volume's real usage can differ: some storage classes do not enforce the size at all. Needs exec rights: it runs inside the container, and only reads."
+    command: "kubectl -n <ns> exec <pod> -- df -h   # the mount that is full; then: kubectl -n <ns> get pod <pod> -o jsonpath='{range .spec.volumes[*]}{.name}{\" -> \"}{.persistentVolumeClaim.claimName}{\"\\n\"}{end}'"
+    kubemap: "pod"
+    check: {op: "pod.debug", args: {namespace: "$ns", pod: "$pod"}}
+    good: "No volume above 85 %."
+    bad: "A data volume is at or near 100 %: note the claim."
+  - title: "What backs the claim, and can it grow?"
+    why: "Expansion works only if the StorageClass allows it (allowVolumeExpansion true) and the driver supports it. local-path on k8server does not: its volumes are plain folders on the node's root disk, with no size limit, so a full volume means a full node disk."
+    command: "kubectl -n <ns> get pvc <pvc> -o custom-columns=NAME:.metadata.name,CAP:.status.capacity.storage,CLASS:.spec.storageClassName,VOLUME:.spec.volumeName; kubectl get storageclass -o custom-columns=NAME:.metadata.name,PROVISIONER:.provisioner,EXPAND:.allowVolumeExpansion"
+    kubemap: "findings"
+    good: "The class allows expansion: you can grow the claim."
+    bad: "No expansion (local-path): free space inside the volume, or move the data to a bigger volume."
+  - title: "Is it the volume or the node's disk? (local-path)"
+    why: "With local-path, the 'volume' is a folder on the node's disk. If the node disk fills, every pod on it suffers and the kubelet may start evicting (the DiskPressure scenario). The node view tells which."
+    command: "ssh <node> 'df -h /var/lib/rancher; sudo du -sh /var/lib/rancher/k3s/storage/* | sort -h | tail'"
+    kubemap: "node"
+    check: {op: "node.pressure", args: {node: "$node"}}
+    good: "The node's disk has room; only the app's data is large."
+    bad: "The node's disk is full too: treat it as DiskPressure first."
+  - title: "What is filling it?"
+    why: "Usually one of: database WAL or transaction logs that are not archived or cleaned (a replica or archive command stuck), application logs written into the volume, or data growth nobody planned for. The fix depends on which. Needs exec rights: it runs inside the container, and only reads."
+    command: "kubectl -n <ns> exec <pod> -- sh -c 'du -xh --max-depth=2 /var/lib/postgresql 2>/dev/null /data 2>/dev/null | sort -h | tail -15'   # the data path of the app"
+    kubemap: "pod"
+    good: "Growth is the data itself, and it was expected: plan the size."
+    bad: "WAL, logs or temp files grow without bound: fix their cleanup (archiving, rotation) before adding space."
+  - title: "Free space safely"
+    why: "Deleting files under a running database can corrupt it. Use the database's own tools (checkpoint and WAL archive status for Postgres; for CloudNativePG, a stuck WAL archive shows in the Cluster status). For logs, rotate. Resize if the class allows it; otherwise move data to a new, larger claim."
+    command: "kubectl -n <ns> get cluster.postgresql.cnpg.io -o jsonpath='{range .items[*]}{.metadata.name}{\": \"}{.status.phase}{\"  \"}{.status.conditions[?(@.type==\"ContinuousArchiving\")].message}{\"\\n\"}{end}'"
+    kubemap: "app-map"
+    good: "Archiving works and old WAL is released; space comes back."
+    bad: "Archiving failed: fix the archive destination; only then will Postgres release WAL."
+causes:
+  - cause: "Database WAL piles up because archiving or a replica is stuck."
+    fix: "Fix the archive destination or the replica; Postgres then removes old WAL by itself."
+    prove: "kubectl -n <ns> exec <pod> -- df -h   # the data volume below 80 %"
+  - cause: "Application logs or temp files are written into the persistent volume."
+    fix: "Log to stdout; put temp files in an emptyDir with a sizeLimit."
+    prove: "du on the volume stops growing"
+  - cause: "Real data growth beyond the planned size."
+    fix: "Expand the claim (if the class allows) or migrate to a larger volume; plan retention."
+    prove: "kubectl -n <ns> get pvc <pvc>   # new capacity"
+  - cause: "local-path volumes share the node's root disk, so one app fills the node."
+    fix: "Use a storage class with enforced sizes, or a separate disk for /var/lib/rancher/k3s/storage."
+    prove: "df -h /var/lib/rancher   # room on the node"
+prevention:
+  - "Alert on volume usage above 80 % (kubelet_volume_stats_used_bytes / capacity_bytes)"
+  - "A storage class that enforces sizes and allows expansion for stateful apps"
+  - "Retention and archiving for databases, tested; WAL archive failures alerted"
+  - "Logs to stdout, temp data in size-limited emptyDir"
+senior:
+  - "I find out whether the claim's size is enforced: on local-path it is only a label, and the node disk is the real limit."
+  - "I never delete files under a running database; I fix what should have released them."
+  - "A full volume on a database is also a data-safety incident: I check the last good backup before touching anything."
+  - "What I would automate: volume usage alerts, and a forecast of when each volume fills at its current growth."

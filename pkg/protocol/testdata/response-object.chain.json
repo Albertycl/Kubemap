@@ -1,0 +1,146 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-17",
+  "payload": {
+    "object": {
+      "object": {
+        "id": "Deployment/sre-lab-app/url-shortener",
+        "kind": "Deployment",
+        "namespace": "sre-lab-app",
+        "name": "url-shortener",
+        "status": "2/2 ready"
+      },
+      "sections": [
+        {
+          "key": "owned",
+          "items": [
+            {
+              "id": "ReplicaSet/sre-lab-app/url-shortener-6f89bdc657",
+              "kind": "ReplicaSet",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-6f89bdc657",
+              "status": "2/2 ready"
+            }
+          ],
+          "more": 8
+        },
+        {
+          "key": "pods",
+          "items": [
+            {
+              "id": "Pod/sre-lab-app/url-shortener-6f89bdc657-jxxl8",
+              "kind": "Pod",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-6f89bdc657-jxxl8",
+              "status": "Running"
+            },
+            {
+              "id": "Pod/sre-lab-app/url-shortener-6f89bdc657-vktnd",
+              "kind": "Pod",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-6f89bdc657-vktnd",
+              "status": "Running"
+            }
+          ]
+        },
+        {
+          "key": "services",
+          "items": [
+            {
+              "id": "Service/sre-lab-app/url-shortener",
+              "kind": "Service",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener"
+            }
+          ]
+        },
+        {
+          "key": "routes",
+          "items": [
+            {
+              "id": "IngressRoute.traefik.io/sre-lab-app/url-shortener-https",
+              "kind": "IngressRoute.traefik.io",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-https",
+              "detail": "sre-lab.albertycliu.xyz/ → sre-lab-app/url-shortener:80"
+            }
+          ]
+        },
+        {
+          "key": "config",
+          "items": [
+            {
+              "id": "ConfigMap/sre-lab-app/url-shortener-db-config",
+              "kind": "ConfigMap",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-db-config",
+              "detail": "env DB_HOST"
+            }
+          ]
+        },
+        {
+          "key": "secrets",
+          "items": [
+            {
+              "id": "Secret/sre-lab-app/postgres-cnpg-secret",
+              "kind": "Secret",
+              "namespace": "sre-lab-app",
+              "name": "postgres-cnpg-secret",
+              "detail": "env DB_PASSWORD"
+            }
+          ]
+        },
+        {
+          "key": "serviceaccounts",
+          "items": [
+            {
+              "id": "ServiceAccount/sre-lab-app/sre-lab-app-sa",
+              "kind": "ServiceAccount",
+              "namespace": "sre-lab-app",
+              "name": "sre-lab-app-sa"
+            }
+          ]
+        },
+        {
+          "key": "policies",
+          "items": [
+            {
+              "id": "NetworkPolicy/sre-lab-app/default-deny-ingress",
+              "kind": "NetworkPolicy",
+              "namespace": "sre-lab-app",
+              "name": "default-deny-ingress",
+              "detail": "isolates ingress"
+            }
+          ]
+        },
+        {
+          "key": "nodes",
+          "items": [
+            {
+              "id": "Node//k8server",
+              "kind": "Node",
+              "name": "k8server",
+              "status": "Ready"
+            }
+          ]
+        },
+        {
+          "key": "calls",
+          "items": [
+            {
+              "id": "Service/sre-lab-app/url-shortener-pooler",
+              "kind": "Service",
+              "namespace": "sre-lab-app",
+              "name": "url-shortener-pooler",
+              "detail": "env DB_HOST (ConfigMap url-shortener-db-config)"
+            }
+          ]
+        }
+      ],
+      "apps": [
+        "argocd/url-shortener"
+      ]
+    }
+  }
+}

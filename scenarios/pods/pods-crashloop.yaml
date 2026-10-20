@@ -1,0 +1,85 @@
+# KM-84. Placeholders: <ns>, <pod>, <container> and $ns, $pod are filled in
+# when the scenario is started from a pod (the pod page or the problem finder).
+id: pods-crashloop
+area: pods
+title: "A pod is in CrashLoopBackOff"
+question: "A pod keeps restarting and shows CrashLoopBackOff. What do you do?"
+symptoms:
+  - "STATUS CrashLoopBackOff (or Error between restarts), RESTARTS keeps rising"
+  - "The Deployment has fewer ready replicas than it wants; its Service may have no ready endpoints"
+  - "It often starts right after a deploy or a config change"
+steps:
+  - title: "Which container restarts, and how often?"
+    why: "CrashLoopBackOff is not a cause, it is the kubelet waiting before the next restart (10 s, 20 s, 40 s … up to 5 minutes). First find the container that exits and how long it lives: seconds means it fails at start, hours means something it meets later."
+    command: "kubectl -n <ns> get pod <pod> -o wide; kubectl -n <ns> describe pod <pod>"
+    kubemap: "debug"
+    check: {op: "pod.debug", args: {namespace: "$ns", pod: "$pod"}}
+    good: "Every container is running and ready, restarts no longer rise."
+    bad: "One container restarts: note its name and the time between restarts, then read how its last run ended."
+  - title: "How did the last run end: exit code and reason?"
+    why: "The exit code splits the problem. 1 (or another small number) is the application giving up, and the log says why. 137 is SIGKILL, usually the memory limit (go to the OOM scenario). 143 is SIGTERM, usually a liveness probe or a stop. 127 or 126 is a wrong command or image."
+    command: |-
+      kubectl -n <ns> get pod <pod> -o jsonpath='{range .status.containerStatuses[*]}{.name}{"  "}{.lastState.terminated.reason}{"  exit "}{.lastState.terminated.exitCode}{"  at "}{.lastState.terminated.finishedAt}{"\n"}{end}'
+    kubemap: "pod"
+    check: {op: "pod.diagnose", args: {namespace: "$ns", pod: "$pod"}}
+    good: "Exit 0 and reason Completed: the program ends on purpose; a Deployment is the wrong kind for it (use a Job)."
+    bad: "Exit 1: read the previous logs (next step). Exit 137: open the OOM and exit 137 scenario. Exit 143: check the liveness probe (step 5)."
+  - title: "What did the container say before it died?"
+    why: "The current container has just started and its log is nearly empty; the previous run holds the error. Right after a restart the old log can briefly be unavailable, so try again after a few seconds."
+    command: "kubectl -n <ns> logs <pod> -c <container> --previous --tail=50"
+    kubemap: "logs"
+    good: "The last lines name the cause: a missing setting, a refused connection, a failed migration, a permission error."
+    bad: "No log at all: the process died before writing (wrong command, missing binary, or a crash in the runtime); look at the events and the command."
+  - title: "What do the events say?"
+    why: "Events show what the kubelet saw: probe failures, back-off, failed mounts, OOM kills, and the image it started. They also show when the restarts began, which you can line up with a deploy."
+    command: "kubectl -n <ns> get events --field-selector involvedObject.name=<pod> --sort-by=.lastTimestamp | tail -20"
+    kubemap: "pod"
+    good: "Only Started, Pulled and BackOff events: the application itself exits."
+    bad: "'Liveness probe failed' before each restart: the kubelet kills it (step 5). 'Error: configmap … not found' or a mount error: a missing dependency."
+  - title: "Does it get the settings it needs?"
+    why: "A missing environment variable or ConfigMap key is the most common crash at start. With optional: true the pod starts and the app exits; without it the pod stays in CreateContainerConfigError."
+    command: |-
+      kubectl -n <ns> get pod <pod> -o jsonpath='{range .spec.containers[*]}{.name}{": env "}{.env}{" envFrom "}{.envFrom}{"\n"}{end}'; kubectl -n <ns> get configmap
+    kubemap: "pod"
+    good: "Every ConfigMap and key the pod refers to exists and holds a value."
+    bad: "A key or ConfigMap is missing, or holds an old value: fix it and restart the pods (environment variables are read only at start)."
+  - title: "Is a liveness probe killing a healthy container?"
+    why: "A liveness probe that is too strict (short timeout, a path that checks a slow dependency, no startup probe for a slow start) makes the kubelet kill a working container again and again. The app looks broken, but the probe is."
+    command: |-
+      kubectl -n <ns> get pod <pod> -o jsonpath='{range .spec.containers[*]}{.name}{": liveness "}{.livenessProbe}{" startup "}{.startupProbe}{"\n"}{end}'
+    kubemap: "debug"
+    good: "No liveness failures in the events, or the probe checks only the process itself."
+    bad: "Liveness failures before each restart: make the probe cheaper, raise its timeout and failureThreshold, and add a startupProbe for slow starts."
+  - title: "What changed?"
+    why: "Most crash loops start with a change. The newest ReplicaSet shows the new image and when it was created; compare that with the first restart."
+    command: "kubectl -n <ns> get replicasets -o wide --sort-by=.metadata.creationTimestamp | tail -5"
+    kubemap: "app-map"
+    good: "No new ReplicaSet around the time the restarts began: look at dependencies (database, Secret rotation, DNS)."
+    bad: "A new ReplicaSet with a new image or config just before the crashes: roll back first, then find the bug."
+causes:
+  - cause: "A required setting is missing (an environment variable or ConfigMap key)."
+    fix: "Add the setting and restart the pods (kubectl rollout restart), because environment variables are read at start."
+    prove: "kubectl -n <ns> get pod -l <selector> -w   # READY 1/1, RESTARTS stops rising"
+  - cause: "A new release has a bug or a wrong command or entrypoint (exit 1, 126 or 127)."
+    fix: "Roll back (kubectl rollout undo deployment/<name>), then fix and release again."
+    prove: "kubectl -n <ns> rollout status deployment/<name>"
+  - cause: "A dependency is not reachable at start (database, another Service, DNS), and the app exits instead of retrying."
+    fix: "Fix the dependency; make the app retry with back-off instead of exiting."
+    prove: "kubectl -n <ns> logs <pod> --tail=20   # connected"
+  - cause: "The liveness probe kills a working container."
+    fix: "Add a startupProbe, raise timeoutSeconds and failureThreshold, and make liveness check only the process."
+    prove: "kubectl -n <ns> get events --field-selector involvedObject.name=<pod>,reason=Unhealthy   # no new failures"
+  - cause: "The app writes to a read-only root filesystem or lacks a permission (non-root user)."
+    fix: "Mount an emptyDir where it writes (for example /tmp), or fix file ownership in the image."
+    prove: "kubectl -n <ns> logs <pod> --previous   # no 'read-only file system' or 'permission denied'"
+prevention:
+  - "Fail fast with a clear message when a required setting is missing, and check settings in CI against the manifests"
+  - "A startupProbe for slow starts, and a liveness probe that checks only the process, never a dependency"
+  - "Progressive rollouts (maxUnavailable below 100%, a canary) so a bad release crash-loops on one pod, not all"
+  - "Alert on restart rate (kube_pod_container_status_restarts_total) and on Deployments with fewer ready replicas than wanted"
+senior:
+  - "Blast radius first: one pod of many (a bad node or a data-dependent bug) or every replica (a bad release or config)?"
+  - "Mitigate before root cause: if the restarts began with a release, roll back; read the logs afterwards."
+  - "CrashLoopBackOff is the kubelet's back-off, not an error; say what the exit code is before guessing."
+  - "What I would automate: an alert on restarts per hour, and a deploy gate that stops a rollout when new pods do not become ready."
+lab: "kubemap-demo/crashloop"

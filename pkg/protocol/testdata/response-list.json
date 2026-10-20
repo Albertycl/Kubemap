@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-1",
+  "payload": {
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "name": "web-1",
+          "namespace": "kubemap-demo"
+        }
+      }
+    ],
+    "continue": "cont_example"
+  }
+}

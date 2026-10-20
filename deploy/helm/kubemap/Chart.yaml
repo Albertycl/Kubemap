@@ -1,0 +1,7 @@
+apiVersion: v2
+name: kubemap
+description: Kubemap, a read-only map and status view of the Kubernetes cluster it runs in (server, node agents, RBAC, optional Traefik ingress and NetworkPolicies).
+type: application
+version: 0.2.0
+# Keep appVersion equal to image.tag in values.yaml (a Go test checks it).
+appVersion: "f258bbb"

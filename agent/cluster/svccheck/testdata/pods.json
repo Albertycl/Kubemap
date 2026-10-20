@@ -1,0 +1,1868 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "api",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "netpol",
+     "pod-template-hash": "6b75877cb4"
+    },
+    "name": "api-6b75877cb4-s7t9x",
+    "namespace": "kubemap-demo"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "api",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "api",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.129"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "batch-worker",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "pending",
+     "pod-template-hash": "87d9fb7d8"
+    },
+    "name": "batch-worker-87d9fb7d8-69mhn",
+    "namespace": "kubemap-demo"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "worker"
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "message": "0/1 nodes are available: 1 Insufficient cpu. no new claims to deallocate, preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.",
+      "reason": "Unschedulable",
+      "status": "False",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [],
+    "phase": "Pending",
+    "podIP": ""
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "catalog",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "badsvc",
+     "pod-template-hash": "86767567d7"
+    },
+    "name": "catalog-86767567d7-tcfvl",
+    "namespace": "kubemap-demo"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "catalog",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "catalog",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.186"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "checkout",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "crashloop",
+     "pod-template-hash": "5869b76bbb"
+    },
+    "name": "checkout-5869b76bbb-c6jjl",
+    "namespace": "kubemap-demo"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "checkout"
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "message": "containers with unready status: [checkout]",
+      "reason": "ContainersNotReady",
+      "status": "False",
+      "type": "Ready"
+     },
+     {
+      "message": "containers with unready status: [checkout]",
+      "reason": "ContainersNotReady",
+      "status": "False",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "checkout",
+      "ready": false,
+      "restartCount": 6,
+      "state": {
+       "waiting": {
+        "reason": "CrashLoopBackOff"
+       }
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.182"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/name": "oom",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "oom",
+     "pod-template-hash": "69b9ccc88"
+    },
+    "name": "oom-69b9ccc88-x5x2x",
+    "namespace": "kubemap-demo"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "report-builder"
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "message": "containers with unready status: [report-builder]",
+      "reason": "ContainersNotReady",
+      "status": "False",
+      "type": "Ready"
+     },
+     {
+      "message": "containers with unready status: [report-builder]",
+      "reason": "ContainersNotReady",
+      "status": "False",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "report-builder",
+      "ready": false,
+      "restartCount": 6,
+      "state": {
+       "waiting": {
+        "reason": "CrashLoopBackOff"
+       }
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.184"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "web",
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "netpol",
+     "pod-template-hash": "59f856967c"
+    },
+    "name": "web-59f856967c-lj7fl",
+    "namespace": "kubemap-demo"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "web"
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "web",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.148"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "flask-vue",
+     "pod-template-hash": "6688dd7cbf"
+    },
+    "name": "flask-vue-backend-6688dd7cbf-6tspt",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "backend",
+      "ports": [
+       {
+        "containerPort": 5000,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "backend",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.138"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "flask-vue",
+     "pod-template-hash": "7c9cf766d4"
+    },
+    "name": "flask-vue-frontend-7c9cf766d4-fdfk5",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "frontend",
+      "ports": [
+       {
+        "containerPort": 80,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "frontend",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.183"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "master",
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "redis",
+     "app.kubernetes.io/version": "8.8.0",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "redis-master-86ff8cb85",
+     "helm.sh/chart": "redis-27.0.13",
+     "statefulset.kubernetes.io/pod-name": "redis-master-0"
+    },
+    "name": "redis-master-0",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "redis",
+      "ports": [
+       {
+        "containerPort": 6379,
+        "name": "redis",
+        "protocol": "TCP"
+       }
+      ]
+     },
+     {
+      "name": "metrics",
+      "ports": [
+       {
+        "containerPort": 9121,
+        "name": "metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "metrics",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     },
+     {
+      "image": "",
+      "imageID": "",
+      "name": "redis",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.153"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "url-shortener",
+     "pod-template-hash": "6f89bdc657",
+     "version": "v0.1"
+    },
+    "name": "url-shortener-6f89bdc657-jxxl8",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "url-shortener",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "url-shortener",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.187"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "url-shortener",
+     "pod-template-hash": "6f89bdc657",
+     "version": "v0.1"
+    },
+    "name": "url-shortener-6f89bdc657-vktnd",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "url-shortener",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "url-shortener",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.181"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "database",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "app.kubernetes.io/version": "16",
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/instanceName": "url-shortener-db-1",
+     "cnpg.io/instanceRole": "replica",
+     "cnpg.io/podRole": "instance",
+     "role": "replica"
+    },
+    "name": "url-shortener-db-1",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "postgres",
+      "ports": [
+       {
+        "containerPort": 5432,
+        "name": "postgresql",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9187,
+        "name": "metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8000,
+        "name": "status",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "postgres",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.143"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "database",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "app.kubernetes.io/version": "16",
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/instanceName": "url-shortener-db-2",
+     "cnpg.io/instanceRole": "primary",
+     "cnpg.io/podRole": "instance",
+     "role": "primary"
+    },
+    "name": "url-shortener-db-2",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "postgres",
+      "ports": [
+       {
+        "containerPort": 5432,
+        "name": "postgresql",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9187,
+        "name": "metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8000,
+        "name": "status",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "postgres",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.164"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "pooler",
+     "app.kubernetes.io/instance": "url-shortener-db",
+     "app.kubernetes.io/managed-by": "cloudnative-pg",
+     "app.kubernetes.io/name": "postgresql",
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/podRole": "pooler",
+     "cnpg.io/poolerName": "url-shortener-pooler",
+     "pod-template-hash": "558976bcf8"
+    },
+    "name": "url-shortener-pooler-558976bcf8-72pl4",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "pgbouncer",
+      "ports": [
+       {
+        "containerPort": 5432,
+        "name": "pgbouncer",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9127,
+        "name": "metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "pgbouncer",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.139"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "whoami",
+     "pod-template-hash": "76bcdb9fb7"
+    },
+    "name": "whoami-76bcdb9fb7-4l48g",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "whoami",
+      "ports": [
+       {
+        "containerPort": 80,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "whoami",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.147"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "whoami",
+     "pod-template-hash": "76bcdb9fb7"
+    },
+    "name": "whoami-76bcdb9fb7-hmfz7",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "whoami",
+      "ports": [
+       {
+        "containerPort": 80,
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "whoami",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.152"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "k8s-app": "kube-dns",
+     "pod-template-hash": "5594bbd8f5"
+    },
+    "name": "coredns-5594bbd8f5-mbcjg",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "coredns",
+      "ports": [
+       {
+        "containerPort": 53,
+        "name": "dns",
+        "protocol": "UDP"
+       },
+       {
+        "containerPort": 53,
+        "name": "dns-tcp",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9153,
+        "name": "metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "coredns",
+      "ready": true,
+      "restartCount": 20,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.131"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "local-path-provisioner",
+     "pod-template-hash": "5db9d5cbbb"
+    },
+    "name": "local-path-provisioner-5db9d5cbbb-pr4lk",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "local-path-provisioner"
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "local-path-provisioner",
+      "ready": true,
+      "restartCount": 1,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.132"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "k8s-app": "metrics-server",
+     "pod-template-hash": "c8774f4f4"
+    },
+    "name": "metrics-server-c8774f4f4-qp986",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "metrics-server",
+      "ports": [
+       {
+        "containerPort": 10250,
+        "name": "https",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "metrics-server",
+      "ready": true,
+      "restartCount": 31,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.189"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "traefik-kube-system",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "traefik",
+     "helm.sh/chart": "traefik-39.0.701_up39.0.7",
+     "pod-template-hash": "5546cdbbd4"
+    },
+    "name": "traefik-5546cdbbd4-pgl5g",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "traefik",
+      "ports": [
+       {
+        "containerPort": 9100,
+        "name": "metrics",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8080,
+        "name": "traefik",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8000,
+        "name": "web",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 8443,
+        "name": "websecure",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "traefik",
+      "ready": true,
+      "restartCount": 13,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.145"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "alertmanager": "kube-prometheus-stack-alertmanager",
+     "app.kubernetes.io/instance": "kube-prometheus-stack-alertmanager",
+     "app.kubernetes.io/managed-by": "prometheus-operator",
+     "app.kubernetes.io/name": "alertmanager",
+     "app.kubernetes.io/version": "0.27.0",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "alertmanager-kube-prometheus-stack-alertmanager-86f667fcc5",
+     "statefulset.kubernetes.io/pod-name": "alertmanager-kube-prometheus-stack-alertmanager-0"
+    },
+    "name": "alertmanager-kube-prometheus-stack-alertmanager-0",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "alertmanager",
+      "ports": [
+       {
+        "containerPort": 9093,
+        "name": "http-web",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "mesh-tcp",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "mesh-udp",
+        "protocol": "UDP"
+       }
+      ]
+     },
+     {
+      "name": "config-reloader",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "reloader-web",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "alertmanager",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     },
+     {
+      "image": "",
+      "imageID": "",
+      "name": "config-reloader",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.163"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/name": "grafana",
+     "pod-template-hash": "548ff494b"
+    },
+    "name": "kube-prometheus-stack-grafana-548ff494b-m97q6",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "grafana-sc-dashboard"
+     },
+     {
+      "name": "grafana-sc-datasources"
+     },
+     {
+      "name": "grafana",
+      "ports": [
+       {
+        "containerPort": 3000,
+        "name": "grafana",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "gossip-tcp",
+        "protocol": "TCP"
+       },
+       {
+        "containerPort": 9094,
+        "name": "gossip-udp",
+        "protocol": "UDP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "grafana",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     },
+     {
+      "image": "",
+      "imageID": "",
+      "name": "grafana-sc-dashboard",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     },
+     {
+      "image": "",
+      "imageID": "",
+      "name": "grafana-sc-datasources",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.130"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "kube-state-metrics",
+     "app.kubernetes.io/part-of": "kube-state-metrics",
+     "app.kubernetes.io/version": "2.12.0",
+     "helm.sh/chart": "kube-state-metrics-5.21.0",
+     "pod-template-hash": "6bbb95858",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-kube-state-metrics-6bbb95858-4kvr6",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "kube-state-metrics",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "http",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "kube-state-metrics",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.176"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app": "kube-prometheus-stack-operator",
+     "app.kubernetes.io/component": "prometheus-operator",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "kube-prometheus-stack-prometheus-operator",
+     "app.kubernetes.io/part-of": "kube-prometheus-stack",
+     "app.kubernetes.io/version": "61.3.2",
+     "chart": "kube-prometheus-stack-61.3.2",
+     "heritage": "Helm",
+     "pod-template-hash": "6566c5c",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-operator-6566c5c-wp6gz",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "kube-prometheus-stack",
+      "ports": [
+       {
+        "containerPort": 10250,
+        "name": "https",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "kube-prometheus-stack",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.173"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/component": "metrics",
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/managed-by": "Helm",
+     "app.kubernetes.io/name": "prometheus-node-exporter",
+     "app.kubernetes.io/part-of": "prometheus-node-exporter",
+     "app.kubernetes.io/version": "1.8.1",
+     "controller-revision-hash": "69ccfb57c4",
+     "helm.sh/chart": "prometheus-node-exporter-4.37.0",
+     "jobLabel": "node-exporter",
+     "pod-template-generation": "3",
+     "release": "kube-prometheus-stack"
+    },
+    "name": "kube-prometheus-stack-prometheus-node-exporter-zt5lv",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "node-exporter",
+      "ports": [
+       {
+        "containerPort": 9100,
+        "hostPort": 9100,
+        "name": "http-metrics",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ],
+    "hostNetwork": true
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "node-exporter",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.32.36"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Pod",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack-prometheus",
+     "app.kubernetes.io/managed-by": "prometheus-operator",
+     "app.kubernetes.io/name": "prometheus",
+     "app.kubernetes.io/version": "2.53.1",
+     "apps.kubernetes.io/pod-index": "0",
+     "controller-revision-hash": "prometheus-kube-prometheus-stack-prometheus-7c9d77d7d5",
+     "operator.prometheus.io/name": "kube-prometheus-stack-prometheus",
+     "operator.prometheus.io/shard": "0",
+     "prometheus": "kube-prometheus-stack-prometheus",
+     "statefulset.kubernetes.io/pod-name": "prometheus-kube-prometheus-stack-prometheus-0"
+    },
+    "name": "prometheus-kube-prometheus-stack-prometheus-0",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "containers": [
+     {
+      "name": "prometheus",
+      "ports": [
+       {
+        "containerPort": 9090,
+        "name": "http-web",
+        "protocol": "TCP"
+       }
+      ]
+     },
+     {
+      "name": "config-reloader",
+      "ports": [
+       {
+        "containerPort": 8080,
+        "name": "reloader-web",
+        "protocol": "TCP"
+       }
+      ]
+     }
+    ]
+   },
+   "status": {
+    "conditions": [
+     {
+      "status": "True",
+      "type": "PodReadyToStartContainers"
+     },
+     {
+      "status": "True",
+      "type": "Initialized"
+     },
+     {
+      "status": "True",
+      "type": "Ready"
+     },
+     {
+      "status": "True",
+      "type": "ContainersReady"
+     },
+     {
+      "status": "True",
+      "type": "PodScheduled"
+     }
+    ],
+    "containerStatuses": [
+     {
+      "image": "",
+      "imageID": "",
+      "name": "config-reloader",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     },
+     {
+      "image": "",
+      "imageID": "",
+      "name": "prometheus",
+      "ready": true,
+      "restartCount": 0,
+      "state": {
+       "running": {}
+      }
+     }
+    ],
+    "phase": "Running",
+    "podIP": "192.168.41.154"
+   }
+  }
+ ],
+ "kind": "PodList"
+}

@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    {{- include "kubemap.labels" (dict "name" "kubemap-node-agent") | nindent 4 }}
+  name: kubemap-node-agent
+  namespace: kubemap-node
+automountServiceAccountToken: false
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    {{- include "kubemap.labels" (dict "name" "kubemap-node-agent") | nindent 4 }}
+  name: kubemap-node-agent
+  namespace: kubemap-node
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kubemap-node-agent
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kubemap-node-agent
+    spec:
+      automountServiceAccountToken: false
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - args:
+        - node
+        - --token
+        - /var/run/secrets/kubemap/token
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: CLUSTER_ID
+          value: local
+        - name: PORTAL_URL
+          value: ws://kubemap.kubemap-system.svc:8080/v1/connect
+        image: {{ include "kubemap.image" . | quote }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: node-agent
+        resources:
+          limits:
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 32Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsGroup: 65533
+          runAsNonRoot: true
+          runAsUser: 65533
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+        - mountPath: /host
+          name: host-root
+          readOnly: true
+          recursiveReadOnly: IfPossible
+        - mountPath: /host/proc
+          name: host-proc
+          readOnly: true
+          recursiveReadOnly: IfPossible
+        - mountPath: /host/sys
+          name: host-sys
+          readOnly: true
+          recursiveReadOnly: IfPossible
+        - mountPath: /var/run/secrets/kubemap
+          name: kubemap-identity
+          readOnly: true
+      hostPID: true
+      securityContext:
+        runAsGroup: 65533
+        runAsNonRoot: true
+        runAsUser: 65533
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: kubemap-node-agent
+      tolerations:
+      - operator: Exists
+      volumes:
+      - hostPath:
+          path: /
+          type: Directory
+        name: host-root
+      - hostPath:
+          path: /proc
+          type: Directory
+        name: host-proc
+      - hostPath:
+          path: /sys
+          type: Directory
+        name: host-sys
+      - name: kubemap-identity
+        projected:
+          sources:
+          - serviceAccountToken:
+              audience: kubemap-portal
+              expirationSeconds: 3600
+              path: token
+  updateStrategy: {}

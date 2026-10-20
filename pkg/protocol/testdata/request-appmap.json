@@ -1,0 +1,12 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-6",
+  "payload": {
+    "op": "appmap",
+    "namespace": "sre-lab-app",
+    "appmap": {
+      "app": "argocd/url-shortener"
+    }
+  }
+}

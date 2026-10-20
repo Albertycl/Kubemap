@@ -1,0 +1,69 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "kind": "Node",
+   "metadata": {
+    "labels": {
+     "kubernetes.io/arch": "amd64",
+     "kubernetes.io/hostname": "k8server",
+     "kubernetes.io/os": "linux"
+    },
+    "name": "k8server"
+   },
+   "spec": {},
+   "status": {
+    "allocatable": {
+     "cpu": "4",
+     "ephemeral-storage": "95069891715",
+     "hugepages-1Gi": "0",
+     "hugepages-2Mi": "0",
+     "memory": "12199944Ki",
+     "pods": "110"
+    },
+    "capacity": {
+     "cpu": "4",
+     "ephemeral-storage": "97728096Ki",
+     "hugepages-1Gi": "0",
+     "hugepages-2Mi": "0",
+     "memory": "12199944Ki",
+     "pods": "110"
+    },
+    "conditions": [
+     {
+      "message": "Calico is running on this node",
+      "reason": "CalicoIsUp",
+      "status": "False",
+      "type": "NetworkUnavailable"
+     },
+     {
+      "message": "kubelet has sufficient memory available",
+      "reason": "KubeletHasSufficientMemory",
+      "status": "False",
+      "type": "MemoryPressure"
+     },
+     {
+      "message": "kubelet has no disk pressure",
+      "reason": "KubeletHasNoDiskPressure",
+      "status": "False",
+      "type": "DiskPressure"
+     },
+     {
+      "message": "kubelet has sufficient PID available",
+      "reason": "KubeletHasSufficientPID",
+      "status": "False",
+      "type": "PIDPressure"
+     },
+     {
+      "message": "kubelet is posting ready status",
+      "reason": "KubeletReady",
+      "status": "True",
+      "type": "Ready"
+     }
+    ]
+   }
+  }
+ ],
+ "kind": "NodeList"
+}

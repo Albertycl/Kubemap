@@ -1,0 +1,36 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-7",
+  "payload": {
+    "object": {
+      "allowed": false,
+      "summary": "blocked: IP 1.1.1.1: egress blocked: isolated by sre-lab-app/deny-egress-to-argocd and no egress rule matches",
+      "from": "Pod/sre-lab-app/url-shortener-6f89bdc657-rgwsv",
+      "port": 443,
+      "protocol": "TCP",
+      "paths": [
+        {
+          "to": "IP 1.1.1.1",
+          "port": 443,
+          "allowed": false,
+          "egress": {
+            "direction": "egress",
+            "isolated": true,
+            "allowed": false,
+            "decision": "blocked: isolated by sre-lab-app/deny-egress-to-argocd and no egress rule matches",
+            "selecting": [
+              "sre-lab-app/deny-egress-to-argocd"
+            ]
+          },
+          "ingress": {
+            "direction": "ingress",
+            "isolated": false,
+            "allowed": true,
+            "decision": "not a pod: no policy applies at this end"
+          }
+        }
+      ]
+    }
+  }
+}

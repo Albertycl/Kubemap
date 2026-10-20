@@ -1,0 +1,110 @@
+{
+  "v": 1,
+  "type": "response",
+  "id": "q-10",
+  "payload": {
+    "object": {
+      "namespace": "kubemap-demo",
+      "name": "web-59f856967c-lj7fl",
+      "owner": "Deployment/kubemap-demo/web",
+      "status": "Running",
+      "cause": "NetworkPolicy kubemap-demo/api-allow-monitoring-only blocks this pod → Service kubemap-demo/api:80 (named in env API_URL).",
+      "causeStep": "netpol",
+      "steps": [
+        {
+          "key": "status",
+          "title": "Status and reason",
+          "verdict": "ok",
+          "finding": "Running, and every container is ready.",
+          "evidence": [
+            "phase Running, status Running",
+            "container web: running since 2026-09-28T00:24:33Z, ready true, restarts 0"
+          ],
+          "commands": [
+            "kubectl -n kubemap-demo get pod web-59f856967c-lj7fl -o wide"
+          ]
+        },
+        {
+          "key": "events",
+          "title": "Events",
+          "verdict": "ok",
+          "finding": "No warning events (5 normal).",
+          "commands": [
+            "kubectl -n kubemap-demo describe pod web-59f856967c-lj7fl"
+          ]
+        },
+        {
+          "key": "logs",
+          "title": "Logs",
+          "verdict": "problem",
+          "finding": "The logs show errors: 2026-09-28T00:40:16Z ERROR GET http://api.kubemap-demo.svc/api failed: wget: download timed out",
+          "evidence": [
+            "web (current run): 2026-09-28T00:40:16Z ERROR GET http://api.kubemap-demo.svc/api failed: wget: download timed out"
+          ],
+          "commands": [
+            "kubectl -n kubemap-demo logs web-59f856967c-lj7fl -c web --tail=100"
+          ]
+        },
+        {
+          "key": "exit-code",
+          "title": "Exit code",
+          "verdict": "ok",
+          "finding": "No container has exited.",
+          "commands": [
+            "kubectl -n kubemap-demo get pod web-59f856967c-lj7fl -o jsonpath='{.status.containerStatuses[*].lastState}'"
+          ]
+        },
+        {
+          "key": "resources",
+          "title": "Requests and limits vs usage",
+          "verdict": "unknown",
+          "finding": "Usage is not available (metrics API), and nothing was killed for memory.",
+          "evidence": [
+            "web: requests cpu 5m, memory 6Mi, limits cpu 50m, memory 6Mi"
+          ],
+          "commands": [
+            "kubectl -n kubemap-demo top pod web-59f856967c-lj7fl --containers"
+          ]
+        },
+        {
+          "key": "node",
+          "title": "Node",
+          "verdict": "ok",
+          "finding": "Node k8server is Ready with no memory, disk or PID pressure.",
+          "commands": [
+            "kubectl describe node k8server"
+          ]
+        },
+        {
+          "key": "service",
+          "title": "Service endpoints",
+          "verdict": "ok",
+          "finding": "The Services this pod serves or uses have ready endpoints.",
+          "evidence": [
+            "Service kubemap-demo/api (this pod's dependency, named in env API_URL): 1 pods, 1 ready, 1 ready endpoints"
+          ],
+          "commands": [
+            "kubectl -n kubemap-demo get endpointslices -l kubernetes.io/service-name=api"
+          ]
+        },
+        {
+          "key": "netpol",
+          "title": "NetworkPolicy",
+          "verdict": "problem",
+          "finding": "NetworkPolicy kubemap-demo/api-allow-monitoring-only blocks this pod → Service kubemap-demo/api:80 (named in env API_URL).",
+          "evidence": [
+            "this pod → Service kubemap-demo/api:80 (named in env API_URL): BLOCKED — ingress blocked: isolated by kubemap-demo/api-allow-monitoring-only and no ingress rule matches",
+            "ingress isolated by: none; egress isolated by: none"
+          ],
+          "commands": [
+            "kubectl -n kubemap-demo get networkpolicy",
+            "kubectl -n kubemap-demo describe networkpolicy api-allow-monitoring-only"
+          ]
+        }
+      ],
+      "notes": [
+        "usage not available: forbidden by the agent's RBAC"
+      ]
+    }
+  }
+}

@@ -1,0 +1,855 @@
+[
+ {
+  "slug": "pod-pending-unschedulable",
+  "trigger": "pod.status.phase == Pending with no spec.nodeName; condition PodScheduled=False reason Unschedulable; Event type Warning reason FailedScheduling. Message variants: \"0/N nodes are available: N Insufficient cpu\" / \"Insufficient memory\"; \"N node(s) had untolerated taint {key: value}\"; \"N node(s) didn't match Pod's node affinity/selector\"; \"N node(s) were unschedulable\"; \"N node(s) didn't match pod anti-affinity rules\" / \"didn't match pod topology spread constraints\" / \"didn't have free ports for the requested pod ports\"; \"N node(s) had volume node affinity conflict\"; \"pod has unbound immediate PersistentVolumeClaims\".",
+  "meaning": "The Pod has no node yet, so the container never ran and the app cannot be the cause. The scheduler cannot find a node that fits; the FailedScheduling event names the filter that failed. The scheduler uses requests, not real usage. A toleration only permits a tainted node; it does not attract the Pod. More nodes do not help a nodeSelector/affinity that no node label matches.",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl get events -n <ns> --field-selector involvedObject.name=<pod>",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.spec.containers[*].resources.requests}{\"\\n\"}{.spec.nodeSelector}{\"\\n\"}{.spec.tolerations}'",
+   "kubectl describe node <node>",
+   "kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints",
+   "kubectl get nodes --show-labels"
+  ],
+  "causes": [
+   "Not enough space: requests larger than any node's free allocatable (example: request 6Gi, biggest free hole 3Gi), or other Pods' requests fill the nodes even if `top` shows free CPU; autoscaler has not added a node yet.",
+   "Taint without a toleration (GPU, control plane, node.kubernetes.io not-ready / memory-pressure).",
+   "nodeSelector/affinity label missing on all nodes or misspelled; required affinity too strict.",
+   "Anti-affinity, topology spread or host port cannot be met with the current nodes.",
+   "Storage: the Pod needs a PVC that is not bound (see pvc-pending, volume-node-affinity-conflict).",
+   "Fix: lower the request, add a node, fix the rule or label, or fix the volume."
+  ],
+  "notes": [
+   "12 Debugging broken Pods",
+   "10 Resources, scheduling & autoscaling"
+  ]
+ },
+ {
+  "slug": "pod-containercreating-stuck",
+  "trigger": "pod.status.containerStatuses[].state.waiting.reason == ContainerCreating (pod phase still Pending, spec.nodeName already set); Events such as Pulling, FailedMount, FailedCreatePodSandBox.",
+  "meaning": "A node is chosen but the container cannot start yet. The node is still preparing something it needs: a big image pull, a volume, a Secret or ConfigMap to mount, or the Pod network. FailedMount with configmap/secret \"<name>\" not found (or a missing key under volume items) means the mounted object is missing; with optional: true the Pod would start without it. (A missing ConfigMap/Secret used as env gives CreateContainerConfigError instead, see container-config-error.)",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl get events -n <ns> --sort-by=.lastTimestamp",
+   "kubectl get pvc,configmap,secret -n <ns>"
+  ],
+  "causes": [
+   "Big image still being pulled.",
+   "Mounted ConfigMap or Secret missing in this namespace, key under items missing, or typo in configMap.name / secret.secretName.",
+   "PVC not bound, or volume cannot attach (see pvc-pending, multi-attach-error).",
+   "Pod network/sandbox problem (see cni-unhealthy)."
+  ],
+  "notes": [
+   "12 Debugging broken Pods",
+   "08 Config and storage"
+  ]
+ },
+ {
+  "slug": "pod-init-container-stuck",
+  "trigger": "kubectl STATUS Init:N/M (for example Init:0/1) or Init:Error / Init:CrashLoopBackOff / Init:ImagePullBackOff; pod.status.initContainerStatuses[] not terminated with exitCode 0; condition Initialized=False.",
+  "meaning": "The Pod has init containers (setup steps that must finish first, in order) and one has not finished or has failed. Init:N/M means N of M are done. READY stays 0/1 because the main container has not started.",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl logs <pod> -n <ns> -c <init-container>",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.status.initContainerStatuses[*].state}'"
+  ],
+  "causes": [
+   "Init step is waiting for a dependency that is not ready.",
+   "Init container crashes or its image cannot be pulled."
+  ],
+  "notes": [
+   "12 Debugging broken Pods"
+  ]
+ },
+ {
+  "slug": "pod-image-pull-failure",
+  "trigger": "pod.status.containerStatuses[].state.waiting.reason (also in initContainerStatuses) is ErrImagePull, ImagePullBackOff, InvalidImageName or ErrImageNeverPull; Events Warning reason Failed (\"Failed to pull image ...\") and BackOff (\"Back-off pulling image\").",
+  "meaning": "The node cannot download the image. ErrImagePull is the failed attempt; the kubelet then retries with a growing wait (10s, 20s, 40s ... up to 5 minutes) and shows ImagePullBackOff; a pod can flip between the two. During a rolling update the old Pods keep running, so users see no outage.",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.spec.containers[*].image}{\"\\n\"}{.spec.imagePullSecrets}'",
+   "kubectl get events -n <ns> --field-selector reason=Failed",
+   "kubectl get pods -n <ns> -o wide",
+   "kubectl get rs -n <ns> -l app=<label>"
+  ],
+  "causes": [
+   "Tag does not exist (typo such as nginx:1.99-alpine): \"not found\" / \"manifest unknown\". `kubectl set image` exits 0 even for a missing image because it only validates the API request; the error appears only when a node pulls.",
+   "Wrong image name or registry; private registry and no imagePullSecrets (\"unauthorized\", \"authentication required\", \"pull access denied, repository does not exist or may require authorization\").",
+   "Registry rate limit (\"too many requests\"), or node network/DNS/proxy/firewall problem (\"no such host\", \"i/o timeout\").",
+   "Only one node affected: suspect a node problem (DNS, network, full disk), not the tag."
+  ],
+  "notes": [
+   "13 ImagePullBackOff / ErrImagePull"
+  ]
+ },
+ {
+  "slug": "deploy-rollout-stuck-old-pods-serving",
+  "trigger": "Deployment with a new ReplicaSet whose READY is below DESIRED (CURRENT may equal DESIRED) while the old ReplicaSet still serves; status.updatedReplicas < replicas, status.unavailableReplicas > 0; Available=True (reason MinimumReplicasAvailable) with Progressing not yet complete or already False.",
+  "meaning": "During a rolling update Kubernetes will not remove an old Pod until a new Pod is Ready, so old Pods keep serving. Users are fine but the release is stuck and two versions run; do not leave it half done. With 3 replicas and defaults (25%), maxUnavailable rounds down to 0 and maxSurge up to 1. With maxUnavailable 1 and maxSurge 0, an old Pod is deleted first and capacity drops (here to 2), so a bad new version hurts more. If one old pod then crashes, Available can turn False (see deploy-unavailable).",
+  "check": [
+   "kubectl describe deployment <name> -n <ns>",
+   "kubectl get rs -n <ns> -l app=<label>",
+   "kubectl get pods -n <ns> -l app=<label>",
+   "kubectl logs <new-pod> -n <ns> --previous",
+   "kubectl get deployment <name> -n <ns> -o jsonpath='{.spec.strategy}'"
+  ],
+  "causes": [
+   "Bad image tag in the new revision (ImagePullBackOff).",
+   "Readiness probe failing (wrong path or port, slow start); crash after start; missing config or env var.",
+   "New Pods Pending because the cluster is short of CPU/memory requests while maxSurge > 0 (maxSurge 25% rounds up: 10 replicas gives 3 extra Pods). It continues by itself if capacity appears (for example the autoscaler adds a node). If no room, use maxSurge 0 and maxUnavailable 1 or more; both 0 is not allowed."
+  ],
+  "notes": [
+   "04 Deployment Conditions",
+   "11 When a rollout goes wrong",
+   "13 ImagePullBackOff / ErrImagePull",
+   "03 Workloads & rollouts"
+  ]
+ },
+ {
+  "slug": "deploy-progress-deadline-exceeded",
+  "trigger": "Deployment condition Progressing=False, reason ProgressDeadlineExceeded (status.conditions[type=Progressing]); `kubectl rollout status` exits 1.",
+  "meaning": "The new pods did not become Ready within progressDeadlineSeconds (default 600s), so the rollout is stuck or failed. Kubernetes only sets the flag: it does not roll back, old pods keep serving and the new ReplicaSet stays; the controller keeps trying and the rollout can still finish if capacity or the fix appears.",
+  "check": [
+   "kubectl get rs -l app=<label> -n <ns>",
+   "kubectl get pods -l app=<label> -n <ns>",
+   "kubectl logs <new-pod> -n <ns> --previous"
+  ],
+  "causes": [
+   "ImagePullBackOff / ErrImagePull (wrong image name or tag, bad registry credentials)",
+   "CrashLoopBackOff (container starts then crashes)",
+   "Failing readiness probe",
+   "Pods Pending (not enough CPU/memory, or no node matches scheduling rules); missing ConfigMap or Secret",
+   "ReplicaSet cannot create Pods at all (see pod-creation-rejected)"
+  ],
+  "notes": [
+   "05 ProgressDeadlineExceeded"
+  ]
+ },
+ {
+  "slug": "deploy-unavailable",
+  "trigger": "Deployment condition Available=False, reason MinimumReplicasUnavailable (any Progressing value).",
+  "meaning": "Fewer than the minimum pods (desired replicas minus maxUnavailable) are available, so users are affected. Treat it as an outage.",
+  "check": [
+   "kubectl describe deployment <name> -n <ns>",
+   "kubectl get pods -l app=<label> -n <ns>",
+   "kubectl get events -n <ns> --sort-by=.metadata.creationTimestamp",
+   "kubectl get endpointslices -n <ns> -l kubernetes.io/service-name=<svc>"
+  ],
+  "causes": [
+   "Pods crashing or not Ready",
+   "Pods Pending (no capacity)",
+   "Node loss; a bad rollout with maxUnavailable too high"
+  ],
+  "notes": [
+   "04 Deployment Conditions"
+  ]
+ },
+ {
+  "slug": "deploy-rollback-history-missing",
+  "trigger": "Deployment spec.revisionHistoryLimit == 0, or only one ReplicaSet exists for it, when a rollback is wanted.",
+  "meaning": "`rollout undo` reverts only .spec.template and needs the old ReplicaSet to still exist; revisionHistoryLimit 0 removes old ReplicaSets at once, so nothing is left to go back to (unset means 10). The portal only reads; the undo itself is done by hand.",
+  "check": [
+   "kubectl get deployment <name> -n <ns> -o jsonpath='{.spec.revisionHistoryLimit}'",
+   "kubectl get rs -l app=<label> -n <ns>"
+  ],
+  "causes": [
+   "revisionHistoryLimit set to 0",
+   "Old ReplicaSets cleaned up"
+  ],
+  "notes": [
+   "03 Workloads & rollouts"
+  ]
+ },
+ {
+  "slug": "pod-creation-rejected",
+  "trigger": "ReplicaSet condition ReplicaFailure=True / Event Warning reason FailedCreate on the ReplicaSet; ReplicaSet status.replicas (CURRENT) below spec.replicas (DESIRED) and no new Pod object. Message variants: \"exceeded quota\", \"must be less than or equal to max\" / \"minimum ... usage\" (LimitRange), 'serviceaccount \"<name>\" not found', admission webhook denied.",
+  "meaning": "The API server (admission) refuses to create the Pod, so no Pod exists to inspect and it is not a Pending case. Check the ReplicaSet and events, not a Pod. A namespace ResourceQuota (cap on CPU, memory, number of Pods) acts at this step, not in the scheduler. A LimitRange sets default requests/limits and min/max per namespace.",
+  "check": [
+   "kubectl get rs -l app=<label> -n <ns>",
+   "kubectl describe rs <replicaset> -n <ns>",
+   "kubectl describe resourcequota -n <ns>",
+   "kubectl get events -n <ns> --field-selector reason=FailedCreate",
+   "kubectl get validatingwebhookconfigurations,mutatingwebhookconfigurations"
+  ],
+  "causes": [
+   "Namespace quota for CPU/memory/pod count is used up.",
+   "Requested size is above the LimitRange max; or unexpected defaults were applied from the LimitRange.",
+   "Admission webhook / policy rejects the Pod.",
+   "Missing ServiceAccount."
+  ],
+  "notes": [
+   "12 Debugging broken Pods",
+   "11 When a rollout goes wrong",
+   "10 Resources, scheduling & autoscaling"
+  ]
+ },
+ {
+  "slug": "pod-crashloopbackoff",
+  "trigger": "pod.status.containerStatuses[].state.waiting.reason == CrashLoopBackOff, restartCount rising; lastState.terminated holds the real reason and exitCode (non-zero: 1 or another small number, 137, 143). A run-once Pod that fails shows Error.",
+  "meaning": "Only a symptom: the container started, died, and Kubernetes waits (10s, 20s, 40s ... up to 5 min, reset after the container runs 10 minutes) before trying again. The real cause is why it died, found in the previous logs and the exit code. Exit codes: 0 finished fine; 1 or another small number means the app itself failed; 137 = 128+9 SIGKILL (killed at once); 143 = 128+15 SIGTERM (asked to stop and stopped).",
+  "check": [
+   "kubectl logs <pod> -n <ns> -c <container> --previous",
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.status.containerStatuses[*].lastState.terminated}'"
+  ],
+  "causes": [
+   "App failed itself (exit 1): bad config, missing setting (example log \"env DB_HOST is not set\"), database not reachable.",
+   "137 with Reason OOMKilled (see container-oomkilled); 137 can also be a liveness-probe kill after the grace time, or someone killed it. Read the Reason field.",
+   "Liveness probe kills a slow-starting app (see pod-probe-restarts).",
+   "If previous logs are empty: container dies before it writes logs; check command/args, image entrypoint, missing files or permissions."
+  ],
+  "notes": [
+   "12 Debugging broken Pods"
+  ]
+ },
+ {
+  "slug": "container-oomkilled",
+  "trigger": "pod.status.containerStatuses[].lastState.terminated.reason == OOMKilled (exitCode 137); get pods may show CrashLoopBackOff while OOMKilled stays in Last State.",
+  "meaning": "The container used more memory than its limit and the kernel killed it. Two different things can be out of memory: the container limit (OOMKilled) or the whole node (Evicted).",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl top pod <pod> -n <ns> --containers",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.spec.containers[*].resources}'"
+  ],
+  "causes": [
+   "Limit too small: memory use is flat near the limit; raise limit (and request).",
+   "Memory leak: line only goes up until the kill and climbs again from zero after restart; fix the code (a bigger limit only delays the crash).",
+   "Node short of memory (see pod-evicted)."
+  ],
+  "notes": [
+   "12 Debugging broken Pods",
+   "10 Resources, scheduling & autoscaling"
+  ]
+ },
+ {
+  "slug": "pod-evicted",
+  "trigger": "pod.status.reason == Evicted (phase Failed); Event reason Evicted; kubectl STATUS Evicted.",
+  "meaning": "The node ran short of memory, disk or similar and the kubelet stopped the Pod on purpose. Look at the node, not the Pod.",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl describe node <node>",
+   "kubectl top node"
+  ],
+  "causes": [
+   "Node memory or disk pressure (see node-pressure); sometimes the kernel kills a container directly before any eviction."
+  ],
+  "notes": [
+   "12 Debugging broken Pods",
+   "10 Resources, scheduling & autoscaling"
+  ]
+ },
+ {
+  "slug": "pod-running-not-ready",
+  "trigger": "pod.status.phase Running but condition Ready=False / ContainersReady=False; kubectl READY 0/1 (or 1/2); Events Warning reason Unhealthy \"Readiness probe failed\". Also: ContainersReady=True but Ready=False with spec.readinessGates set. Also: every Pod behind one Service is READY 0/N at the same time.",
+  "meaning": "The container is alive but not passing its readiness check, so it gets no traffic (the endpoint becomes ready=false in the EndpointSlice). A failing readiness probe never restarts the container; only liveness does. Read conditions in life order PodScheduled, Initialized, ContainersReady, Ready; the first False is the problem. With a readiness gate, an outside controller (for example the AWS Load Balancer Controller) must also set its condition True. If a readiness probe calls one shared backend (a database), that backend failing turns every Pod NotReady and the Service has zero ready endpoints; keep readiness light and do not make it depend on a shared backend.",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{range .status.conditions[*]}{.type}={.status}{\"\\n\"}{end}'",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.spec.readinessGates}'",
+   "kubectl logs <pod> -n <ns>",
+   "kubectl get endpointslices -n <ns> -l kubernetes.io/service-name=<service>"
+  ],
+  "causes": [
+   "Still starting (not listening yet): wait, raise initialDelaySeconds, or add a startup probe.",
+   "Probe asks the wrong thing: wrong port/path (statuscode 404), http vs https, app listens only on 127.0.0.1 (\"connection refused\"). Any HTTP status outside 200-399 is a failure.",
+   "App says \"not ready\" on purpose (statuscode 500/503) because a dependency such as the database is down: fix the dependency, not the probe.",
+   "Probe too slow (\"context deadline exceeded\"; timeoutSeconds default 1s), often CPU throttled by a low CPU limit.",
+   "Readiness-gate controller down or target not registered yet."
+  ],
+  "notes": [
+   "12 Debugging broken Pods",
+   "11 When a rollout goes wrong",
+   "06 kube-proxy, Service and EndpointSlice"
+  ]
+ },
+ {
+  "slug": "pod-probe-restarts",
+  "trigger": "restartCount rising on a Running Pod; Events Warning Unhealthy \"Liveness probe failed\" or \"Startup probe failed\", followed by Killing; lastState.terminated exit 137 or 143.",
+  "meaning": "A failing liveness probe restarts the container (SIGTERM, then SIGKILL after the grace period). A failing startup probe also restarts it; while the startup probe runs, liveness and readiness wait. A liveness probe that fires too early kills a healthy app that is only slow to start (example: app needs 60s, liveness checks at 10s).",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl logs <pod> -n <ns> --previous",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.spec.containers[*].livenessProbe}{\"\\n\"}{.spec.containers[*].startupProbe}'"
+  ],
+  "causes": [
+   "Slow start with no startup probe, or failureThreshold x periodSeconds of the startup probe shorter than the real start time.",
+   "Wrong port or path in the probe.",
+   "Liveness checks a dependency such as the database: a database outage restarts every Pod; liveness should check only whether the process is stuck, dependency checks belong in readiness."
+  ],
+  "notes": [
+   "12 Debugging broken Pods"
+  ]
+ },
+ {
+  "slug": "service-no-ready-endpoints",
+  "trigger": "Service (ClusterIP/NodePort/LoadBalancer, has a selector) whose EndpointSlices (label kubernetes.io/service-name=<svc>) contain no endpoint with conditions.ready=true (slice has zero endpoints, shown as ENDPOINTS `<unset>`, or all endpoints ready=false); the Service selector matches no Pod while Pods that look like its backend exist with different labels.",
+  "meaning": "The Service has an address but no ready Pod behind it. In iptables/nftables mode kube-proxy rejects the ClusterIP at once, so a client inside the cluster sees \"connection refused\" (curl exit 7), not a timeout. A 503 comes from an Ingress/gateway/app layer, never from kube-proxy. The most common cause of an empty slice is a selector mismatch: the EndpointSlice controller (not kube-proxy) uses the selector to pick Pods, so a typo leaves the slice empty.",
+  "check": [
+   "kubectl get endpointslices -n <ns> -l kubernetes.io/service-name=<svc> -o yaml",
+   "kubectl describe svc <svc> -n <ns>",
+   "kubectl get pods -n <ns> -l <key>=<value>",
+   "kubectl describe pod <pod> -n <ns>"
+  ],
+  "causes": [
+   "Selector does not match the Pod labels (label typo or changed in the Deployment Pod template; Service and Pods in different namespaces)",
+   "Pods exist but fail the readiness probe (READY 0/1, STATUS Running); if all Pods fail together, check for a shared dependency in the readiness probe (see pod-running-not-ready)",
+   "Pods are missing, Pending, or replicas is 0"
+  ],
+  "notes": [
+   "06 kube-proxy, Service and EndpointSlice"
+  ]
+ },
+ {
+  "slug": "service-no-endpointslice",
+  "trigger": "`kubectl get endpointslices -l kubernetes.io/service-name=<svc>` returns \"No resources found\" for a Service (no slice object at all).",
+  "meaning": "No slice exists at all. This is different from an empty slice (`<unset>`): for a Service with a selector the controller creates a slice even when no Pod matches. Typical: Service has no selector (endpoints managed by hand), type ExternalName (a DNS CNAME only: no slices, no proxy rules), wrong name or namespace, or the EndpointSlice controller is down.",
+  "check": [
+   "kubectl get svc <svc> -n <ns> -o yaml",
+   "kubectl get endpointslices -A -l kubernetes.io/service-name=<svc>",
+   "kubectl get pods -n kube-system"
+  ],
+  "causes": [
+   "Service has no selector or is type ExternalName",
+   "Wrong Service name or namespace in the command",
+   "EndpointSlice controller (in kube-controller-manager) is down"
+  ],
+  "notes": [
+   "06 kube-proxy, Service and EndpointSlice"
+  ]
+ },
+ {
+  "slug": "service-targetport-mismatch",
+  "trigger": "EndpointSlice has ready endpoints, but Service spec.ports[].targetPort differs from the port the container declares (containerPort is informational, so this is a heuristic), or the slice shows a different port than expected. A targetPort that is a name not defined in any container leaves the slice without endpoints for that port.",
+  "meaning": "Traffic reaches the Pod IP on the wrong port, so the app does not answer: \"connection refused\" from inside the cluster. From an Ingress (Traefik) this shows as 502 Bad Gateway. Check this when endpoints are ready and the client is still refused.",
+  "check": [
+   "kubectl get svc <svc> -n <ns> -o jsonpath='{.spec.ports}'",
+   "kubectl get pod <pod> -n <ns> -o jsonpath='{.spec.containers[*].ports}'",
+   "kubectl get endpointslices -n <ns> -l kubernetes.io/service-name=<svc> -o yaml",
+   "kubectl logs <pod> -n <ns>"
+  ],
+  "causes": [
+   "targetPort number differs from the port the app listens on",
+   "Named port in targetPort not defined in the container",
+   "App listens only on 127.0.0.1 instead of 0.0.0.0 (confirming needs `ss -ltnp` inside the Pod, which is exec: do it by hand, not from a read-only portal)"
+  ],
+  "notes": [
+   "06 kube-proxy, Service and EndpointSlice"
+  ]
+ },
+ {
+  "slug": "service-intermittent-503",
+  "trigger": "Service with several ready endpoints but a share of requests fail with 503 or connection errors (about 1 in N with one bad member out of N). Detectable hints: the EndpointSlice lists Pods owned by more than one ReplicaSet/Deployment, or image versions differ among endpoints; or an endpoint has conditions.terminating=true (or ready=false with serving=true) during a rollout, scale-down or node drain, with errors at each Pod replacement.",
+  "meaning": "One bad member behind the Service gives about 1/N errors; find it by calling each Pod IP directly, then ask why it is in the Service. Separately, a slice change must reach every proxy (kube-proxy on each node, the ingress controller) and the app may already have exited on SIGTERM, so a proxy can still send requests to a Pod that is gone. Pods are healthy at rest; look at timing.",
+  "check": [
+   "kubectl get endpointslices -n <ns> -l kubernetes.io/service-name=<svc> -o yaml",
+   "kubectl get pods -n <ns> -o wide --show-labels",
+   "kubectl get pods -n <ns> -o jsonpath='{range .items[*]}{.metadata.name}{\" \"}{.metadata.ownerReferences[0].name}{\"\\n\"}{end}'",
+   "kubectl get deployment <name> -n <ns> -o jsonpath='{.spec.strategy}{\"\\n\"}{.spec.template.spec.terminationGracePeriodSeconds}{\"\\n\"}{.spec.template.spec.containers[*].lifecycle}'"
+  ],
+  "causes": [
+   "A second (old) Deployment carries the same label, so an old or wrong Pod receives traffic",
+   "Shallow readiness check: a Pod with a dead dependency stays Ready (/health is 200 but the real call fails)",
+   "No preStop sleep, so the Pod dies before proxies drop it; app does not shut down gracefully on SIGTERM or grace period too short",
+   "maxUnavailable/maxSurge let too many Pods stop at once"
+  ],
+  "notes": [
+   "14 When traffic fails"
+  ]
+ },
+ {
+  "slug": "service-loadbalancer-pending",
+  "trigger": "Service type LoadBalancer with status.loadBalancer.ingress empty (EXTERNAL-IP `<pending>`).",
+  "meaning": "No external IP has been given. On bare metal / K3s this is the MetalLB controller or pool, or the built-in ServiceLB competing with MetalLB. Without an IP the browser times out and any Ingress using this Service shows an empty ADDRESS.",
+  "check": [
+   "kubectl get svc <svc> -n <ns>",
+   "kubectl get pods -n metallb-system",
+   "kubectl get ipaddresspool,l2advertisement -n metallb-system",
+   "kubectl describe svc <svc> -n <ns>"
+  ],
+  "causes": [
+   "MetalLB IP pool missing or exhausted",
+   "MetalLB controller/speaker Pods not healthy (IP exists but nobody answers ARP)",
+   "K3s ServiceLB not disabled (start k3s with `--disable servicelb`)"
+  ],
+  "notes": [
+   "07 Traffic to a Pod"
+  ]
+ },
+ {
+  "slug": "ingress-no-address-or-class",
+  "trigger": "Ingress with status.loadBalancer.ingress empty (ADDRESS column empty) for several minutes; or spec.ingressClassName names no existing IngressClass (or is unset with no default class), or no ingress controller Pods exist; the Ingress does nothing.",
+  "meaning": "An Ingress is only a rule. If no controller is installed or the class does not match, nothing reads the rule. The ADDRESS is normally the external address of the controller's own LoadBalancer Service, which the controller copies into the Ingress; empty means the controller has no external IP to copy yet. Symptom: connection refused or timeout to the front door, or an empty ADDRESS.",
+  "check": [
+   "kubectl get ingressclass",
+   "kubectl get ingress <name> -n <ns> -o yaml",
+   "kubectl get svc -n <controller-ns> <controller-svc>",
+   "kubectl get pods -n <controller-ns>",
+   "kubectl get ipaddresspool,l2advertisement -n metallb-system"
+  ],
+  "causes": [
+   "Controller not installed, or controller Pod not running",
+   "Controller Service has no external IP (MetalLB pool/Pods, or ServiceLB conflict; see service-loadbalancer-pending)",
+   "ingressClassName typo or missing, so the controller ignores the rule",
+   "Ingress created in a different namespace from its Service"
+  ],
+  "notes": [
+   "07 Traffic to a Pod"
+  ]
+ },
+ {
+  "slug": "ingress-backend-misconfigured",
+  "trigger": "Ingress/IngressRoute backend references a Service (name or port) that does not exist, is in another namespace, or has no ready EndpointSlice endpoints.",
+  "meaning": "The controller then answers with an HTTP status (seen by clients and controller logs, not in API objects). From Traefik: 404 page not found means no rule matched (wrong Host/path) or the route points to a missing Service; 503 (body \"no available server\") means the Service has no ready endpoints; 502 means Traefik reached the Pod IP but the connection failed (wrong targetPort); 504 means the app did not answer in time.",
+  "check": [
+   "kubectl get ingress <name> -n <ns> -o yaml",
+   "kubectl get svc,endpointslices -n <ns>",
+   "kubectl describe ingress <name> -n <ns>",
+   "kubectl logs <backend-pod> -n <ns>"
+  ],
+  "causes": [
+   "Route points to a Service name or port that does not exist, or to another namespace",
+   "Service has no ready endpoints (selector mismatch or failing readiness)",
+   "Wrong Service targetPort (502)"
+  ],
+  "notes": [
+   "07 Traffic to a Pod"
+  ]
+ },
+ {
+  "slug": "coredns-unavailable",
+  "trigger": "CoreDNS Pods (label k8s-app=kube-dns in kube-system) not Running/Ready, or the kube-dns Service has no ready EndpointSlice endpoints. Lookup symptom: `nslookup kubernetes.default` times out in every Pod.",
+  "meaning": "A timeout means the DNS path or CoreDNS is broken (NXDOMAIN, by contrast, means CoreDNS answered \"no such name\", so the name or namespace is wrong). `kubernetes.default` always exists, so it is a good test name. NXDOMAIN is not detectable from API objects, only from a lookup.",
+  "check": [
+   "kubectl get pods -n kube-system -l k8s-app=kube-dns",
+   "kubectl get endpointslices -n kube-system -l kubernetes.io/service-name=kube-dns",
+   "kubectl logs -n kube-system -l k8s-app=kube-dns --tail=50",
+   "kubectl get networkpolicy -A"
+  ],
+  "causes": [
+   "CoreDNS Pods not Running or overloaded",
+   "kube-dns Service has no endpoints",
+   "NetworkPolicy or CNI blocks port 53 (UDP and TCP)",
+   "CoreDNS cannot reach its upstream resolver (only outside names fail)"
+  ],
+  "notes": [
+   "07 Traffic to a Pod"
+  ]
+ },
+ {
+  "slug": "cni-unhealthy",
+  "trigger": "Pod stuck in ContainerCreating with event reason FailedCreatePodSandBox (Pod gets no IP); or CNI DaemonSet Pods (for example calico-node in calico-system) not Ready on one or more nodes; or node condition NetworkUnavailable=True. Symptom: Pods on the same node talk but cross-node Pod traffic times out, with no NetworkPolicy involved.",
+  "meaning": "The CNI could not set up the Pod network. NetworkUnavailable is set by the CNI plugin or the cloud provider, not by the kubelet. If local setup works, the problem is the network between nodes (tunnel/overlay, firewall between nodes, MTU). Not the Service and not DNS.",
+  "check": [
+   "kubectl describe pod <pod> -n <ns>",
+   "kubectl get events -A --field-selector reason=FailedCreatePodSandBox",
+   "kubectl get pods -n calico-system -o wide",
+   "kubectl describe node <node>",
+   "kubectl logs -n calico-system <calico-node-pod> --tail=50",
+   "kubectl get networkpolicy -A"
+  ],
+  "causes": [
+   "CNI Pod (for example calico-node) crash-looping, not scheduled or not healthy on that node",
+   "CNI config/binaries missing on the node",
+   "Cloud route not created for the node",
+   "UDP 4789 (VXLAN) blocked in the node firewall or cloud security group (Calico CrossSubnet only tunnels between nodes in different subnets)",
+   "Missing routes to the other node's Pod CIDR, or MTU (VXLAN adds 50 bytes: small pings work, big transfers hang)"
+  ],
+  "notes": [
+   "07 Traffic to a Pod",
+   "16 Node NotReady"
+  ]
+ },
+ {
+  "slug": "kube-proxy-unhealthy-on-node",
+  "trigger": "kube-proxy DaemonSet Pod (kube-system) not Running/Ready on a node (status.numberUnavailable > 0). Not applicable on K3s, where kube-proxy runs inside the k3s process and has no Pod.",
+  "meaning": "Existing rules stay in the kernel, so traffic keeps flowing but goes stale on that node: new Pods get no traffic, removed or not-ready Pods still get traffic, new Services have no rules. Symptom: endpoints fine, but the Service IP fails only from one node.",
+  "check": [
+   "kubectl get ds kube-proxy -n kube-system",
+   "kubectl get pods -n kube-system -l k8s-app=kube-proxy -o wide",
+   "kubectl logs -n kube-system <kube-proxy-pod> --tail=50"
+  ],
+  "causes": [
+   "kube-proxy Pod crashed or not scheduled on that node",
+   "Stale rules on that node until kube-proxy restarts and resyncs"
+  ],
+  "notes": [
+   "06 kube-proxy, Service and EndpointSlice"
+  ]
+ },
+ {
+  "slug": "networkpolicy-blocks-traffic",
+  "trigger": "Connection to a Pod or Service times out (not refused) while ready endpoints exist and a NetworkPolicy selects the source or target Pod. Typical: a NetworkPolicy with empty podSelector ({}) and policyTypes including Egress (no or too few egress rules) selects the client Pods, with no egress rule allowing port 53 (UDP and TCP) to CoreDNS in kube-system; symptom \"Resolving timed out\" and connect by IP also fails.",
+  "meaning": "A NetworkPolicy normally gives a timeout (silent drop), not \"connection refused\", so check it after endpoints, targetPort and listen address. A Pod that no policy selects is open; a policy only restricts Pods it selects. Default-deny egress also blocks DNS to CoreDNS, so the client cannot resolve any name and it looks like \"the backend is down\". Heuristic only: whether the CNI enforces NetworkPolicy cannot be read from the policy itself.",
+  "check": [
+   "kubectl get networkpolicy -A",
+   "kubectl describe networkpolicy <name> -n <ns>",
+   "kubectl get pods -n <ns> --show-labels",
+   "kubectl get pods -n kube-system -l k8s-app=kube-dns --show-labels"
+  ],
+  "causes": [
+   "Default-deny policy without an allow rule for this path (needs egress on the sender and ingress on the receiver); allow rule on only one side, or wrong port",
+   "No egress rule to CoreDNS (port 53 UDP and TCP)",
+   "DNS allowed with a podSelector alone, which matches only Pods in the policy's own namespace; use namespaceSelector and podSelector together in ONE list item (two items mean OR)",
+   "Missing allows for the ingress controller, metrics scraping or external calls"
+  ],
+  "notes": [
+   "14 When traffic fails"
+  ]
+ },
+ {
+  "slug": "container-config-error",
+  "trigger": "Pod container waiting reason CreateContainerConfigError; event says configmap \"<name>\" not found, secret \"<name>\" not found, or couldn't find key <key> in ConfigMap/Secret <ns>/<name>.",
+  "meaning": "The container env (configMapKeyRef / secretKeyRef) points to a ConfigMap or Secret, or a key inside it, that does not exist in the Pod's namespace (both are namespaced, so one in another namespace does not count). The Pod is already scheduled, so this is not a scheduling failure.",
+  "check": [
+   "kubectl -n <ns> describe pod <pod>",
+   "kubectl -n <ns> get configmap <configmap>",
+   "kubectl get secret -A --field-selector metadata.name=<secret>",
+   "kubectl -n <ns> get pod <pod> -o jsonpath='{.spec.containers[*].env}'"
+  ],
+  "causes": [
+   "The ConfigMap or Secret was never created, or was created in another namespace.",
+   "The key name in configMapKeyRef / secretKeyRef is wrong or misspelled.",
+   "It is created after the workload (apply order)."
+  ],
+  "notes": [
+   "08 Config and storage"
+  ]
+ },
+ {
+  "slug": "pvc-pending",
+  "trigger": "PVC phase Pending. Three cases by the describe event: (a) \"waiting for first consumer to be created before binding\"; (b) 'storageclass.storage.k8s.io \"<name>\" not found' or no default class, with a Pod event \"pod has unbound immediate PersistentVolumeClaims\"; (c) \"failed to provision volume\" (reason ProvisioningFailed).",
+  "meaning": "(a) The StorageClass uses volumeBindingMode WaitForFirstConsumer (the k3s local-path default): the disk is only made after a Pod that uses the PVC is scheduled, so Pending with no Pod is normal. (b) The PVC names a StorageClass that does not exist or there is no default class, so nothing provisions a PV; the Pod then cannot be scheduled. (c) The provisioner (CSI driver) tried to create the disk and failed.",
+  "check": [
+   "kubectl -n <ns> describe pvc <pvc>",
+   "kubectl get storageclass",
+   "kubectl -n <ns> get pod -o wide",
+   "kubectl -n kube-system get pods"
+  ],
+  "causes": [
+   "(a) No Pod references the PVC yet (normal), or the Pod that uses it is itself unschedulable so binding never starts.",
+   "(b) Wrong storageClassName in the PVC or volumeClaimTemplates; no default StorageClass; the provisioner named by the class is not running.",
+   "(c) Cloud IAM permission missing for the driver; cloud quota exceeded; wrong StorageClass parameter."
+  ],
+  "notes": [
+   "08 Config and storage",
+   "09 StatefulSet and storage"
+  ]
+ },
+ {
+  "slug": "volume-node-affinity-conflict",
+  "trigger": "Pod Pending with scheduler event \"node(s) had volume node affinity conflict\" (PVC is Bound).",
+  "meaning": "The disk lives in one zone (or on one node, for local-path), but the Pod can only run on nodes elsewhere or no node there is free. A new node in another zone does not help.",
+  "check": [
+   "kubectl -n <ns> describe pod <pod>",
+   "kubectl get pv <pv> -o jsonpath='{.spec.nodeAffinity}'",
+   "kubectl get nodes -L topology.kubernetes.io/zone",
+   "kubectl -n <ns> get pvc <pvc>"
+  ],
+  "causes": [
+   "No free node in the disk's zone.",
+   "Local-path PV is pinned to a node that is down (kubernetes.io/hostname).",
+   "A nodeSelector or affinity pushes the Pod to another zone."
+  ],
+  "notes": [
+   "09 StatefulSet and storage"
+  ]
+ },
+ {
+  "slug": "multi-attach-error",
+  "trigger": "Pod ContainerCreating with event \"Multi-Attach error for volume ... Volume is already exclusively attached to one node and can't be attached to another\".",
+  "meaning": "An RWO disk (for example EBS) is still attached to the old node, usually after a node failure or reschedule. It has to detach first.",
+  "check": [
+   "kubectl -n <ns> describe pod <pod>",
+   "kubectl get volumeattachment",
+   "kubectl get nodes",
+   "kubectl -n <ns> get pod -o wide"
+  ],
+  "causes": [
+   "The old node is NotReady, so the disk is not detached.",
+   "Two Pods on different nodes use one RWO claim."
+  ],
+  "notes": [
+   "09 StatefulSet and storage"
+  ]
+ },
+ {
+  "slug": "statefulset-pod-stuck-unknown-terminating",
+  "trigger": "StatefulSet Pod (for example db-0) shows Unknown or Terminating for a long time; its node is NotReady.",
+  "meaning": "The node is unreachable and Kubernetes cannot know whether the Pod still writes to the disk, so it does not start a second pod with the same name. A Deployment Pod on the same node is also evicted after about 5 minutes (tolerationSeconds 300) and a replacement is created, because its name is not fixed.",
+  "check": [
+   "kubectl get pods -A -o wide",
+   "kubectl get nodes",
+   "kubectl describe node <node>",
+   "kubectl -n <ns> get events --sort-by=.lastTimestamp"
+  ],
+  "causes": [
+   "The node crashed or lost the network.",
+   "The node returns or an admin removes it; a force delete is by hand and only if sure the Pod is dead. The replacement may then hit multi-attach-error."
+  ],
+  "notes": [
+   "09 StatefulSet and storage"
+  ]
+ },
+ {
+  "slug": "statefulset-ordered-ready-blocked",
+  "trigger": "StatefulSet shows fewer ready replicas than desired; db-N Pending or not Ready and higher ordinals are not created (spec.podManagementPolicy OrderedReady).",
+  "meaning": "With the default OrderedReady policy pods start in order db-0, db-1, db-2, and each must be Ready before the next. A stuck pod blocks all after it (Parallel policy does not wait). Updates run in reverse order.",
+  "check": [
+   "kubectl -n <ns> get sts,pods,pvc -o wide",
+   "kubectl -n <ns> describe sts <sts>",
+   "kubectl -n <ns> describe pod <sts>-<n>",
+   "kubectl -n <ns> describe pvc <template>-<sts>-<n>"
+  ],
+  "causes": [
+   "The lowest-numbered not-Ready pod fails its readiness probe.",
+   "Its PVC is Pending or its volume cannot attach.",
+   "It cannot be scheduled (resources, taints)."
+  ],
+  "notes": [
+   "09 StatefulSet and storage"
+  ]
+ },
+ {
+  "slug": "statefulset-pvc-retained",
+  "trigger": "PVCs named <template>-<sts>-<N> remain after the StatefulSet is scaled down or deleted.",
+  "meaning": "By default (retention policy Retain) the PVCs and their data are kept. persistentVolumeClaimRetentionPolicy (whenDeleted, whenScaled) can change this. What happens to the disk after a PVC is deleted depends on the PV reclaim policy.",
+  "check": [
+   "kubectl -n <ns> get pvc",
+   "kubectl -n <ns> get sts <sts> -o jsonpath='{.spec.persistentVolumeClaimRetentionPolicy}'",
+   "kubectl get pv"
+  ],
+  "causes": [
+   "Default retention policy keeps PVCs.",
+   "Old PVCs may be reused when the StatefulSet is scaled up again."
+  ],
+  "notes": [
+   "09 StatefulSet and storage"
+  ]
+ },
+ {
+  "slug": "pod-qos-class-risk",
+  "trigger": "Pod status.qosClass is BestEffort, or Burstable with a big gap between memory request and limit.",
+  "meaning": "Guaranteed (requests equal limits for CPU and memory in every container) is evicted last, Burstable depends on how far over its request it runs, BestEffort (no requests or limits) goes first. The scheduler places by request, so use above request is at risk under pressure.",
+  "check": [
+   "kubectl -n <ns> get pod <pod> -o jsonpath='{.status.qosClass}'",
+   "kubectl -n <ns> top pod <pod>",
+   "kubectl -n <ns> get pod <pod> -o jsonpath='{.spec.containers[*].resources}'"
+  ],
+  "causes": [
+   "No requests or limits set.",
+   "Requests much lower than real use."
+  ],
+  "notes": [
+   "10 Resources, scheduling & autoscaling"
+  ]
+ },
+ {
+  "slug": "hpa-metrics-unknown",
+  "trigger": "HPA TARGETS shows <unknown>/N%; conditions such as ScalingActive False, reason FailedGetResourceMetric (\"unable to get metrics\").",
+  "meaning": "HPA cannot compute utilization and does not scale. A CPU percent is a percent of the Pod's request, so no CPU request gives unknown. A missing metrics source (metrics-server) does the same.",
+  "check": [
+   "kubectl -n <ns> describe hpa <hpa>",
+   "kubectl top pods -n <ns>",
+   "kubectl -n kube-system get deploy metrics-server",
+   "kubectl -n <ns> get deploy <deploy> -o jsonpath='{.spec.template.spec.containers[*].resources.requests}'"
+  ],
+  "causes": [
+   "Pods have no CPU request.",
+   "metrics-server is missing or unhealthy.",
+   "Pods just started and metrics are not ready."
+  ],
+  "notes": [
+   "10 Resources, scheduling & autoscaling"
+  ]
+ },
+ {
+  "slug": "hpa-not-reaching-desired",
+  "trigger": "HPA desired replicas above current and new Pods stay Pending; or HPA condition ScalingLimited True (reason TooManyReplicas / TooFewReplicas) with replicas stuck at maxReplicas.",
+  "meaning": "HPA only changes the replica count. With no node room the Pods are Pending, and the node autoscaler (Cluster Autoscaler or Karpenter) must add nodes, which takes minutes; users feel the spike meanwhile. Separately, the desired count is capped by minReplicas or maxReplicas; a safe maximum often comes from what the database or downstream can take, so a cap may be intended.",
+  "check": [
+   "kubectl -n <ns> describe hpa <hpa>",
+   "kubectl -n <ns> get hpa <hpa> -o yaml",
+   "kubectl -n <ns> get pods -o wide",
+   "kubectl get nodes"
+  ],
+  "causes": [
+   "No free node capacity; node autoscaler absent or slow; requests larger than any node.",
+   "maxReplicas set too low for the load, or capped on purpose to protect the database."
+  ],
+  "notes": [
+   "10 Resources, scheduling & autoscaling"
+  ]
+ },
+ {
+  "slug": "node-notready",
+  "trigger": "Node `Ready` condition is `Unknown` (STATUS NotReady) with taint `node.kubernetes.io/unreachable`; or Ready is `False` with taint `node.kubernetes.io/not-ready`.",
+  "meaning": "Unknown: the control plane no longer hears from the kubelet (no Lease heartbeat). After the 40s grace period the node controller sets Ready=Unknown and adds NoExecute and NoSchedule taints; Pods are evicted after 300s by default. False: the kubelet is alive and talks to the API server, but reports that the node is not healthy (for example the container runtime or network plugin is not ready).",
+  "check": [
+   "kubectl get nodes -o wide",
+   "kubectl describe node <node>",
+   "kubectl get lease <node> -n kube-node-lease -o yaml",
+   "kubectl get events -A --field-selector involvedObject.kind=Node",
+   "kubectl get pods -n kube-system -o wide --field-selector spec.nodeName=<node>"
+  ],
+  "causes": [
+   "Unknown: node powered off, crashed or cut off from the network; kubelet service stopped or hung; network path to kube-apiserver broken",
+   "False: container runtime not running or not ready; CNI plugin not installed or crashing on that node; kubelet reports a resource or config problem"
+  ],
+  "notes": [
+   "16 Node NotReady"
+  ]
+ },
+ {
+  "slug": "node-pressure",
+  "trigger": "Node condition `DiskPressure=True`, `MemoryPressure=True` or `PIDPressure=True`; matching taint `node.kubernetes.io/disk-pressure`, `memory-pressure` or `pid-pressure` (NoSchedule); Pods with status `Evicted`; Evicted or OOMKilled Pods for memory.",
+  "meaning": "The node stays Ready but is short of disk, memory or process IDs, and new Pods stop landing on it. The kubelet evicts Pods at a hard threshold at once (no 300s wait); a soft threshold waits for its grace period. For memory the kernel OOM killer may kill a container before eviction.",
+  "check": [
+   "kubectl describe node <node>",
+   "kubectl top node <node>",
+   "kubectl get pods -A -o wide --field-selector spec.nodeName=<node>",
+   "kubectl get events -A --field-selector reason=Evicted"
+  ],
+  "causes": [
+   "Disk: container logs or images filling the disk; Pods writing big emptyDir or ephemeral data; many unused images",
+   "Memory: Pods without memory limits or with requests far below real use; memory leak in one workload; node too small",
+   "PID: a Pod forking processes without end (fork bomb or leaking children); too many Pods on a node with a low PID limit"
+  ],
+  "notes": [
+   "16 Node NotReady"
+  ]
+ },
+ {
+  "slug": "node-cordoned-drain-stuck",
+  "trigger": "Node STATUS `Ready,SchedulingDisabled`; `spec.unschedulable: true`; taint `node.kubernetes.io/unschedulable:NoSchedule`. For long, with Pods still on it, or evicted Pods stay `Pending`.",
+  "meaning": "The node was cordoned: no new Pods land on it, but running Pods stay. A drain also asks the old Pods to leave, then the node is upgraded and uncordoned. Besides a PDB, a drain refuses for DaemonSet Pods (they come back; needs --ignore-daemonsets), Pods with emptyDir (--delete-emptydir-data) and Pods with no controller (they would be gone for good). A Pod that cannot start elsewhere stays Pending. Never force-drain to hurry.",
+  "check": [
+   "kubectl get nodes",
+   "kubectl get pods -A -o wide --field-selector spec.nodeName=<node>",
+   "kubectl get pod <pod> -n <namespace> -o jsonpath='{.metadata.ownerReferences}'",
+   "kubectl get pods -A --field-selector status.phase=Pending"
+  ],
+  "causes": [
+   "Upgrade or maintenance in progress; a drain that got stuck or someone forgot to uncordon",
+   "DaemonSet Pods, emptyDir Pods or a bare Pod with no owner",
+   "PodDisruptionBudget blocking (see drain-blocked-by-pdb)",
+   "Not enough spare capacity on other nodes"
+  ],
+  "notes": [
+   "17 Safe cluster upgrade, cordon and drain"
+  ]
+ },
+ {
+  "slug": "drain-blocked-by-pdb",
+  "trigger": "PodDisruptionBudget status shows `ALLOWED DISRUPTIONS 0` (disruptionsAllowed 0) on a node that is cordoned; the drain retries \"Cannot evict pod ... would violate the pod's disruption budget\".",
+  "meaning": "A drain respects every PodDisruptionBudget. If moving a Pod would break the PDB, the drain waits. A PDB needs room: 3 Pods with minAvailable 3 means nothing can be evicted.",
+  "check": [
+   "kubectl get pdb -A",
+   "kubectl describe pdb <pdb> -n <namespace>",
+   "kubectl get pods -n <namespace> -o wide"
+  ],
+  "causes": [
+   "minAvailable equal to the replica count",
+   "Some replicas not Ready, so no spare room",
+   "Other replicas are Pending and cannot start elsewhere"
+  ],
+  "notes": [
+   "17 Safe cluster upgrade, cordon and drain"
+  ]
+ },
+ {
+  "slug": "etcd-no-quorum",
+  "trigger": "API writes time out or fail while existing Pods keep running; `/readyz?verbose` shows the etcd check failing; etcd Pods in kube-system (kubeadm clusters) not Ready.",
+  "meaning": "Without quorum (a majority of members, 2 of 3) etcd refuses writes. Running Pods keep running, but nothing new can change (no scaling, no healing). K3s with its default embedded datastore has no etcd Pods.",
+  "check": [
+   "kubectl get --raw '/readyz?verbose'",
+   "kubectl get pods -n kube-system -o wide",
+   "kubectl logs -n kube-system etcd-<node>"
+  ],
+  "causes": [
+   "Too many etcd members down",
+   "Network split between members",
+   "Even number of members (4 is no better than 3)"
+  ],
+  "notes": [
+   "15 etcd and API server health"
+  ]
+ },
+ {
+  "slug": "apiserver-slow",
+  "trigger": "API calls are slow; kube-apiserver or etcd Pods in kube-system restarting (restartCount rising); `/readyz` or `/livez` slow or failing.",
+  "meaning": "Three suspects: slow etcd disk (fsync should be under about 10 ms, otherwise leader elections and stalled writes), a noisy client sending thousands of calls, or a huge etcd database near its quota (NOSPACE alarm, writes refused). A slow admission webhook also makes the API slow.",
+  "check": [
+   "kubectl get --raw '/readyz?verbose'",
+   "kubectl get --raw '/livez?verbose'",
+   "kubectl logs -n kube-system etcd-<node>",
+   "kubectl get validatingwebhookconfigurations,mutatingwebhookconfigurations"
+  ],
+  "causes": [
+   "etcd on a slow or shared disk",
+   "One controller or script flooding the API or creating events",
+   "etcd database size at quota",
+   "Slow or failing admission webhook"
+  ],
+  "notes": [
+   "15 etcd and API server health"
+  ]
+ },
+ {
+  "slug": "helm-release-failed",
+  "trigger": "`helm list -A --all` shows status `failed`, `pending-install`, `pending-upgrade` or `pending-rollback`.",
+  "meaning": "The last Helm action did not finish. Helm keeps each revision as a Secret in the release namespace, so history shows what happened.",
+  "check": [
+   "helm list -A --all",
+   "helm history <release> -n <namespace>",
+   "helm status <release> -n <namespace>",
+   "kubectl get events -n <namespace> --sort-by=.lastTimestamp"
+  ],
+  "causes": [
+   "Upgrade timed out (`--timeout`) or a resource never became ready with `--wait`",
+   "Hook job failed",
+   "Interrupted helm command left a pending revision"
+  ],
+  "notes": [
+   "18 Helm"
+  ]
+ },
+ {
+  "slug": "helm-deployed-but-unhealthy-or-drifted",
+  "trigger": "`helm status` says `deployed`, but Pods are `ImagePullBackOff`, not Ready, or users see errors; or a live Deployment (for example replicas) differs from the release's `helm get manifest` / values.",
+  "meaning": "`deployed` only means Helm sent the YAML. It is not a health report; Helm only waits with `--wait`. Helm checks the cluster only when you run a Helm command; a hand edit (for example `kubectl scale`) is unknown to Helm and can be overwritten at the next upgrade by the three-way merge.",
+  "check": [
+   "helm history <release> -n <namespace>",
+   "helm get values <release> -n <namespace>",
+   "kubectl get pods -n <namespace>",
+   "kubectl get deployment <name> -n <namespace> -o yaml"
+  ],
+  "causes": [
+   "Image tag does not exist in the registry; readiness check never passes; app bug that the readiness check cannot see",
+   "Someone edited the object by hand",
+   "An HPA owns the replica count while the chart also sets replicas"
+  ],
+  "notes": [
+   "18 Helm"
+  ]
+ },
+ {
+  "slug": "rbac-forbidden-403",
+  "trigger": "API response 403 `Error from server (Forbidden): <resource> is forbidden: User \"<user>\" cannot <verb> resource \"<resource>\" in API group \"<group>\" in the namespace \"<namespace>\"`.",
+  "meaning": "Authentication worked (otherwise 401), but authorization said no. RBAC is default deny with no deny rules: no matching Role or ClusterRole binding means no.",
+  "check": [
+   "kubectl auth can-i <verb> <resource> -n <namespace> --as=<user-or-serviceaccount>",
+   "kubectl auth can-i --list -n <namespace> --as=<user-or-serviceaccount>",
+   "kubectl get rolebindings,clusterrolebindings -A -o wide",
+   "kubectl describe role <role> -n <namespace>"
+  ],
+  "causes": [
+   "No RoleBinding for this subject",
+   "A Role binds in one namespace only, but the call is in another",
+   "Wrong verb or resource in the Role rules",
+   "Wrong ServiceAccount name or namespace in the binding"
+  ],
+  "notes": [
+   "19 RBAC"
+  ]
+ }
+]

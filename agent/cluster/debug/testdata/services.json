@@ -1,0 +1,86 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "netpol"
+    },
+    "name": "api",
+    "namespace": "kubemap-demo",
+    "uid": "09e12d4f-6d3c-4503-882f-90e4576cc8d2"
+   },
+   "spec": {
+    "clusterIP": "10.43.100.136",
+    "clusterIPs": [
+     "10.43.100.136"
+    ],
+    "internalTrafficPolicy": "Cluster",
+    "ipFamilies": [
+     "IPv4"
+    ],
+    "ipFamilyPolicy": "SingleStack",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": "http"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "api"
+    },
+    "sessionAffinity": "None",
+    "type": "ClusterIP"
+   },
+   "status": {
+    "loadBalancer": {}
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "badsvc"
+    },
+    "name": "catalog",
+    "namespace": "kubemap-demo",
+    "uid": "a651498d-daf9-4dbf-8eef-143ead3f0147"
+   },
+   "spec": {
+    "clusterIP": "10.43.210.170",
+    "clusterIPs": [
+     "10.43.210.170"
+    ],
+    "internalTrafficPolicy": "Cluster",
+    "ipFamilies": [
+     "IPv4"
+    ],
+    "ipFamilyPolicy": "SingleStack",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": "http"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "catalog-api"
+    },
+    "sessionAffinity": "None",
+    "type": "ClusterIP"
+   },
+   "status": {
+    "loadBalancer": {}
+   }
+  }
+ ],
+ "kind": "ServiceList"
+}

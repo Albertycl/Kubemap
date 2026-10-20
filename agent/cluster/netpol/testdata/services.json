@@ -1,0 +1,1213 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-applicationset-controller",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.142.248",
+    "ports": [
+     {
+      "name": "webhook",
+      "port": 7000,
+      "protocol": "TCP",
+      "targetPort": "webhook"
+     },
+     {
+      "name": "metrics",
+      "port": 8080,
+      "protocol": "TCP",
+      "targetPort": "metrics"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-applicationset-controller"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-dex-server",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.128.63",
+    "ports": [
+     {
+      "appProtocol": "TCP",
+      "name": "http",
+      "port": 5556,
+      "protocol": "TCP",
+      "targetPort": 5556
+     },
+     {
+      "name": "grpc",
+      "port": 5557,
+      "protocol": "TCP",
+      "targetPort": 5557
+     },
+     {
+      "name": "metrics",
+      "port": 5558,
+      "protocol": "TCP",
+      "targetPort": 5558
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-dex-server"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-metrics",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.203.63",
+    "ports": [
+     {
+      "name": "metrics",
+      "port": 8082,
+      "protocol": "TCP",
+      "targetPort": 8082
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-application-controller"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-notifications-controller-metrics",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.67.38",
+    "ports": [
+     {
+      "name": "metrics",
+      "port": 9001,
+      "protocol": "TCP",
+      "targetPort": 9001
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-notifications-controller"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-redis",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.167.154",
+    "ports": [
+     {
+      "name": "tcp-redis",
+      "port": 6379,
+      "protocol": "TCP",
+      "targetPort": 6379
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-redis"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-repo-server",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.137.40",
+    "ports": [
+     {
+      "name": "server",
+      "port": 8081,
+      "protocol": "TCP",
+      "targetPort": 8081
+     },
+     {
+      "name": "metrics",
+      "port": 8084,
+      "protocol": "TCP",
+      "targetPort": 8084
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-repo-server"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-server",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.216.238",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": 8080
+     },
+     {
+      "name": "https",
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": 8080
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-server"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "argocd-server-metrics",
+    "namespace": "argocd"
+   },
+   "spec": {
+    "clusterIP": "10.43.16.153",
+    "ports": [
+     {
+      "name": "metrics",
+      "port": 8083,
+      "protocol": "TCP",
+      "targetPort": 8083
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "argocd-server"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "calico-api",
+    "namespace": "calico-apiserver"
+   },
+   "spec": {
+    "clusterIP": "10.43.67.138",
+    "ports": [
+     {
+      "name": "apiserver",
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": 5443
+     }
+    ],
+    "selector": {
+     "apiserver": "true"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "calico-kube-controllers-metrics",
+    "namespace": "calico-system"
+   },
+   "spec": {
+    "clusterIP": "None",
+    "ports": [
+     {
+      "name": "metrics-port",
+      "port": 9094,
+      "protocol": "TCP",
+      "targetPort": 9094
+     }
+    ],
+    "selector": {
+     "k8s-app": "calico-kube-controllers"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "calico-typha",
+    "namespace": "calico-system"
+   },
+   "spec": {
+    "clusterIP": "10.43.225.39",
+    "ports": [
+     {
+      "name": "calico-typha",
+      "port": 5473,
+      "protocol": "TCP",
+      "targetPort": "calico-typha"
+     }
+    ],
+    "selector": {
+     "k8s-app": "calico-typha"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "cert-manager",
+    "namespace": "cert-manager"
+   },
+   "spec": {
+    "clusterIP": "10.43.15.204",
+    "ports": [
+     {
+      "name": "tcp-prometheus-servicemonitor",
+      "port": 9402,
+      "protocol": "TCP",
+      "targetPort": 9402
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/component": "controller",
+     "app.kubernetes.io/instance": "cert-manager",
+     "app.kubernetes.io/name": "cert-manager"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "cert-manager-webhook",
+    "namespace": "cert-manager"
+   },
+   "spec": {
+    "clusterIP": "10.43.243.91",
+    "ports": [
+     {
+      "name": "https",
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": "https"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/component": "webhook",
+     "app.kubernetes.io/instance": "cert-manager",
+     "app.kubernetes.io/name": "webhook"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "cnpg-webhook-service",
+    "namespace": "cnpg-system"
+   },
+   "spec": {
+    "clusterIP": "10.43.19.84",
+    "ports": [
+     {
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": 9443
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "cloudnative-pg"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "flask-vue-backend",
+    "namespace": "default"
+   },
+   "spec": {
+    "clusterIP": "10.43.24.81",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": "http"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "flask-vue"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "flask-vue-frontend",
+    "namespace": "default"
+   },
+   "spec": {
+    "clusterIP": "10.43.89.25",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": "http"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "flask-vue"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kubernetes",
+    "namespace": "default"
+   },
+   "spec": {
+    "clusterIP": "10.43.0.1",
+    "ports": [
+     {
+      "name": "https",
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": 6443
+     }
+    ],
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-dns",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "clusterIP": "10.43.0.10",
+    "ports": [
+     {
+      "name": "dns",
+      "port": 53,
+      "protocol": "UDP",
+      "targetPort": 53
+     },
+     {
+      "name": "dns-tcp",
+      "port": 53,
+      "protocol": "TCP",
+      "targetPort": 53
+     },
+     {
+      "name": "metrics",
+      "port": 9153,
+      "protocol": "TCP",
+      "targetPort": 9153
+     }
+    ],
+    "selector": {
+     "k8s-app": "kube-dns"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-coredns",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "clusterIP": "None",
+    "ports": [
+     {
+      "name": "http-metrics",
+      "port": 9153,
+      "protocol": "TCP",
+      "targetPort": 9153
+     }
+    ],
+    "selector": {
+     "k8s-app": "kube-dns"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-kube-proxy",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "clusterIP": "None",
+    "ports": [
+     {
+      "name": "http-metrics",
+      "port": 10249,
+      "protocol": "TCP",
+      "targetPort": 10249
+     }
+    ],
+    "selector": {
+     "k8s-app": "kube-proxy"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-kubelet",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "clusterIP": "None",
+    "ports": [
+     {
+      "name": "https-metrics",
+      "port": 10250,
+      "protocol": "TCP",
+      "targetPort": 10250
+     },
+     {
+      "name": "http-metrics",
+      "port": 10255,
+      "protocol": "TCP",
+      "targetPort": 10255
+     },
+     {
+      "name": "cadvisor",
+      "port": 4194,
+      "protocol": "TCP",
+      "targetPort": 4194
+     }
+    ],
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "metrics-server",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "clusterIP": "10.43.97.132",
+    "ports": [
+     {
+      "name": "https",
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": "https"
+     }
+    ],
+    "selector": {
+     "k8s-app": "metrics-server"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "traefik",
+    "namespace": "kube-system"
+   },
+   "spec": {
+    "clusterIP": "10.43.251.75",
+    "ports": [
+     {
+      "name": "web",
+      "nodePort": 30745,
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": "web"
+     },
+     {
+      "name": "websecure",
+      "nodePort": 30533,
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": "websecure"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "traefik-kube-system",
+     "app.kubernetes.io/name": "traefik"
+    },
+    "type": "LoadBalancer"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "metallb-webhook-service",
+    "namespace": "metallb-system"
+   },
+   "spec": {
+    "clusterIP": "10.43.57.151",
+    "ports": [
+     {
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": 9443
+     }
+    ],
+    "selector": {
+     "component": "controller"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "alertmanager-operated",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "None",
+    "ports": [
+     {
+      "name": "http-web",
+      "port": 9093,
+      "protocol": "TCP",
+      "targetPort": "http-web"
+     },
+     {
+      "name": "tcp-mesh",
+      "port": 9094,
+      "protocol": "TCP",
+      "targetPort": 9094
+     },
+     {
+      "name": "udp-mesh",
+      "port": 9094,
+      "protocol": "UDP",
+      "targetPort": 9094
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "alertmanager"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-alertmanager",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "10.43.144.120",
+    "ports": [
+     {
+      "name": "http-web",
+      "port": 9093,
+      "protocol": "TCP",
+      "targetPort": 9093
+     },
+     {
+      "appProtocol": "http",
+      "name": "reloader-web",
+      "port": 8080,
+      "protocol": "TCP",
+      "targetPort": "reloader-web"
+     }
+    ],
+    "selector": {
+     "alertmanager": "kube-prometheus-stack-alertmanager",
+     "app.kubernetes.io/name": "alertmanager"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-grafana",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "10.43.100.114",
+    "ports": [
+     {
+      "name": "http-web",
+      "nodePort": 31360,
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": 3000
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/name": "grafana"
+    },
+    "type": "LoadBalancer"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-kube-state-metrics",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "10.43.250.248",
+    "ports": [
+     {
+      "name": "http",
+      "port": 8080,
+      "protocol": "TCP",
+      "targetPort": 8080
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/name": "kube-state-metrics"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-operator",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "10.43.110.146",
+    "ports": [
+     {
+      "name": "https",
+      "port": 443,
+      "protocol": "TCP",
+      "targetPort": "https"
+     }
+    ],
+    "selector": {
+     "app": "kube-prometheus-stack-operator",
+     "release": "kube-prometheus-stack"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-prometheus",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "10.43.114.145",
+    "ports": [
+     {
+      "name": "http-web",
+      "port": 9090,
+      "protocol": "TCP",
+      "targetPort": 9090
+     },
+     {
+      "appProtocol": "http",
+      "name": "reloader-web",
+      "port": 8080,
+      "protocol": "TCP",
+      "targetPort": "reloader-web"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "prometheus",
+     "operator.prometheus.io/name": "kube-prometheus-stack-prometheus"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "kube-prometheus-stack-prometheus-node-exporter",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "10.43.157.193",
+    "ports": [
+     {
+      "name": "http-metrics",
+      "port": 9100,
+      "protocol": "TCP",
+      "targetPort": 9100
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "kube-prometheus-stack",
+     "app.kubernetes.io/name": "prometheus-node-exporter"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "prometheus-operated",
+    "namespace": "monitoring"
+   },
+   "spec": {
+    "clusterIP": "None",
+    "ports": [
+     {
+      "name": "http-web",
+      "port": 9090,
+      "protocol": "TCP",
+      "targetPort": "http-web"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/name": "prometheus"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "otel-collector",
+    "namespace": "observability"
+   },
+   "spec": {
+    "clusterIP": "10.43.101.198",
+    "ports": [
+     {
+      "name": "metrics",
+      "port": 8888,
+      "protocol": "TCP",
+      "targetPort": 8888
+     },
+     {
+      "name": "otlp-http",
+      "port": 4318,
+      "protocol": "TCP",
+      "targetPort": 4318
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "otel-collector",
+     "app.kubernetes.io/name": "opentelemetry-collector",
+     "component": "standalone-collector"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "tempo",
+    "namespace": "observability"
+   },
+   "spec": {
+    "clusterIP": "10.43.244.164",
+    "ports": [
+     {
+      "name": "tempo-jaeger-thrift-compact",
+      "port": 6831,
+      "protocol": "UDP",
+      "targetPort": 6831
+     },
+     {
+      "name": "tempo-jaeger-thrift-binary",
+      "port": 6832,
+      "protocol": "UDP",
+      "targetPort": 6832
+     },
+     {
+      "name": "tempo-prom-metrics",
+      "port": 3200,
+      "protocol": "TCP",
+      "targetPort": 3200
+     },
+     {
+      "name": "tempo-jaeger-thrift-http",
+      "port": 14268,
+      "protocol": "TCP",
+      "targetPort": 14268
+     },
+     {
+      "name": "grpc-tempo-jaeger",
+      "port": 14250,
+      "protocol": "TCP",
+      "targetPort": 14250
+     },
+     {
+      "name": "tempo-zipkin",
+      "port": 9411,
+      "protocol": "TCP",
+      "targetPort": 9411
+     },
+     {
+      "name": "tempo-otlp-legacy",
+      "port": 55680,
+      "protocol": "TCP",
+      "targetPort": 55680
+     },
+     {
+      "name": "tempo-otlp-http-legacy",
+      "port": 55681,
+      "protocol": "TCP",
+      "targetPort": 55681
+     },
+     {
+      "name": "grpc-tempo-otlp",
+      "port": 4317,
+      "protocol": "TCP",
+      "targetPort": 4317
+     },
+     {
+      "name": "tempo-otlp-http",
+      "port": 4318,
+      "protocol": "TCP",
+      "targetPort": 4318
+     },
+     {
+      "name": "tempo-opencensus",
+      "port": 55678,
+      "protocol": "TCP",
+      "targetPort": 55678
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "tempo",
+     "app.kubernetes.io/name": "tempo"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "flask-vue-backend",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.246.108",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": "http"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/component": "backend",
+     "app.kubernetes.io/name": "flask-vue"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "flask-vue-frontend",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.152.61",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": "http"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/component": "frontend",
+     "app.kubernetes.io/name": "flask-vue"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "redis-headless",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "None",
+    "ports": [
+     {
+      "name": "tcp-redis",
+      "port": 6379,
+      "protocol": "TCP",
+      "targetPort": "redis"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/name": "redis"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "redis-master",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.220.113",
+    "ports": [
+     {
+      "name": "tcp-redis",
+      "port": 6379,
+      "protocol": "TCP",
+      "targetPort": "redis"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/component": "master",
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/name": "redis"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "redis-metrics",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.255.21",
+    "ports": [
+     {
+      "name": "http-metrics",
+      "port": 9121,
+      "protocol": "TCP",
+      "targetPort": "metrics"
+     }
+    ],
+    "selector": {
+     "app.kubernetes.io/instance": "redis",
+     "app.kubernetes.io/name": "redis"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "url-shortener",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.219.240",
+    "ports": [
+     {
+      "name": "http",
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": 8080
+     }
+    ],
+    "selector": {
+     "app": "url-shortener"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "url-shortener-db-r",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.31.212",
+    "ports": [
+     {
+      "name": "postgres",
+      "port": 5432,
+      "protocol": "TCP",
+      "targetPort": 5432
+     }
+    ],
+    "selector": {
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/podRole": "instance"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "url-shortener-db-ro",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.182.88",
+    "ports": [
+     {
+      "name": "postgres",
+      "port": 5432,
+      "protocol": "TCP",
+      "targetPort": 5432
+     }
+    ],
+    "selector": {
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/instanceRole": "replica"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "url-shortener-db-rw",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.141.33",
+    "ports": [
+     {
+      "name": "postgres",
+      "port": 5432,
+      "protocol": "TCP",
+      "targetPort": 5432
+     }
+    ],
+    "selector": {
+     "cnpg.io/cluster": "url-shortener-db",
+     "cnpg.io/instanceRole": "primary"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "url-shortener-pooler",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.38.150",
+    "ports": [
+     {
+      "name": "pgbouncer",
+      "port": 5432,
+      "protocol": "TCP",
+      "targetPort": "pgbouncer"
+     }
+    ],
+    "selector": {
+     "cnpg.io/poolerName": "url-shortener-pooler"
+    },
+    "type": "ClusterIP"
+   }
+  },
+  {
+   "apiVersion": "v1",
+   "kind": "Service",
+   "metadata": {
+    "name": "whoami",
+    "namespace": "sre-lab-app"
+   },
+   "spec": {
+    "clusterIP": "10.43.176.136",
+    "ports": [
+     {
+      "port": 80,
+      "protocol": "TCP",
+      "targetPort": 80
+     }
+    ],
+    "selector": {
+     "app": "whoami"
+    },
+    "type": "ClusterIP"
+   }
+  }
+ ],
+ "kind": "ServiceList"
+}

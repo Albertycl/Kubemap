@@ -1,0 +1,1376 @@
+{
+"apiVersion": "v1",
+"items": [
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "argocd-application-controller",
+"namespace": "argocd"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets",
+"configmaps"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applications",
+"applicationsets",
+"appprojects"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch",
+"update",
+"patch",
+"delete"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"list"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resources": [
+"deployments"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "argocd-applicationset-controller",
+"namespace": "argocd"
+},
+"rules": [
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applications",
+"applicationsets",
+"applicationsets/finalizers"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"appprojects"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applicationsets/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"patch",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets",
+"configmaps"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resourceNames": [
+"58ac56fa.applicationsets.argoproj.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"update",
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "argocd-dex-server",
+"namespace": "argocd"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets",
+"configmaps"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "argocd-notifications-controller",
+"namespace": "argocd"
+},
+"rules": [
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applications",
+"appprojects"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps",
+"secrets"
+],
+"verbs": [
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"argocd-notifications-cm"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"argocd-notifications-secret"
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "argocd-redis",
+"namespace": "argocd"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"argocd-redis"
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "argocd-server",
+"namespace": "argocd"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets",
+"configmaps"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch",
+"update",
+"patch",
+"delete"
+]
+},
+{
+"apiGroups": [
+"argoproj.io"
+],
+"resources": [
+"applications",
+"appprojects",
+"applicationsets"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch",
+"update",
+"delete",
+"patch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"list"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "cert-manager-webhook:dynamic-serving",
+"namespace": "cert-manager"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"cert-manager-webhook-ca"
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "system:controller:bootstrap-signer",
+"namespace": "kube-public"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"cluster-info"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"update"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "cert-manager-cainjector:leaderelection",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resourceNames": [
+"cert-manager-cainjector-leader-election",
+"cert-manager-cainjector-leader-election-core"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "cert-manager:leaderelection",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resourceNames": [
+"cert-manager-controller"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"update",
+"patch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "extension-apiserver-authentication-reader",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"extension-apiserver-authentication"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "system::leader-locking-kube-controller-manager",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"kube-controller-manager"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leasecandidates"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "system::leader-locking-kube-scheduler",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"kube-scheduler"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resources": [
+"leasecandidates"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"update",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "system:controller:bootstrap-signer",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "system:controller:cloud-provider",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"create",
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "system:controller:token-cleaner",
+"namespace": "kube-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"delete",
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"",
+"events.k8s.io"
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "controller",
+"namespace": "metallb-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"create",
+"delete",
+"get",
+"list",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"memberlist"
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"list"
+]
+},
+{
+"apiGroups": [
+"apps"
+],
+"resourceNames": [
+"controller"
+],
+"resources": [
+"deployments"
+],
+"verbs": [
+"get"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"bgppeers"
+],
+"verbs": [
+"get",
+"list"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"bfdprofiles"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"ipaddresspools"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"bgpadvertisements"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"l2advertisements"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"communities"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "pod-lister",
+"namespace": "metallb-system"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resources": [
+"pods"
+],
+"verbs": [
+"list",
+"get"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"bfdprofiles"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"bgppeers"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"l2advertisements"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"bgpadvertisements"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"ipaddresspools"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"metallb.io"
+],
+"resources": [
+"communities"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "kube-prometheus-stack-grafana",
+"namespace": "monitoring"
+},
+"rules": []
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "url-shortener-db",
+"namespace": "sre-lab-app"
+},
+"rules": [
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"cnpg-default-monitoring",
+"url-shortener-db"
+],
+"resources": [
+"configmaps"
+],
+"verbs": [
+"get",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"postgres-cnpg-secret",
+"url-shortener-db-ca",
+"url-shortener-db-replication",
+"url-shortener-db-server",
+"url-shortener-db-superuser"
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resourceNames": [
+"url-shortener-db"
+],
+"resources": [
+"clusters"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resourceNames": [
+"url-shortener-db"
+],
+"resources": [
+"clusters/status"
+],
+"verbs": [
+"get",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"backups"
+],
+"verbs": [
+"list",
+"get",
+"delete"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"backups/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resources": [
+"events"
+],
+"verbs": [
+"create",
+"patch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databases"
+],
+"verbs": [
+"get",
+"update",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databases/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"publications"
+],
+"verbs": [
+"get",
+"update",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"publications/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"subscriptions"
+],
+"verbs": [
+"get",
+"update",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"subscriptions/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+},
+{
+"apiGroups": [
+"coordination.k8s.io"
+],
+"resourceNames": [
+"url-shortener-db"
+],
+"resources": [
+"leases"
+],
+"verbs": [
+"get",
+"update"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resourceNames": [
+"url-shortener-db"
+],
+"resources": [
+"failoverquorums"
+],
+"verbs": [
+"get",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resourceNames": [
+"url-shortener-db"
+],
+"resources": [
+"failoverquorums/status"
+],
+"verbs": [
+"get",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databaseroles"
+],
+"verbs": [
+"get",
+"update",
+"list",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resources": [
+"databaseroles/status"
+],
+"verbs": [
+"get",
+"patch",
+"update"
+]
+}
+]
+},
+{
+"apiVersion": "rbac.authorization.k8s.io/v1",
+"kind": "Role",
+"metadata": {
+"name": "url-shortener-pooler",
+"namespace": "sre-lab-app"
+},
+"rules": [
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resourceNames": [
+"url-shortener-pooler"
+],
+"resources": [
+"poolers"
+],
+"verbs": [
+"get",
+"watch"
+]
+},
+{
+"apiGroups": [
+"postgresql.cnpg.io"
+],
+"resourceNames": [
+"url-shortener-pooler"
+],
+"resources": [
+"poolers/status"
+],
+"verbs": [
+"get",
+"patch",
+"update",
+"watch"
+]
+},
+{
+"apiGroups": [
+""
+],
+"resourceNames": [
+"url-shortener-db-pooler",
+"url-shortener-db-ca",
+"url-shortener-db-ca",
+"url-shortener-db-server"
+],
+"resources": [
+"secrets"
+],
+"verbs": [
+"get",
+"watch"
+]
+}
+]
+}
+],
+"kind": "RoleList"
+}

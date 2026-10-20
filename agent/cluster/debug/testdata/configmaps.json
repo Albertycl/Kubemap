@@ -1,0 +1,23 @@
+{
+ "apiVersion": "v1",
+ "items": [
+  {
+   "apiVersion": "v1",
+   "data": {
+    "DATABASE_HOST": "postgres.kubemap-demo.svc",
+    "LOG_LEVEL": "info"
+   },
+   "kind": "ConfigMap",
+   "metadata": {
+    "labels": {
+     "app.kubernetes.io/part-of": "kubemap-demo",
+     "kubemap.io/scenario": "crashloop"
+    },
+    "name": "checkout-config",
+    "namespace": "kubemap-demo",
+    "uid": "03ce3acd-0bbd-4626-a6b6-6154972487f4"
+   }
+  }
+ ],
+ "kind": "ConfigMapList"
+}

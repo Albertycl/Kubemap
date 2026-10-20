@@ -1,0 +1,49 @@
+{
+  "v": 1,
+  "type": "summary",
+  "payload": {
+    "time": "2026-09-27T12:00:00Z",
+    "kubernetesVersion": "v1.33.4+k3s1",
+    "nodes": {
+      "total": 1,
+      "ready": 1
+    },
+    "nodeList": [
+      {
+        "name": "k8server",
+        "ready": true
+      }
+    ],
+    "namespaces": 14,
+    "pods": {
+      "total": 62,
+      "running": 58,
+      "pending": 1,
+      "succeeded": 1,
+      "failed": 2,
+      "unknown": 0
+    },
+    "workloads": {
+      "deployments": 30,
+      "deploymentsDegraded": 2,
+      "statefulSets": 4,
+      "daemonSets": 3
+    },
+    "problems": [
+      {
+        "kind": "Pod",
+        "namespace": "kubemap-demo",
+        "name": "crashloop-7d9f8",
+        "reason": "CrashLoopBackOff",
+        "message": "back-off 5m0s restarting failed container",
+        "since": "2026-09-27T11:50:00Z"
+      },
+      {
+        "kind": "Pod",
+        "namespace": "kubemap-demo",
+        "name": "pending-0",
+        "reason": "Unschedulable"
+      }
+    ]
+  }
+}

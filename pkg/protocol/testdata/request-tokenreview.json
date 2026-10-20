@@ -1,0 +1,12 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-4",
+  "payload": {
+    "op": "tokenreview",
+    "tokenReview": {
+      "token": "satok_example",
+      "audience": "kubemap-portal"
+    }
+  }
+}

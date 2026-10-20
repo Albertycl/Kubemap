@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "type": "request",
+  "id": "q-14",
+  "payload": {
+    "op": "rbac.whocan",
+    "rbac": {
+      "verb": "get",
+      "resource": "secrets",
+      "namespace": "sre-lab-app"
+    }
+  }
+}
